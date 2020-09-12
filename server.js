@@ -1,7 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-
+const multer = require('multer')
+var upload = multer({ dest: 'uploads/' })
 const server = express();
 
 const startDotenv = require('./src/bin/env').startDotenv;
@@ -43,6 +44,14 @@ if (!serverOptions) {
     webpack: true,
   };
 }
+
+server.post('*', upload.single('file'), function (req, res, next) {
+	next();
+})
+
+server.delete('*', upload.single('file'), function (req, res, next) {
+	next();
+})
 
 if (serverOptions.webpack) {
   const webpack = require('webpack'),

@@ -1,0 +1,14 @@
+{
+  "server": "express",
+  "mail": false,
+  "cors": true,
+  "helment": false,
+  "jwt": false,
+  "firebase": false,
+  "fireadmin": false,
+  "uploads": false,
+  "http": true,
+  "https": false,
+  "static": true,
+  "webpack": true
+}

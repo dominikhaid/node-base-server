@@ -1,9 +1,9 @@
 const reqToFirebase = require("./shared").reqToFirebase;
 const fireBaseUserObj = require("./shared").fireBaseUserObj;
-const firebase = require("firebase/app");
+
 
 const fireAdmin = require("firebase-admin");
-var serviceAccount = require("../../gitignore/serviceAccount.json");
+var serviceAccount = require("../../gitignore/serviceaccount.json");
 
 async function fireAdminDB() {
 	let result = await fireAdmin.initializeApp({
@@ -47,41 +47,7 @@ async function fireAdminSetRole(req) {
 
 module.exports.fireAdminSetRole = fireAdminSetRole;
 
-/**
- *
- * @param {'Firebase Admin Instance'} fireAdmin
- * @param {'Express request'} req
- */
-async function fireAdminGetClaims(req) {
-	let { email: email, pwd: pwd } = reqToFirebase(req);
 
-	async function run(email, pwd) {
-		let user = await firebase
-			.auth()
-			.signInWithEmailAndPassword(email, pwd)
-			.then((result) => {
-				return result.user;
-			})
-			.catch(function (error) {
-				return error;
-			});
-
-		let idToken = user.xa;
-
-		return fireAdmin
-			.auth()
-			.verifyIdToken(idToken)
-			.then((claims) => {
-				return claims;
-			})
-			.catch((error) => {
-				return error;
-			});
-	}
-	return run(email, pwd);
-}
-
-module.exports.fireAdminGetClaims = fireAdminGetClaims;
 
 /**
  *

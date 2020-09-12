@@ -2,7 +2,7 @@
 # Node.js Express Server with Webpack
 
 
-## Includet Modules
+## Included Modules
 
 - Morgan Logger
 - Multer Upload Handler

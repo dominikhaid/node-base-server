@@ -3,12 +3,12 @@ const fireBaseUserObj = require("./shared").fireBaseUserObj;
 const firebase = require("firebase/app");
 
 const fireAdmin = require("firebase-admin");
-var serviceAccount = require("../../gitignore/dominikhaid-1576294119040-firebase-adminsdk-kzt6d-ea27633196.json");
+var serviceAccount = require("../../gitignore/serviceAccount.json");
 
 async function fireAdminDB() {
 	let result = await fireAdmin.initializeApp({
 		credential: fireAdmin.credential.cert(serviceAccount),
-		databaseURL: "https://dominikhaid-1576294119040.firebaseio.com",
+		databaseURL: process.env.FIREBASE_DATABASE_URL,
 	});
 	return result;
 }

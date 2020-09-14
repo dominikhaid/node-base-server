@@ -1,6 +1,4 @@
-
 # Node.js Express Server with Webpack
-
 
 ## Included Modules
 
@@ -29,8 +27,8 @@
 
 ## Use
 
-1.  run yarn install
-2.  run yarn start -> prod mode
-3.  run yarn dev -> dev mode live reloade @ host:port/?reload=true 
-4.  run yarn build -> webpack build
-5.  run yarn format -> format files with prettier
+1.  yarn run install
+2.  yarn run start -> prod mode
+3.  yarn run dev -> dev mode live reloade @ host:port/?reload=true
+4.  yarn run build -> webpack build
+5.  yarn run format -> format files with prettier

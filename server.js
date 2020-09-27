@@ -1,17 +1,69 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer')
-var upload = multer({ dest: 'uploads/' })
+const multer = require('multer');
+var upload = multer({dest: './uploads/'});
 const server = express();
 
+let serverOptions;
+try {
+  serverOptions = require('./config/server.js');
+} catch (error) {
+  throw 'Server config not found in ./config';
+}
+
+console.info(serverOptions);
+
+/**
+ * LOAD ENV VARS
+ */
 const startDotenv = require('./src/bin/env').startDotenv;
 startDotenv();
 
+/**
+ * MIDDELWARE HTTP REQUESTS
+ */
 const bodyParser = require('body-parser');
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
 
+server.get('*', upload.single('file'), function (req, res, next) {
+  req.xssFilter = require('./src/includes/xssFilter');
+
+  next();
+});
+
+server.post('*', upload.single('file'), function (req, res, next) {
+  req.xssFilter = require('./src/includes/xssFilter');
+
+  next();
+});
+
+server.delete('*', upload.single('file'), function (req, res, next) {
+  req.xssFilter = require('./src/includes/xssFilter');
+  next();
+});
+
+server.patch('*', upload.single('file'), function (req, res, next) {
+  req.xssFilter = require('./src/includes/xssFilter');
+
+  next();
+});
+
+server.put('*', upload.single('file'), function (req, res, next) {
+  req.xssFilter = require('./src/includes/xssFilter');
+  next();
+});
+
+server.put('*', upload.single('file'), function (req, res, next) {
+  next();
+});
+
+server.use(express.static('./public'));
+
+/**
+ *  SERVER LOGS
+ */
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, 'log/access.log'),
   {
@@ -22,36 +74,9 @@ const accessLogStream = fs.createWriteStream(
 const startMorgan = require('./src/bin/morgan').startMorgan;
 startMorgan(server, accessLogStream);
 
-let serverOptions;
-try {
-  serverOptions = require('./server-config.json');
-} catch (error) {
-  //console.debug(error)
-}
-
-if (!serverOptions) {
-  serverOptions = {
-    server: 'express',
-    mail: false,
-    cors: false,
-    helment: false,
-    jwt: false,
-    fireadmin: false,
-    uploads: false,
-    http: true,
-    https: false,
-    static: 'public',
-    webpack: true,
-  };
-}
-
-server.post('*', upload.single('file'), function (req, res, next) {
-	next();
-})
-
-server.delete('*', upload.single('file'), function (req, res, next) {
-	next();
-})
+/**
+ *  SERVER OPTIONS
+ */
 
 if (serverOptions.webpack) {
   const webpack = require('webpack'),
@@ -74,13 +99,6 @@ if (serverOptions.webpack) {
   );
 
   server.use(webpackHotMiddleware(compiler));
-}
-
-if (serverOptions.static) {
-  server.use(
-    process.env.PUBLIC_FOLDER,
-    express.static(process.env.PUBLIC_FOLDER),
-  );
 }
 
 if (serverOptions.helment) {
@@ -116,19 +134,9 @@ if (serverOptions.jwt) {
   });
 }
 
-if (serverOptions.fireadmin) {
-  const fireAdminDB = require('./src/includes/firebase/admin').fireAdminDB;
-
-  fireAdminDB()
-    .then(base => {
-      if (process.env.NODE_ENV === 'development')
-        console.debug('Firebase Admin: ', base.name);
-    })
-    .catch(err => {
-      console.debug(err);
-    });
-}
-
+/**
+ *  STARTUP SERVER
+ */
 let http, https, httpServer, httpsServer;
 
 if (serverOptions.http) {

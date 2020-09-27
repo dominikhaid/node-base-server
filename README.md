@@ -2,16 +2,16 @@
 
 ## Included Modules
 
+- Express.js
 - Morgan Logger
 - Multer Upload Handler
 - Bodypaser
-- Nodemailer
 - Jwt
 - Cors
 - Helmet
 - Webpack
-- Firebase Admin SDK
 - .env
+- XSS
 
 ## Files And Folders
 

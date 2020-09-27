@@ -1,5 +1,9 @@
 # Node.js Express Server with Webpack
 
+This is our base node Express.js server. It comes with some advanced node
+modules. All other node modules will build on to of this server. If you start a
+new project this repository is you entrance point.
+
 ## Included Modules
 
 - Express.js

@@ -1,7 +1,7 @@
 **/gitignore
 # .env.development
 # .env.production
-/log/*
+/log/access.log
 /.next
 **/build
 /node_modules

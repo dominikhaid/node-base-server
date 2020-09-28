@@ -50,7 +50,7 @@ async function instDep() {
 
 async function copyFiles() {
   console.info(`\nCopy files to prject root\n`);
-  await exec(`cp -r -n /home/dominikhaid/DEV/node/plguin/tmpPlug/* .`);
+  await exec(`cp -r -n ./tmpPlug/* .`);
   return true;
 }
 

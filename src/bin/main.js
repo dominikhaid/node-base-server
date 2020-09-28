@@ -7,7 +7,7 @@ const server = express();
 
 let serverOptions;
 try {
-  serverOptions = require('../../config/server.js');
+  serverOptions = require('../../config/server-conf.js');
 } catch (error) {
   throw 'Server config not found in ./config';
 }

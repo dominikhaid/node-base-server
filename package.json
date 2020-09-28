@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.23.1",
@@ -72,7 +71,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node ./server.js",
-    "dev": "cross-env NODE_ENV=development node ./server.js",
+    "dev": "NODE_ENV=development node ./server.js",
     "build": "NODE_ENV=production webpack  --env.NODE_DEBUG=false --config ./src/webpack/config/webpack.production.js",
     "format": "prettier --config .prettierrc \"{,!(node_modules)/**/}src/**/*.{js,jsx}\" --write"
   },

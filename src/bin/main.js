@@ -12,8 +12,6 @@ try {
   throw 'Server config not found in ./config';
 }
 
-console.info(serverOptions);
-
 /**
  * LOAD ENV VARS
  */
@@ -59,7 +57,7 @@ server.put('*', upload.single('file'), function (req, res, next) {
   next();
 });
 
-server.use(express.static('../public'));
+server.use(express.static(`../${process.env.PUBLIC_FOLDER}`));
 
 /**
  *  SERVER LOGS

@@ -1,4 +1,4 @@
-function startExpress(server, serverOptions, protocol) {
+function startServer(server, serverOptions, protocol) {
   const apiStatus = require('../routers/routes');
   server.use('/api', apiStatus);
 
@@ -12,4 +12,4 @@ function startExpress(server, serverOptions, protocol) {
   }
 }
 
-module.exports.startExpress = startExpress;
+module.exports.startServer = startServer;

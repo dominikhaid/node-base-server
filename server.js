@@ -21,7 +21,7 @@ if (serverOptions.https) {
 
 //./bin/express.js
 if (serverOptions.server === 'express') {
-  const startExpress = require('./src/bin/express').startExpress;
+  const startExpress = require('./src/bin/express').startServer;
   startExpress(server, serverOptions, {
     http: http,
     httpServer: httpServer,

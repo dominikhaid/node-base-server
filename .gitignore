@@ -1,8 +1,7 @@
 **/gitignore
-.env.development
-.env.production
+# .env.development
+# .env.production
 /log/*
-/logs/*
 /.next
 **/build
 /node_modules
@@ -10,3 +9,4 @@
 **/certificates
 /docker-backups
 **/node_modules
+.editorconfig

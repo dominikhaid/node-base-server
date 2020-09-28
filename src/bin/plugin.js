@@ -24,10 +24,9 @@ let plugInf,
 // }
 
 async function gitClone() {
-  return;
   console.info(`\nClone %s from GitHub\n`, plugNm);
 
-  let {gitOut, gitErr} = await exec(`git clone ${plugNm} ${plugFld}`);
+  await exec(`git clone ${plugNm} ${plugFld}`);
   return true;
 }
 
@@ -37,8 +36,7 @@ async function instDep() {
       e.name === 'package.json';
     }) === -1
   )
-    return;
-  plugInf = require(`../../${plugFld}/package.json`);
+    plugInf = require(`../../${plugFld}/package.json`);
 
   let depInst = Object.keys(plugInf.dependencies);
   let depDev = Object.keys(plugInf.devDependencies);
@@ -52,9 +50,7 @@ async function instDep() {
 
 async function copyFiles() {
   console.info(`\nCopy files to prject root\n`);
-  let {copyOut, copyErr} = await exec(
-    `cp -r -n /home/dominikhaid/DEV/node/plguin/tmpPlug/* .`,
-  );
+  await exec(`cp -r -n /home/dominikhaid/DEV/node/plguin/tmpPlug/* .`);
   return true;
 }
 
@@ -84,10 +80,23 @@ async function upgradeConf() {
       }
     }
     console.info('\nUpgrade server-conf.js\n');
-    let serverOut = await writeFile(
+    await writeFile(
       './config/server-conf.js',
       'module.exports = ' + JSON.stringify(oldConf),
     );
+  }
+
+  if (plugInf && plugInf.scripts) {
+    const oldConf = require('../../package.json');
+
+    for (const key in plugInf.scripts) {
+      if (plugInf.scripts.hasOwnProperty(key)) {
+        oldConf.scripts[key] = plugInf.scripts[key];
+      }
+    }
+
+    console.info('\nUpgrade scripts\n');
+    await writeFile('./package.json', JSON.stringify(oldConf));
   }
 
   //TODO SEARCH FOR EXTING OF BUFFER
@@ -98,16 +107,18 @@ async function upgradeConf() {
   ) {
     let addSrvOut = await readFile(`./${plugFld}/server.js`, 'utf8');
     console.info('\nUpgrade server.js\n');
-    let serverOut = await appendFile(`./server.js`, addSrvOut);
+    await appendFile(`./server.js`, addSrvOut);
   }
 }
 
 async function cleanUp() {
+  return;
   console.info('\nCleaning up\n');
-  let {stdout, stderr} = await exec(`rm -r ./${plugFld}`);
+  await exec(`rm -r ./${plugFld}`);
 }
 
 async function upgradeFiles() {
+  return;
   if (
     plugFiles.findIndex(e => {
       return e.name === 'inst' && e.folder === true;

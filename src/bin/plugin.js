@@ -37,13 +37,15 @@ async function instDep() {
     }) === -1
   )
     plugInf = require(`../../${plugFld}/package.json`);
-  console.info(`\nInstall Dependencies %O and %O\n`, depInst, depDev);
+
   if (plugInf.dependencies) {
     let depInst = Object.keys(plugInf.dependencies);
+    console.info(`\nInstall Dependencies %O\n`, depInst);
     await exec(`npm i ${depInst.join(' ')}`);
   }
   if (plugInf.devDependencies) {
     let depDev = Object.keys(plugInf.devDependencies);
+    console.info(`\nInstall Dependencies %O\n`, depDev);
     await exec(`npm i ${depDev.join(' ')} -D`);
   }
 
@@ -196,7 +198,15 @@ gitClone()
       });
   })
   .catch(err => {
-    if (typeof err === 'object');
-    // throw err;
-    console.error('ERR:	', err);
+    cleanUp()
+      .then(() => {
+        if (typeof err === 'object');
+        // throw err;
+        console.error('ERR:	', err);
+      })
+      .catch(err => {
+        if (typeof err === 'object');
+        // throw err;
+        console.error('ERR:	', err);
+      });
   });

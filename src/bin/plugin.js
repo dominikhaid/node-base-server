@@ -75,32 +75,39 @@ async function upgradeConf() {
       return e.name === 'config';
     }) !== -1
   ) {
-    const newConf = require(`../../${plugFld}/config/server-conf.js`);
-    const oldConf = require('../../config/server-conf.js');
-
-    for (const key in newConf) {
-      if (newConf.hasOwnProperty(key)) {
-        oldConf[key] = newConf[key];
-      }
+    let newConf = false;
+    let oldConf = false;
+    try {
+      newConf = require(`../../${plugFld}/config/server-conf.js`);
+      oldConf = require('../../config/server-conf.js');
+    } catch (e) {
+      console.info('no server-config');
     }
-    console.info('\nUpgrade server-conf.js\n');
-    await writeFile(
-      './config/server-conf.js',
-      'module.exports = ' + JSON.stringify(oldConf),
-    );
-  }
-  if (plugInf && plugInf.scripts) {
-    if (plugInf && plugInf.scripts) {
-      const oldConf = require('../../package.json');
-
-      for (const key in plugInf.scripts) {
-        if (plugInf.scripts.hasOwnProperty(key)) {
-          oldConf.scripts[key] = plugInf.scripts[key];
+    if (newConf && oldConf) {
+      for (const key in newConf) {
+        if (newConf.hasOwnProperty(key)) {
+          oldConf[key] = newConf[key];
         }
       }
+      console.info('\nUpgrade server-conf.js\n');
+      await writeFile(
+        './config/server-conf.js',
+        'module.exports = ' + JSON.stringify(oldConf),
+      );
+    }
+    if (plugInf && plugInf.scripts) {
+      if (plugInf && plugInf.scripts) {
+        const oldConf = require('../../package.json');
 
-      console.info('\nUpgrade scripts\n');
-      await writeFile('./package.json', JSON.stringify(oldConf));
+        for (const key in plugInf.scripts) {
+          if (plugInf.scripts.hasOwnProperty(key)) {
+            oldConf.scripts[key] = plugInf.scripts[key];
+          }
+        }
+
+        console.info('\nUpgrade scripts\n');
+        await writeFile('./package.json', JSON.stringify(oldConf));
+      }
     }
   }
 

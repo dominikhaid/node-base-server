@@ -1,7 +1,7 @@
 **/gitignore
 # .env.development
 # .env.production
-/log/access.log
+**/access.log
 /.next
 **/build
 /node_modules
@@ -10,3 +10,4 @@
 /docker-backups
 **/node_modules
 .editorconfig
+**/debug.log

@@ -37,14 +37,16 @@ async function instDep() {
     }) === -1
   )
     plugInf = require(`../../${plugFld}/package.json`);
-
-  let depInst = Object.keys(plugInf.dependencies);
-  let depDev = Object.keys(plugInf.devDependencies);
-
   console.info(`\nInstall Dependencies %O and %O\n`, depInst, depDev);
+  if (plugInf.dependencies) {
+    let depInst = Object.keys(plugInf.dependencies);
+    await exec(`npm i ${depInst.join(' ')}`);
+  }
+  if (plugInf.devDependencies) {
+    let depDev = Object.keys(plugInf.devDependencies);
+    await exec(`npm i ${depDev.join(' ')} -D`);
+  }
 
-  let {depOut, depErr} = await exec(`npm i ${depInst.join(' ')}`);
-  let {devOut, devErr} = await exec(`npm i ${depDev.join(' ')} -D`);
   return true;
 }
 
@@ -85,18 +87,19 @@ async function upgradeConf() {
       'module.exports = ' + JSON.stringify(oldConf),
     );
   }
-
   if (plugInf && plugInf.scripts) {
-    const oldConf = require('../../package.json');
+    if (plugInf && plugInf.scripts) {
+      const oldConf = require('../../package.json');
 
-    for (const key in plugInf.scripts) {
-      if (plugInf.scripts.hasOwnProperty(key)) {
-        oldConf.scripts[key] = plugInf.scripts[key];
+      for (const key in plugInf.scripts) {
+        if (plugInf.scripts.hasOwnProperty(key)) {
+          oldConf.scripts[key] = plugInf.scripts[key];
+        }
       }
-    }
 
-    console.info('\nUpgrade scripts\n');
-    await writeFile('./package.json', JSON.stringify(oldConf));
+      console.info('\nUpgrade scripts\n');
+      await writeFile('./package.json', JSON.stringify(oldConf));
+    }
   }
 
   //TODO SEARCH FOR EXTING OF BUFFER
@@ -112,13 +115,11 @@ async function upgradeConf() {
 }
 
 async function cleanUp() {
-  return;
   console.info('\nCleaning up\n');
   await exec(`rm -r ./${plugFld}`);
 }
 
 async function upgradeFiles() {
-  return;
   if (
     plugFiles.findIndex(e => {
       return e.name === 'inst' && e.folder === true;
@@ -128,10 +129,15 @@ async function upgradeFiles() {
 
     let oldFiles = [];
     console.info('\nUpgrade bin files\n');
-
+    let replace;
+    let newReg;
     for (const file of addIns) {
-      let replace = `(func.*${file.selector}.*{)`;
-      let newReg = new RegExp(replace, 'gm');
+      file.selector
+        ? (replace = `(func.*${file.selector}.*{)`)
+        : (replace = `^.*`);
+      file.selector
+        ? (newReg = new RegExp(replace, 'gm'))
+        : (newReg = new RegExp(replace, 'g'));
       let tmpFile = await readFile(`./${file.file}`, 'utf8');
       tmpFile = tmpFile.replace(newReg, `$1\n${file.replacemant}`);
       oldFiles.push({file: file.file, content: tmpFile});

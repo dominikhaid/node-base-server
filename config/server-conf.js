@@ -5,5 +5,4 @@ module.exports = {
   jwt: false,
   http: true,
   https: false,
-  webpack: true,
 };

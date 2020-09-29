@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-var upload = multer({dest: '../uploads/'});
+var upload = multer({dest: './uploads/'});
 const server = express();
 
 let serverOptions;

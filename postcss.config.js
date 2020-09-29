@@ -1,14 +1,15 @@
 module.exports = {
   plugins: {
-    "postcss-flexbugs-fixes": {},
-    "postcss-preset-env": {
+    'postcss-flexbugs-fixes': {},
+    'postcss-css-variables': {},
+    'postcss-preset-env': {
       autoprefixer: {
-        flexbox: "no-2009",
-        grid: "autoplace",
+        flexbox: 'no-2009',
+        grid: 'autoplace',
       },
       stage: 3,
       features: {
-        "custom-properties": false,
+        'custom-properties': false,
       },
     },
   },

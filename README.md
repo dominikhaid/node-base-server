@@ -326,7 +326,7 @@ Next.js module since Next.js uses a different webpack setup
 
 > npm run plugin p=https://github.com/dominikhaid/node-module-webpack.git
 >
-> npm run dev
+> npm run dev || npm run webpack-build
 
 </br>
 
@@ -355,9 +355,9 @@ Adds Pm2 Node Manager with some sample configuration.
 [@module-mail](https://github.com/dominikhaid/node-module-pm2.git)
 
 > npm run plugin p=https://github.com/dominikhaid/node-module-pm2.git
-> 
+>
 > edit the ecosystem.config.js
-> 
+>
 > pm2 start
 
 </br>

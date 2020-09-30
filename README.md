@@ -355,6 +355,10 @@ Adds Pm2 Node Manager with some sample configuration.
 [@module-mail](https://github.com/dominikhaid/node-module-pm2.git)
 
 > npm run plugin p=https://github.com/dominikhaid/node-module-pm2.git
+> 
+> edit the ecosystem.config.js
+> 
+> pm2 start
 
 </br>
 

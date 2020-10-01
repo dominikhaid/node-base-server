@@ -12,8 +12,14 @@ module.exports = function (a) {
   let bodyFields = new Object();
 
   a.forEach((element, index) => {
-    if (this.query.params && index === 0) {
-      queryFields[`${element}`] = xss(this.query.params, xssOptions);
+    if (
+      (this.query.params && index === 0) ||
+      (this.params[`${element}`] && index === 0)
+    ) {
+      queryFields[`${element}`] = xss(
+        this.query.params ? this.query.params : this.params[`${element}`],
+        xssOptions,
+      );
     }
     if (this.query.hasOwnProperty(element)) {
       queryFields[`${element}`] = xss(this.query[element], xssOptions);

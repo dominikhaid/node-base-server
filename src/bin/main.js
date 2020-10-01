@@ -53,10 +53,6 @@ server.put('*', upload.single('file'), function (req, res, next) {
   next();
 });
 
-server.put('*', upload.single('file'), function (req, res, next) {
-  next();
-});
-
 server.use(express.static(`../${process.env.PUBLIC_FOLDER}`));
 
 /**

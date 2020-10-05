@@ -13,6 +13,15 @@ module.exports = function (a) {
 
   a.forEach((element, index) => {
     if (
+      Object.keys(this.body).length === 0 &&
+      Object.keys(this.query).length === 0 &&
+      !this.query.params &&
+      Object.keys(this.params).length > 0
+    ) {
+      let tmp = Object.keys(this.params);
+      this.query.params = this.params[tmp[0]];
+    }
+    if (
       (this.query.params && index === 0) ||
       (this.params[`${element}`] && index === 0)
     ) {

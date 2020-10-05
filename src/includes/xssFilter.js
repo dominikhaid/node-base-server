@@ -46,5 +46,5 @@ module.exports = function (a) {
 
   if (Object.keys(bodyFields).length > 0)
     return [(queryFields = null), bodyFields];
-  return null;
+  return [null, null];
 };

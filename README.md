@@ -21,6 +21,7 @@
 			- [Apollo GraphQL](#apollo-graphql)
 		- [Database](#database)
 			- [MySql / Sqlite / PostgreSQL](#mysql--sqlite--postgresql)
+			- [JSON file DB](#json-file-db)
 			- [MongoDB](#mongodb)
 			- [Firebase](#firebase)
 		- [Ui](#ui)
@@ -205,6 +206,24 @@ docker-compose files.
 
 </br>
 
+#### JSON file DB
+
+Adds simple file base json db.
+
+**More details**
+[@module-json-db](https://github.com/dominikhaid/node-module-json-db.git)
+
+> npm run Plugin p=https://github.com/dominikhaid/node-module-json-db.git
+>
+> npm run dev 
+> 
+> visit http:/localhost/api/json-users
+
+
+
+**Note:** All sample routes will are shown in ./src/http
+
+</br>
 #### MongoDB
 
 Adds MongoDB support to the base image along with some sample data and routes

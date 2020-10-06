@@ -1,0 +1,133 @@
+
+@host=http://localhost/
+@api=api
+@jwt_tokken=Secret
+@search_user_id=1
+@search_user_mail=dis.parturient@sapien.org
+
+@new_user_name=User Example
+@new_user_lastname=User
+@new_user_firstname=Example
+@new_user_email=user@example.de
+
+@update_user_name=User Example2
+@update_user_lastname=User 2
+@update_user_firstname=Example 2
+@update_user_email=user@example.de
+@update_new_user_email=user2@example.de
+
+
+
+
+//SERVER STATUS
+GET {{host}}{{api}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+//API STATUS
+###
+
+
+//GET ALL USERS
+GET {{host}}{{api}}/sql/users HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+//API ALL USERS
+###
+
+//GET USER ID
+GET {{host}}{{api}}/sql/users/{{search_user_id}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+###
+GET {{host}}{{api}}/sql/users/?id={{search_user_id}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+###
+GET {{host}}{{api}}/sql/users/ HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+id={{search_user_id}}
+###
+
+//GET USER BY EMAIL
+GET {{host}}{{api}}/sql/users/search/{{search_user_mail}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+###
+GET {{host}}{{api}}/sql/users/search/?email={{search_user_mail}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+###
+GET {{host}}{{api}}/sql/users/search HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+email={{search_user_mail}}
+###
+
+//POST USER
+POST {{host}}{{api}}/sql/users/{{new_user_email}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+name={{new_user_name}}
+&lastname={{new_user_lastname}}
+&firstname={{new_user_firstname}}
+&email={{new_user_email}}
+###
+POST {{host}}{{api}}/sql/users/?name={{new_user_name}}&lastname={{new_user_lastname}}&firstname={{new_user_firstname}}&email={{new_user_email}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+###
+POST {{host}}{{api}}/sql/users HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+name={{new_user_name}}
+&lastname={{new_user_lastname}}
+&firstname={{new_user_firstname}}
+&email={{new_user_email}}
+###
+
+//DELETE USER
+DELETE {{host}}{{api}}/sql/users/{{new_user_email}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+###
+DELETE {{host}}{{api}}/sql/users/?email={{new_user_email}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+###
+DELETE {{host}}{{api}}/sql/users HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+email={{new_user_email}}
+###
+
+//UPDATE USER
+PATCH  {{host}}{{api}}/sql/users/{{update_user_email}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+name={{update_user_name}}
+&lastname={{update_user_lastname}}
+&firstname={{update_user_firstname}}
+&email={{update_user_email}}
+&new_email={{update_new_user_email}}
+###
+PATCH {{host}}{{api}}/sql/users/?name={{update_user_name}}&lastname={{update_user_lastname}}&firstname={{update_user_firstname}}&email={{update_user_email}}&new_email={{update_new_user_email}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{jwt_tokken}}
+###
+PATCH {{host}}{{api}}/sql/users HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwt_tokken}}
+
+name={{update_user_name}}
+&lastname={{update_user_lastname}}
+&firstname={{update_user_firstname}}
+&email={{update_user_email}}
+&new_email={{update_new_user_email}}
+###

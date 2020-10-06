@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: 'default'
+      POSTGRES_PASSWORD: 'root'
+      POSTGRES_USER: 'root'
+      POSTGRES_HOST_AUTH_METHOD: 'password'
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backups
+    # networks:
+    #   dh-bridge:
+    #     ipv4_address: 172.29.0.9
+    ports:
+      - '5432:5432'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.de
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - 8081:80
+# networks:
+#   dh-bridge:
+#     external: true
+
+volumes:
+  postgres_data_local:
+  postgres_backup_local:

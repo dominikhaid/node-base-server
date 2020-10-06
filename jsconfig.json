@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["/src/components/*"],
+      "@/context/*": ["/src/context/*"],
+      "@/hooks/*": ["/src/hooks/*"],
+      "@/routers/*": ["/src/routers/*"],
+      "@/reducers/*": ["/src/reducers/*"],
+      "@/includes/*": ["/src/includes/*"]
+    },
+    "module": "commonjs",
+    "target": "es6"
+  },
+  "exclude": ["node_modules", "build", "coverage", "dist", "lib"]
+}

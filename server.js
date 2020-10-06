@@ -30,3 +30,13 @@ if (serverOptions.server === 'express') {
   });
   return;
 }
+if (serverOptions.server === 'next') {
+  const startNext = require('./src/bin/next').startServer;
+  startNext(server, serverOptions, {
+    http: http,
+    httpServer: httpServer,
+    https: https,
+    httpsServer: httpsServer,
+  });
+  return;
+}

@@ -1,4 +1,8 @@
 function startServer(server, serverOptions, protocol) {
+
+const sqlRoutes = require('../routers/sql');
+server.use('/api/sql', sqlRoutes);
+
   const apiStatus = require('../routers/routes');
   server.use('/api', apiStatus);
 

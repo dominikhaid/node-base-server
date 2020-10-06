@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function Index(props) {
   if (!process.browser) {
@@ -10,7 +11,28 @@ export default function Index(props) {
   return (
     <React.Fragment>
       <div id="kitList">
-      <p>HELLO NEXT.js</p>
+        <ul>
+          <li>
+            <Link href="/">
+              <a>home</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/login">
+              <a>login</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/profil">
+              <a>profil</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/card">
+              <a>card</a>
+            </Link>
+          </li>
+        </ul>
       </div>
     </React.Fragment>
   );

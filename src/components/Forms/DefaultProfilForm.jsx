@@ -1,10 +1,19 @@
-// import React from 'react';
+import React, {useState} from 'react';
 
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 
-import {Space, Spin, Form, Divider, Collapse, Select, Button} from 'antd';
+import {
+  Space,
+  message,
+  Spin,
+  Form,
+  Divider,
+  Collapse,
+  Select,
+  Button,
+} from 'antd';
 const {Panel} = Collapse;
 const {Option} = Select;
 
@@ -18,6 +27,8 @@ import {
 } from '@ant-design/icons';
 
 export default function ProfilForm(props) {
+  //STATE
+  const [loading, setLoading] = useState(false);
   const formFieldsUser = [
     {
       formItem: {
@@ -41,7 +52,7 @@ export default function ProfilForm(props) {
       },
     },
   ];
-
+  //DATA
   const formFieldsContact = [
     {
       formItem: {
@@ -209,14 +220,24 @@ export default function ProfilForm(props) {
   };
 
   //HANDLER
+  const errorMsg = () => {
+    message.error({
+      content: 'from could not be validated.',
+      className: 'ant-messages',
+      style: {
+        marginTop: '20vh',
+      },
+    });
+  };
   const onFinish = values => {
     console.log('Success:', values);
   };
 
   const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    // console.log('Failed:', errorInfo);
+    errorMsg();
   };
-  const loading = true;
+
   return (
     <>
       <Spin tip="Saving..." spinning={loading} delay={500}>

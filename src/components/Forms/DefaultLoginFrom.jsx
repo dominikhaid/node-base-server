@@ -1,12 +1,15 @@
-// import React from 'react';
+import React, {useState} from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
-import {Space, Spin, Form, Row, Col, Button, Checkbox} from 'antd';
+import {Space, message, Spin, Form, Row, Col, Button, Checkbox} from 'antd';
 import AuthProvider from '@/components/Auth/AuthListSmall';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 
 export default function LoginForm(props) {
+  //STATE
+  const [loading, setLoading] = useState(false);
+  //DATA
   const formFields = [
     {
       formItem: {
@@ -36,18 +39,31 @@ export default function LoginForm(props) {
     login: false,
     password: props.user && props.user.password ? props.user.password : '',
   };
+
+  //STYLE
   const layout = {
     wrapperCol: {span: 24, offset: 5},
   };
+  //HANLDER
 
+  const errorMsg = () => {
+    message.error({
+      content: 'from could not be validated.',
+      className: 'ant-messages',
+      style: {
+        marginTop: '20vh',
+      },
+    });
+  };
   const onFinish = values => {
     console.log('Success:', values);
   };
 
   const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    errorMsg();
+    // console.log('Failed:', errorInfo);
   };
-  const loading = true;
+
   return (
     <>
       <Spin tip="Login..." spinning={loading} delay={500}>

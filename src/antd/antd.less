@@ -2,11 +2,14 @@
 // @import "../lib/style/dark.less";
 
 @import './component.less';
+@font-family: -apple-system, BlinkMacSystemFont, 'Maven Pro', 'Segoe UI', Roboto,
+	'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
 #__next .ant-primary {
-  color: @primary-color;
+	color: @primary-color;
 }
 
-@font-family: -apple-system, BlinkMacSystemFont, 'Maven Pro', 'Segoe UI', Roboto,
-  'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
-  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+.ant-messages>div {
+	background: rgba(225, 225, 230, 0.6);
+}

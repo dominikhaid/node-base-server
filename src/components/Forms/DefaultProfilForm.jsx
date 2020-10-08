@@ -4,7 +4,7 @@ import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 
-import {Space, Form, Divider, Collapse, Select, Button} from 'antd';
+import {Space, Spin, Form, Divider, Collapse, Select, Button} from 'antd';
 const {Panel} = Collapse;
 const {Option} = Select;
 
@@ -216,59 +216,61 @@ export default function ProfilForm(props) {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-
+  const loading = true;
   return (
     <>
-      <BorderedH3 title={'Profil'} />
-      <Form
-        user={
-          props.user && props.user.customerNumber
-            ? props.user.customerNumber
-            : null
-        }
-        {...layout}
-        scrollToFirstError={true}
-        name="profil"
-        initialValues={initialValues}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <DefaultAvatar
-          src={
-            props.user && props.user.customerPhoto
-              ? props.user.customerPhoto
+      <Spin tip="Saving..." spinning={loading} delay={500}>
+        <BorderedH3 title={'Profil'} />
+        <Form
+          user={
+            props.user && props.user.customerNumber
+              ? props.user.customerNumber
               : null
           }
-        />
-        <Divider className={'ant-primary'} plain></Divider>
-        {formFieldsUser.map(field => {
-          return <DefaultInput {...field} />;
-        })}
-        <Divider className={'ant-primary'} plain>
-          Contact Info
-        </Divider>
+          {...layout}
+          scrollToFirstError={true}
+          name="profil"
+          initialValues={initialValues}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <DefaultAvatar
+            src={
+              props.user && props.user.customerPhoto
+                ? props.user.customerPhoto
+                : null
+            }
+          />
+          <Divider className={'ant-primary'} plain></Divider>
+          {formFieldsUser.map(field => {
+            return <DefaultInput {...field} />;
+          })}
+          <Divider className={'ant-primary'} plain>
+            Contact Info
+          </Divider>
 
-        {formFieldsContact.map(field => {
-          return <DefaultInput {...field} />;
-        })}
-        <Divider className={'ant-primary'} plain>
-          Address Info
-        </Divider>
-        {formFieldsAddress.map(field => {
-          return <DefaultInput {...field} />;
-        })}
+          {formFieldsContact.map(field => {
+            return <DefaultInput {...field} />;
+          })}
+          <Divider className={'ant-primary'} plain>
+            Address Info
+          </Divider>
+          {formFieldsAddress.map(field => {
+            return <DefaultInput {...field} />;
+          })}
 
-        <Divider className={'ant-primary'} plain></Divider>
+          <Divider className={'ant-primary'} plain></Divider>
 
-        <Space size={'large'}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
-          <Button type="secondary" htmlType="submit">
-            Reset
-          </Button>
-        </Space>
-      </Form>
+          <Space size={'large'}>
+            <Button type="primary" htmlType="submit">
+              Save
+            </Button>
+            <Button type="secondary" htmlType="submit">
+              Reset
+            </Button>
+          </Space>
+        </Form>
+      </Spin>
     </>
   );
 }

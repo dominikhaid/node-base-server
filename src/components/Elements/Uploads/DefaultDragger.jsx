@@ -1,0 +1,124 @@
+import React, {useState,useEffect} from 'react';
+import {Form, Upload, message} from 'antd';
+import {InboxOutlined} from '@ant-design/icons';
+import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
+
+
+export default function DefaultDragger(props) {
+  if (!process.browser) {
+    //console.debug('Home SERVER');
+  } else {
+    // console.debug('Home CLIENT', props);
+  }
+
+  if (!props) return <></>;
+
+	//STYLE
+	const draggerStyle = {
+		style: {
+			maxWidth: props.style && props.style.size?props.style.size: '300px',
+			maxHeight: props.style && props.style.size?props.style.size : '300px',
+			minWidth: props.style && props.style.size?props.style.size: '300px',
+			minHeight:props.style && props.style.size?props.style.size: '300px',
+			margin: 'auto',
+			display: 'flex',
+			justifyContent: 'center',
+alignContent: 'center',
+alignItems: 'center',
+			borderRadius: '50%'
+		}
+	}
+
+	//STATE
+	const [stateProps, setStateProps] = useState({ loading: false, imageUrl: props.user && props.user.url ? props.user.url : false })
+
+	useEffect(() => {
+		return () => {
+		}
+	}, [stateProps])
+
+  const RenderDagger= () => {
+
+
+//HANDLER
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+	}
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+	}
+
+  return isJpgOrPng && isLt2M;
+}
+
+		const uploadFile = info => {
+			console.log(info)
+			if (info.file.status === 'uploading') {
+				setStateProps({ loading: true, imageUrl: false });
+				return;
+			}
+			if (info.file.status === 'done') {
+				// Get this url from response in real world.
+				getBase64(info.file.originFileObj, (imageUrl) => {
+					console.log(imageUrl)
+					if (imageUrl) props.user.customerPhoto = imageUrl;
+					setStateProps({ loading: false, imageUrl: imageUrl});
+				}
+				)
+			};
+		}
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+
+		let uploadProps = {
+			beforeUpload: (file) => { return beforeUpload(file) },
+			onChange: (info) => { return uploadFile(info) },
+			listType:"picture-card",
+		}
+
+		if (props.upload) uploadProps = { ...uploadProps, ...props.upload }
+
+		return (
+      <Upload.Dragger  {...uploadProps} {...draggerStyle} name="files" >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag a file
+        </p>
+        <p className="ant-upload-hint">Support for .jpg or .png files.</p>
+      </Upload.Dragger>
+    );
+  };
+
+  const RenderAvatar = () => {
+    return (
+			<DefaultAvatar
+				style={draggerStyle}
+        src={
+          props.user && props.user.customerPhoto
+            ? props.user.customerPhoto
+            : null
+        }
+      />
+    );
+  };
+
+	console.log(stateProps)
+  return stateProps.imageUrl ? (
+    RenderAvatar()
+  ) : props.formItem ? (
+    <Form.Item {...props.formItem}>{RenderDagger()}</Form.Item>
+  ) : (
+    RenderDagger()
+  );
+}

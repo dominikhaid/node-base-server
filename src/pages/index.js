@@ -26,6 +26,11 @@ export default function Index(props) {
             <Link href="/profil">
               <a>profil</a>
             </Link>
+          </li>{' '}
+          <li>
+            <Link href="/register">
+              <a>register</a>
+            </Link>
           </li>
           <li>
             <Link href="/products">

@@ -41,6 +41,10 @@
 - View User Details
 - View Login State -> Nav
 
+### Profil
+
+- Api end point register findeorcreate
+
 ### Card
 
 - Carusel Pictures

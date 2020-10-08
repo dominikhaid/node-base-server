@@ -10,10 +10,12 @@ export default function Login(props) {
   }
 
   const mainCon = {
-    maxWidth: '700px',
+    maxWidth: '900px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
     margin: 'auto',
-    // border: '1px black solid',
-    // borderRadius: '8px',
+    marginTop: '3rem',
     boxShadow:
       '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
     padding: '2rem',

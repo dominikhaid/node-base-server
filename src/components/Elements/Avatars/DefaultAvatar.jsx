@@ -1,6 +1,6 @@
 // import React from 'react';
 import {UserOutlined} from '@ant-design/icons';
-import {Avatar, Row, Col} from 'antd';
+import {Avatar} from 'antd';
 
 export default function DefaultAvatar(props) {
   //STYLE
@@ -19,11 +19,6 @@ export default function DefaultAvatar(props) {
     },
   };
   return (
-    // <Row>
-    //   <Col
-    //     span={props.span ? props.span : 24}
-    //     offset={props.offset ? props.offset : 6}
-    //   >
     <Avatar
       style={props.style ? props.style.style : avatarStyle.style}
       src={props.src}
@@ -31,7 +26,5 @@ export default function DefaultAvatar(props) {
       size={138}
       icon={<UserOutlined />}
     />
-    //   </Col>
-    // </Row>
   );
 }

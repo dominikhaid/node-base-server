@@ -8,8 +8,7 @@
 
 ### SQL
 
-- Update Routes Customers
-- Update Routes Products
+- add coloprs to product
 - username
 - thumb
 - excerpt
@@ -44,6 +43,10 @@
 ### Profil
 
 - Api end point register findeorcreate
+
+### List
+
+- add colors tto db
 
 ### Card
 

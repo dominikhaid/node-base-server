@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Form, Upload, message} from 'antd';
+import {Form, Upload, message,  Spin} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 
@@ -56,7 +56,6 @@ function beforeUpload(file) {
 }
 
 		const uploadFile = info => {
-			console.log(info)
 			if (info.file.status === 'uploading') {
 				setStateProps({ loading: true, imageUrl: false });
 				return;
@@ -64,7 +63,6 @@ function beforeUpload(file) {
 			if (info.file.status === 'done') {
 				// Get this url from response in real world.
 				getBase64(info.file.originFileObj, (imageUrl) => {
-					console.log(imageUrl)
 					if (imageUrl) props.user.customerPhoto = imageUrl;
 					setStateProps({ loading: false, imageUrl: imageUrl});
 				}
@@ -88,7 +86,8 @@ function getBase64(img, callback) {
 		if (props.upload) uploadProps = { ...uploadProps, ...props.upload }
 
 		return (
-      <Upload.Dragger  {...uploadProps} {...draggerStyle} name="files" >
+		       <Spin tip="Saving..." spinning={stateProps.loading} delay={500}>
+			<Upload.Dragger  {...uploadProps} {...draggerStyle} name="files" >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
@@ -97,7 +96,8 @@ function getBase64(img, callback) {
         </p>
         <p className="ant-upload-hint">Support for .jpg or .png files.</p>
       </Upload.Dragger>
-    );
+   </Spin>
+	  );
   };
 
   const RenderAvatar = () => {
@@ -113,7 +113,6 @@ function getBase64(img, callback) {
     );
   };
 
-	console.log(stateProps)
   return stateProps.imageUrl ? (
     RenderAvatar()
   ) : props.formItem ? (
@@ -122,3 +121,4 @@ function getBase64(img, callback) {
     RenderDagger()
   );
 }
+

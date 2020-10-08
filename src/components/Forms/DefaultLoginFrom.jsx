@@ -1,6 +1,6 @@
 // import React from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
-import {Space, Form, Input, Button, Checkbox} from 'antd';
+import {Space, Form, Row, Col, Button, Checkbox} from 'antd';
 import AuthProvider from '@/components/Auth/AuthListSmall';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 
@@ -14,8 +14,6 @@ export default function LoginForm(props) {
         rules: [{required: true, message: 'Please input your username!'}],
       },
       input: {
-        defaultValue:
-          props.user && props.user.userName ? props.user.userName : '',
         prefix: <UserOutlined />,
         placeholder: 'User Name',
       },
@@ -29,14 +27,16 @@ export default function LoginForm(props) {
         type: 'password',
         prefix: <LockOutlined />,
         placeholder: 'Password',
-        defaultValue:
-          props.user && props.user.password ? props.user.password : '',
       },
     },
   ];
 
+  const initialValues = {
+    username: props.user && props.user.userName ? props.user.userName : '',
+    login: false,
+    password: props.user && props.user.password ? props.user.password : '',
+  };
   const layout = {
-    labelCol: {span: 4},
     wrapperCol: {span: 24, offset: 5},
   };
 
@@ -52,26 +52,32 @@ export default function LoginForm(props) {
     <>
       <BorderedH3 title={'Login'} />
       <Form
+        scrollToFirstError={true}
         {...layout}
-        name="basic"
-        initialValues={{remember: true}}
+        name="login"
+        initialValues={initialValues}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
         <DefaultInput {...formFields[0]} />
         <DefaultInput {...formFields[1]} />
-
-        <Form.Item name="remember" valuePropName="checked">
-          <Space size={'large'}>
-            <Button type="primary" htmlType="submit">
-              Login
-            </Button>
-            <Button type="secondary" htmlType="submit">
-              Register
-            </Button>
-            <Checkbox>Remember me</Checkbox>
-          </Space>
-        </Form.Item>
+        <Row>
+          <Col span={24} offset={0}>
+            <Form.Item name="login" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+          </Col>
+          <Col span={24} offset={5}>
+            <Space size={'large'}>
+              <Button type="primary" htmlType="submit">
+                Login
+              </Button>
+              <Button type="secondary" htmlType="submit">
+                Register
+              </Button>
+            </Space>
+          </Col>
+        </Row>
       </Form>
       <AuthProvider />
     </>

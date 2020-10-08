@@ -25,14 +25,12 @@ export default function ProfilForm(props) {
         rules: [{required: true, message: 'Please input your username!'}],
       },
       input: {
-        defaultValue:
-          props.user && props.user.userName ? props.user.userName : '',
         prefix: <UserOutlined />,
         placeholder: 'User Name',
       },
     },
     {
-      fromItem: {
+      formItem: {
         name: 'password',
         rules: [{required: true, message: 'Please input your password!'}],
       },
@@ -40,8 +38,6 @@ export default function ProfilForm(props) {
         type: 'password',
         prefix: <LockOutlined />,
         placeholder: 'Password',
-        defaultValue:
-          props.user && props.user.password ? props.user.password : '',
       },
     },
   ];
@@ -55,10 +51,6 @@ export default function ProfilForm(props) {
       input: {
         prefix: <UserOutlined />,
         placeholder: 'First Name',
-        defaultValue:
-          props.user && props.user.contactFirstName
-            ? props.user.contactFirstName
-            : '',
       },
     },
     {
@@ -69,10 +61,6 @@ export default function ProfilForm(props) {
       input: {
         prefix: <UserOutlined />,
         placeholder: 'Last Name',
-        defaultValue:
-          props.user && props.user.contactLastName
-            ? props.user.contactLastName
-            : '',
       },
     },
     {
@@ -92,7 +80,6 @@ export default function ProfilForm(props) {
       input: {
         prefix: <MailOutlined />,
         placeholder: 'E-Mail',
-        defaultValue: props.user && props.user.email ? props.user.email : '',
       },
     },
     {
@@ -113,7 +100,6 @@ export default function ProfilForm(props) {
         ),
         style: {width: '100%'},
         placeholder: 'Phone',
-        defaultValue: props.user && props.user.phone ? props.user.phone : '',
       },
     },
   ];
@@ -127,20 +113,15 @@ export default function ProfilForm(props) {
       input: {
         prefix: <PushpinOutlined />,
         placeholder: 'Address',
-        defaultValue:
-          props.user && props.user.addressLine1 ? props.user.addressLine1 : '',
       },
     },
     {
-      formItem: {},
+      formItem: {name: 'adress2'},
       input: {
         prefix: <PushpinOutlined />,
         placeholder: 'Address',
-        defaultValue:
-          props.user && props.user.addressLine2 ? props.user.addressLine2 : '',
       },
     },
-
     {
       formItem: {
         name: 'city',
@@ -154,10 +135,8 @@ export default function ProfilForm(props) {
       input: {
         prefix: <HomeOutlined />,
         placeholder: 'City',
-        defaultValue: props.user && props.user.city ? props.user.city : '',
       },
     },
-
     {
       formItem: {
         name: 'state',
@@ -171,10 +150,8 @@ export default function ProfilForm(props) {
       input: {
         prefix: <HomeOutlined />,
         placeholder: 'State',
-        defaultValue: props.user && props.user.state ? props.user.state : '',
       },
     },
-
     {
       formItem: {
         name: 'postalcode',
@@ -183,11 +160,8 @@ export default function ProfilForm(props) {
       input: {
         prefix: <HomeOutlined />,
         placeholder: 'Postalcode',
-        defaultValue:
-          props.user && props.user.postalCode ? props.user.postalCode : '',
       },
     },
-
     {
       formItem: {
         name: 'country',
@@ -201,20 +175,37 @@ export default function ProfilForm(props) {
       input: {
         prefix: <FlagOutlined />,
         placeholder: 'Country',
-        defaultValue:
-          props.user && props.user.country ? props.user.country : '',
       },
     },
   ];
 
+  const initialValues = {
+    username: props.user && props.user.userName ? props.user.userName : '',
+    password: props.user && props.user.password ? props.user.password : '',
+    firstname:
+      props.user && props.user.contactFirstName
+        ? props.user.contactFirstName
+        : '',
+    lastname:
+      props.user && props.user.contactLastName
+        ? props.user.contactLastName
+        : '',
+    email: props.user && props.user.email ? props.user.email : '',
+    phone: props.user && props.user.phone ? props.user.phone : '',
+    adress1:
+      props.user && props.user.addressLine1 ? props.user.addressLine1 : '',
+    adress2:
+      props.user && props.user.addressLine2 ? props.user.addressLine2 : '',
+    city: props.user && props.user.city ? props.user.city : '',
+    state: props.user && props.user.state ? props.user.state : '',
+    postalcode:
+      props.user && props.user.postalCode ? props.user.postalCode : '',
+    country: props.user && props.user.country ? props.user.country : '',
+  };
   //STYLES
   const layout = {
     labelCol: {span: 0},
     wrapperCol: {span: 24},
-  };
-
-  const tailLayout = {
-    wrapperCol: {offset: 0, span: 20},
   };
 
   //HANDLER
@@ -236,8 +227,9 @@ export default function ProfilForm(props) {
             : null
         }
         {...layout}
-        name="basic"
-        initialValues={{remember: true}}
+        scrollToFirstError={true}
+        name="profil"
+        initialValues={initialValues}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
@@ -250,38 +242,32 @@ export default function ProfilForm(props) {
         />
         <Divider className={'ant-primary'} plain></Divider>
         {formFieldsUser.map(field => {
-          console.log(field);
           return <DefaultInput {...field} />;
         })}
+        <Divider className={'ant-primary'} plain>
+          Contact Info
+        </Divider>
+
+        {formFieldsContact.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain>
+          Address Info
+        </Divider>
+        {formFieldsAddress.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+
         <Divider className={'ant-primary'} plain></Divider>
-        <Collapse accordion>
-          <Panel header="Contact Info" key="1">
-            {formFieldsContact.map(field => {
-              return <DefaultInput {...field} />;
-            })}
-          </Panel>
-          <Panel header="Address Info" key="2">
-            {formFieldsAddress.map(field => {
-              return <DefaultInput {...field} />;
-            })}
-          </Panel>
-        </Collapse>
-        <Divider className={'ant-primary'} plain></Divider>
-        <Form.Item
-          {...tailLayout}
-          style={{marginTop: '1rem'}}
-          name="remember"
-          valuePropName="checked"
-        >
-          <Space size={'large'}>
-            <Button type="primary" htmlType="submit">
-              Save
-            </Button>
-            <Button type="secondary" htmlType="submit">
-              Reset
-            </Button>
-          </Space>
-        </Form.Item>
+
+        <Space size={'large'}>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+          <Button type="secondary" htmlType="submit">
+            Reset
+          </Button>
+        </Space>
       </Form>
     </>
   );

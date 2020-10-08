@@ -28,6 +28,11 @@ export default function Index(props) {
             </Link>
           </li>
           <li>
+            <Link href="/products">
+              <a>products</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/card">
               <a>card</a>
             </Link>

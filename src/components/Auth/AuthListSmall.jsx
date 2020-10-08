@@ -10,27 +10,43 @@ import {
 } from '@ant-design/icons';
 
 export default function AuthProvider() {
-  const authList = {
-    fontSize: '1.5rem',
+  const itemStyle = {
+    fontSize: '4rem',
     textAlign: 'center',
-    border: `1px ${grey[1]} solid`,
     borderRadius: '999px',
     marginBottom: '0.2rem',
     marginTop: '0.2rem',
     width: '3rem',
     height: '3rem',
-    boxShadow: '2px 2px 5px rgba(40,40,40,0.2)',
+    boxShadow:
+      '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
     padding: '0.2rem 0.5rem 0.5rem 0.5rem',
+    overflow: 'hidden',
   };
 
-  const data = [
+  const listStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+  };
+
+  const dividerStyle = {
+    maxWidth: '350px',
+    margin: 'auto',
+  };
+
+  const items = [
     {
       title: 'Google',
       icon: () => {
         return <GoogleSquareFilled />;
       },
       link: '/',
-      style: {color: red[6]},
+      style: {
+        color: red[6],
+        position: 'relative',
+        top: '-1.85rem',
+        left: '-1rem',
+      },
       onClick: e => {
         e.preventDefault();
         alert(e.target);
@@ -42,7 +58,12 @@ export default function AuthProvider() {
         return <GithubOutlined />;
       },
       link: '/',
-      style: {color: grey[6]},
+      style: {
+        color: grey[6],
+        position: 'relative',
+        top: '-1.85rem',
+        left: '-1rem',
+      },
       onClick: e => {
         e.preventDefault();
         alert(e.target);
@@ -54,25 +75,18 @@ export default function AuthProvider() {
         return <FacebookFilled />;
       },
       link: '/',
-      style: {color: blue[6]},
+      style: {
+        color: blue[6],
+        position: 'relative',
+        top: '-1.85rem',
+        left: '-1.28rem',
+      },
       onClick: e => {
         e.preventDefault();
         alert(e.target);
       },
     },
   ];
-
-  const authCon = {
-    // backgroundColor: 'gray',
-    maxWidth: '400px',
-    margin: 'auto',
-  };
-
-  const dividerStyle = {
-    // backgroundColor: 'gray',
-    maxWidth: '300px',
-    margin: 'auto',
-  };
 
   return (
     <>
@@ -82,11 +96,11 @@ export default function AuthProvider() {
         </Divider>
       </div>
       <List
-        style={authCon}
-        grid={{gutter: 16, column: 3}}
-        dataSource={data}
+        style={listStyle}
+        grid={{gutter: 25, column: 3}}
+        dataSource={items}
         renderItem={item => (
-          <List.Item style={authList}>
+          <List.Item style={itemStyle}>
             <a
               onClick={e => {
                 item.onClick(e);

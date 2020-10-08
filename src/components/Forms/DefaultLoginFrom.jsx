@@ -1,17 +1,43 @@
-import React from 'react';
-import {blue, red, grey} from '@ant-design/colors';
+// import React from 'react';
+import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
+import {Space, Form, Input, Button, Checkbox} from 'antd';
+import AuthProvider from '@/components/Auth/AuthListSmall';
+import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 
-import {Typography, Space, Form, Input, Button, Checkbox} from 'antd';
+import {LockOutlined, UserOutlined} from '@ant-design/icons';
 
-const {Title} = Typography;
+export default function LoginForm(props) {
+  const formFields = [
+    {
+      formItem: {
+        name: 'username',
+        rules: [{required: true, message: 'Please input your username!'}],
+      },
+      input: {
+        defaultValue:
+          props.user && props.user.userName ? props.user.userName : '',
+        prefix: <UserOutlined />,
+        placeholder: 'User Name',
+      },
+    },
+    {
+      formItem: {
+        name: 'password',
+        rules: [{required: true, message: 'Please input your password!'}],
+      },
+      input: {
+        type: 'password',
+        prefix: <LockOutlined />,
+        placeholder: 'Password',
+        defaultValue:
+          props.user && props.user.password ? props.user.password : '',
+      },
+    },
+  ];
 
-export default function LoginForm() {
   const layout = {
     labelCol: {span: 4},
-    wrapperCol: {span: 16},
-  };
-  const tailLayout = {
-    wrapperCol: {offset: 4, span: 20},
+    wrapperCol: {span: 24, offset: 5},
   };
 
   const onFinish = values => {
@@ -22,47 +48,20 @@ export default function LoginForm() {
     console.log('Failed:', errorInfo);
   };
 
-  const loginStyle = {
-    maxWidth: '600px',
-    margin: 'auto',
-  };
-
-  const titleStyle = {
-    paddingBottom: '1rem',
-    marginBottom: '3rem',
-    borderBottom: `2px solid ${blue[4]}`,
-  };
-
   return (
     <>
-      <Title className={'ant-primary'} style={titleStyle}>
-        Login
-      </Title>
+      <BorderedH3 title={'Login'} />
       <Form
-        style={loginStyle}
         {...layout}
         name="basic"
         initialValues={{remember: true}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[{required: true, message: 'Please input your username!'}]}
-        >
-          <Input />
-        </Form.Item>
+        <DefaultInput {...formFields[0]} />
+        <DefaultInput {...formFields[1]} />
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{required: true, message: 'Please input your password!'}]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+        <Form.Item name="remember" valuePropName="checked">
           <Space size={'large'}>
             <Button type="primary" htmlType="submit">
               Login
@@ -74,6 +73,7 @@ export default function LoginForm() {
           </Space>
         </Form.Item>
       </Form>
+      <AuthProvider />
     </>
   );
 }

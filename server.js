@@ -19,17 +19,6 @@ if (serverOptions.https) {
   httpsServer = https.createServer(credentials, server);
 }
 
-//./bin/express.js
-if (serverOptions.server === 'express') {
-  const startExpress = require('./src/bin/express').startServer;
-  startExpress(server, serverOptions, {
-    http: http,
-    httpServer: httpServer,
-    https: https,
-    httpsServer: httpsServer,
-  });
-  return;
-}
 if (serverOptions.server === 'next') {
   const startNext = require('./src/bin/next').startServer;
   startNext(server, serverOptions, {

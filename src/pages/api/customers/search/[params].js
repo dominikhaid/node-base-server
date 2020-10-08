@@ -1,6 +1,6 @@
-const db = require('../../../../../sequelize/db/db');
+const db = require('../../../../sequelize/db/db');
 const checkReqErrors = require('@/includes/status').checkReqErrors;
-const usersQuery = require('../../../../../sequelize/querys/users');
+const customers = require('../../../../sequelize/querys/customers');
 
 async function auth(db) {
   return db
@@ -18,7 +18,7 @@ export default (req, res) => {
   if (req.method === 'GET') {
     auth(db)
       .then(() => {
-        usersQuery.searchOne(req).then(erg => {
+        customers.searchOne(req).then(erg => {
           checkReqErrors({msg: 'Found Users', user: erg}, res);
         });
       })

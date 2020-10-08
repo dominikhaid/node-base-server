@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "X:\\home\\dominikhaid\\DEV\\node\\react\\demo-shop\\data\\shop.sqlite",
+      "name": "Shop Demo",
+      "group": "Shop Demo"
+    }
+  ]
+}

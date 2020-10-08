@@ -17,6 +17,10 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#000000" />
           <link rel="apple-touch-icon" href="/logo192.png" />
           <link rel="manifest" href="/manifest.json" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
@@ -14,8 +14,8 @@ import {
   Select,
   Button,
 } from 'antd';
-const { Panel } = Collapse;
-const { Option } = Select;
+const {Panel} = Collapse;
+const {Option} = Select;
 
 import {
   LockOutlined,
@@ -33,7 +33,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'username',
-        rules: [{ required: true, message: 'Please input your username!' }],
+        rules: [{required: true, message: 'Please input your username!'}],
       },
       input: {
         prefix: <UserOutlined />,
@@ -43,7 +43,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'password',
-        rules: [{ required: true, message: 'Please input your password!' }],
+        rules: [{required: true, message: 'Please input your password!'}],
       },
       input: {
         type: 'password',
@@ -60,13 +60,13 @@ export default function ProfilForm(props) {
             required: true,
             message: 'Please confirm your password!',
           },
-          ({ getFieldValue }) => ({
+          ({getFieldValue}) => ({
             validator(rule, value) {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
               return Promise.reject(
-                'The two passwords that you entered do not match!'
+                'The two passwords that you entered do not match!',
               );
             },
           }),
@@ -84,7 +84,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'firstname',
-        rules: [{ required: true, message: 'Please input your first name!' }],
+        rules: [{required: true, message: 'Please input your first name!'}],
       },
       input: {
         prefix: <UserOutlined />,
@@ -94,7 +94,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'lastname',
-        rules: [{ required: true, message: 'Please input your family name!' }],
+        rules: [{required: true, message: 'Please input your family name!'}],
       },
       input: {
         prefix: <UserOutlined />,
@@ -124,19 +124,19 @@ export default function ProfilForm(props) {
       formItem: {
         name: 'phone',
         label: 'Phone Number',
-        rules: [{ required: true, message: 'Please input your phone number!' }],
+        rules: [{required: true, message: 'Please input your phone number!'}],
       },
       input: {
         addonBefore: (
-          <Form.Item name='prefix' noStyle>
-            <Select defaultValue='49' style={{ width: 70 }}>
-              <Option value='43'>+43</Option>
-              <Option value='41'>+41</Option>
-              <Option value='49'>+49</Option>
+          <Form.Item name="prefix" noStyle>
+            <Select defaultValue="49" style={{width: 70}}>
+              <Option value="43">+43</Option>
+              <Option value="41">+41</Option>
+              <Option value="49">+49</Option>
             </Select>
           </Form.Item>
         ),
-        style: { width: '100%' },
+        style: {width: '100%'},
         placeholder: 'Phone',
       },
     },
@@ -146,7 +146,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'adress1',
-        rules: [{ required: true, message: 'Please input your adress!' }],
+        rules: [{required: true, message: 'Please input your adress!'}],
       },
       input: {
         prefix: <PushpinOutlined />,
@@ -154,7 +154,7 @@ export default function ProfilForm(props) {
       },
     },
     {
-      formItem: { name: 'adress2' },
+      formItem: {name: 'adress2'},
       input: {
         prefix: <PushpinOutlined />,
         placeholder: 'Address',
@@ -193,7 +193,7 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'postalcode',
-        rules: [{ required: true, message: 'Please input your zip code!' }],
+        rules: [{required: true, message: 'Please input your zip code!'}],
       },
       input: {
         prefix: <HomeOutlined />,
@@ -246,8 +246,8 @@ export default function ProfilForm(props) {
   };
   //STYLES
   const layout = {
-    labelCol: { span: 0 },
-    wrapperCol: { span: 24 },
+    labelCol: {span: 0},
+    wrapperCol: {span: 24},
   };
 
   //HANDLER
@@ -260,18 +260,18 @@ export default function ProfilForm(props) {
       },
     });
   };
-  const onFinish = (values) => {
+  const onFinish = values => {
     console.log('Success:', values);
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = errorInfo => {
     // console.log('Failed:', errorInfo);
     errorMsg();
   };
 
   return (
     <>
-      <Spin tip='Saving...' spinning={loading} delay={500}>
+      <Spin tip="Saving..." spinning={loading} delay={500}>
         <BorderedH3 title={'Register'} />
         <Form
           user={
@@ -281,44 +281,45 @@ export default function ProfilForm(props) {
           }
           {...layout}
           scrollToFirstError={true}
-          name='register'
+          name="register"
           initialValues={initialValues}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}>
+          onFinishFailed={onFinishFailed}
+        >
           <DefaultDragger
             user={props.user}
-            style={{ size: '250px' }}
+            style={{size: '250px'}}
             upload={{
               action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
               multiple: false,
-              showUploadList: false,
+              showUploadList: true,
               name: 'files',
               accept: '.jpg,.png',
             }}
           />
 
           <Divider className={'ant-primary'} plain></Divider>
-          {formFieldsUser.map((field) => {
+          {formFieldsUser.map(field => {
             return <DefaultInput {...field} />;
           })}
           <Divider className={'ant-primary'} plain>
             Contact Info
           </Divider>
-          {formFieldsContact.map((field) => {
+          {formFieldsContact.map(field => {
             return <DefaultInput {...field} />;
           })}
           <Divider className={'ant-primary'} plain>
             Address Info
           </Divider>
-          {formFieldsAddress.map((field) => {
+          {formFieldsAddress.map(field => {
             return <DefaultInput {...field} />;
           })}
           <Divider className={'ant-primary'} plain></Divider>
           <Space size={'large'}>
-            <Button type='primary' htmlType='submit'>
+            <Button type="primary" htmlType="submit">
               Save
             </Button>
-            <Button type='secondary' htmlType='submit'>
+            <Button type="secondary" htmlType="submit">
               Cancel
             </Button>
           </Space>

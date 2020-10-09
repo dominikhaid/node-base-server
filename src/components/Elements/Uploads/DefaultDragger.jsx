@@ -5,26 +5,26 @@ import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 
 
 export default function DefaultDragger(props) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    // console.debug('Home CLIENT', props);
-  }
+	if (!process.browser) {
+		//console.debug('Home SERVER');
+	} else {
+		// console.debug('Home CLIENT', props);
+	}
 
-  if (!props) return <></>;
+	if (!props) return <></>;
 
 	//STYLE
 	const draggerStyle = {
 		style: {
-			maxWidth: props.style && props.style.size?props.style.size: '300px',
-			maxHeight: props.style && props.style.size?props.style.size : '300px',
-			minWidth: props.style && props.style.size?props.style.size: '300px',
-			minHeight:props.style && props.style.size?props.style.size: '300px',
+			maxWidth: props.style && props.style.size ? props.style.size : '300px',
+			maxHeight: props.style && props.style.size ? props.style.size : '300px',
+			minWidth: props.style && props.style.size ? props.style.size : '300px',
+			minHeight: props.style && props.style.size ? props.style.size : '300px',
 			margin: 'auto',
 			display: 'flex',
 			justifyContent: 'center',
-alignContent: 'center',
-alignItems: 'center',
+			alignContent: 'center',
+			alignItems: 'center',
 			borderRadius: '50%'
 		}
 	}
@@ -37,23 +37,29 @@ alignItems: 'center',
 		}
 	}, [stateProps])
 
-  const RenderDagger= () => {
+	const RenderDagger = () => {
 
 
-//HANDLER
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-	}
+		//HANDLER
+		async function beforeUpload(file) {
+			const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+			if (!isJpgOrPng) {
+				message.error('You can only upload JPG/PNG file!');
+			}
 
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-	}
+			const isLt2M = file.size / 1024 / 1024 < 2;
+			if (!isLt2M) {
+				message.error('Image must smaller than 2MB!');
+			}
 
-  return isJpgOrPng && isLt2M;
-}
+			if (isJpgOrPng && isLt2M) {
+				file.preview = await getBase(file);
+         props.user.customerPhoto = file.preview
+					setStateProps({ loading: false, imageUrl: file.preview });
+			}
+
+			return isJpgOrPng && isLt2M;
+		}
 
 		const uploadFile = info => {
 			if (info.file.status === 'uploading') {
@@ -64,22 +70,31 @@ function beforeUpload(file) {
 				// Get this url from response in real world.
 				getBase64(info.file.originFileObj, (imageUrl) => {
 					if (imageUrl) props.user.customerPhoto = imageUrl;
-					setStateProps({ loading: false, imageUrl: imageUrl});
+					setStateProps({ loading: false, imageUrl: imageUrl });
 				}
 				)
 			};
 		}
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
+		function getBase64(img, callback) {
+			const reader = new FileReader();
+			reader.addEventListener('load', () => callback(reader.result));
+			reader.readAsDataURL(img);
+		}
+
+		function getBase(file) {
+    return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 		let uploadProps = {
 			beforeUpload: (file) => { return beforeUpload(file) },
-			onChange: (info) => { return uploadFile(info) },
+			// onChange: (info) => { return uploadFile(info) },
 			listType:"picture-card",
 		}
 

@@ -10,8 +10,6 @@
 
 - add coloprs to product
 - username
-- thumb
-- excerpt
 
 ### APP
 
@@ -25,51 +23,43 @@
 
 ### Login
 
-- Build the View
 - Props / States
 - Connect to DB
 - Connect to Passport
 - Save tokken
 - Redirect
+- redirect on Cancel
 
 ### Profil
 
-- View login / Register / OAuth
-- Props / State loggedin maybe user data
 - CRUD User Data
-- View User Details
-- View Login State -> Nav
+- Button reset
+- Button Save
 
-### Profil
+## Register
 
-- Api end point register findeorcreate
+- Save
+- Cancel
+- Upload Endpoint
 
 ### List
 
-- add colors tto db
+- Trash function
+- Add Function
+- Messages
+- Select Color
+- Add Count
 
-### Card
+### Product
 
 - Carusel Pictures
 - price
 - discription
 - add / remove
 
-### Buy
+### Card
 
 - show card
 - add and remove
 - buy
 - redirect
-
-### Products
-
-- Pictures (we need a thumb filed maybe)
-- excerpt (we need a field)
-- price
-- view / opend
-- add / remove
-- Read Products from Database (show all products)
-- Write to Card (add items to card)
-- Get from Card (Display if already in card)
-- props / states -> user / card

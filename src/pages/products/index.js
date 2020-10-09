@@ -24,7 +24,7 @@ export default function Products(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultCardList products={props.products} card={props.card} />
+        <DefaultCardList {...props} />
       </div>
     </React.Fragment>
   );
@@ -57,6 +57,7 @@ export async function getStaticProps() {
       productPhotos:
         'https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png,https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png',
       productLine: 'Classic Cars',
+      quantityInStock: 7305,
       productVendor: 'Classic Metal Creations',
       productDescription:
         'Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.',
@@ -68,6 +69,7 @@ export async function getStaticProps() {
       productPhotos:
         'https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png,https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png',
       productLine: 'Classic Cars',
+      quantityInStock: 7305,
       productVendor: 'Classic Metal Creations',
       productDescription:
         'Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.',
@@ -83,6 +85,7 @@ export async function getStaticProps() {
       productPhotos:
         'https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png,https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png',
       productLine: 'Classic Cars',
+      quantityInStock: 7305,
       productVendor: 'Classic Metal Creations',
       productDescription:
         'Turnable front wheels; steering function; detailed interior; detailed engine; opening hood; opening trunk; opening doors; and detailed chassis.',
@@ -94,15 +97,10 @@ export async function getStaticProps() {
     },
   ];
 
-  let card = {
-    products: ['S10_1949'],
-    category: 'Bikes',
-  };
-
   return {
     props: {
       products: products,
-      card: card,
+      category: 'Bikes',
     },
   };
 }

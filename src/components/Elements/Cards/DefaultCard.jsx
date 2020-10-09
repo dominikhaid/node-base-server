@@ -1,4 +1,4 @@
-import {Card, Carousel, Button} from 'antd';
+import {Card, Carousel, Button, InputNumber} from 'antd';
 import {ShoppingCartOutlined, DeleteOutlined} from '@ant-design/icons';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
@@ -44,6 +44,68 @@ export default function DefaultCard(props) {
     });
   };
 
+  function changeQuantity(value) {
+    console.log('changed', value);
+  }
+
+  function addDelete(index) {
+    const inputStyle = {
+      marginLeft: '0.5rem',
+      maxWidth: '65px',
+    };
+    const deleteStyle = {
+      style: {
+        color: 'red',
+        fontSize: '1.5rem',
+        maxWidth: '1.5rem',
+        verticalAlign: 'middle',
+      },
+    };
+
+    const addStyle = {
+      style: {
+        fontSize: '1.5rem',
+        maxWidth: '1.5rem',
+        verticalAlign: 'middle',
+      },
+    };
+    if (index !== -1)
+      return (
+        <>
+          <DeleteOutlined key="removeCard" {...deleteStyle} />
+          <InputNumber
+            step={1}
+            parser={value => Math.round(value)}
+            style={inputStyle}
+            min={1}
+            max={props.card.products[index].quantity}
+            defaultValue={props.card.products[index].quantity}
+            onChange={changeQuantity()}
+          />
+        </>
+      );
+
+    return [
+      <>
+        <ShoppingCartOutlined key="addCard" {...addStyle} />
+        <InputNumber
+          step={1}
+          parser={value => Math.round(value)}
+          style={inputStyle}
+          min={1}
+          max={props.quantityInStock}
+          defaultValue={1}
+          onChange={changeQuantity()}
+        />
+      </>,
+    ];
+  }
+
+  function findProduct() {
+    return props.card.products.findIndex(e => {
+      return e.productCode === props.productCode;
+    });
+  }
   //STYLE
   const cardStyle = {
     style: {
@@ -53,19 +115,6 @@ export default function DefaultCard(props) {
       boxShadow:
         '3px 3px 5px 0 rgba(245, 245, 245, 0.15) inset, -2px -2px 3px 0 rgba(0, 0, 0, .15) inset',
       padding: '0.2rem 0.5rem 0.5rem 0.5rem',
-    },
-  };
-
-  const deleteStyle = {
-    style: {
-      color: 'red',
-      fontSize: '1.5rem',
-    },
-  };
-
-  const addStyle = {
-    style: {
-      fontSize: '1.5rem',
     },
   };
 
@@ -80,13 +129,7 @@ export default function DefaultCard(props) {
     >
       Details
     </Button>,
-    props.card.products.findIndex(e => {
-      return e === props.productCode;
-    }) === -1 ? (
-      <ShoppingCartOutlined key="addCard" {...addStyle} />
-    ) : (
-      <DeleteOutlined key="removeCard" {...deleteStyle} />
-    ),
+    addDelete(findProduct()),
   ];
 
   let link = `/products/${props.productCode}`;

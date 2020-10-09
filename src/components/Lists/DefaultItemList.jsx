@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
-import DefaultCard from '@/components/Elements/Cards/DefaultCard';
+import DefaultItemList from '@/components/Elements/Lists/DefaultItemList';
 
 import {message, Spin} from 'antd';
 // import {LockOutlined, UserOutlined} from '@ant-design/icons';
 
-export default function DefaultCardList(props) {
+export default function DefaultItemList(props) {
   //STATE
   const [loading, setLoading] = useState(false);
 
@@ -42,11 +42,9 @@ export default function DefaultCardList(props) {
   return (
     <>
       <Spin tip="Login..." spinning={loading} delay={500}>
-        <BorderedH3 title={props.category} />
+        <BorderedH3 title={props.card.category} />
         <section style={productListStyle}>
-          {props.products.map(field => {
-            return <DefaultCard {...field} card={props.card} />;
-          })}
+          <DefaultItemList card={props.card} />;
         </section>
       </Spin>
     </>

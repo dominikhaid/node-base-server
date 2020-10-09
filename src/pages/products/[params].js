@@ -24,7 +24,7 @@ export default function Products(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultCardList products={props.products} card={props.card} />
+        <DefaultCardList {...props} />
       </div>
     </React.Fragment>
   );
@@ -94,15 +94,10 @@ export async function getStaticProps() {
     },
   ];
 
-  let card = {
-    products: ['S10_1949'],
-    category: 'Bikes',
-  };
-
   return {
     props: {
       products: products,
-      card: card,
+      category: 'Bikes',
     },
   };
 }

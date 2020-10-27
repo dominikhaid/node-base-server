@@ -67,7 +67,8 @@ export default function MyApp({Component, pageProps}) {
           //TESTING
           if (
             appState.products.length > 0 &&
-            !appState.card.products.length > 0
+            !appState.card.products.length > 0 &&
+            appState.card.products
           ) {
             appState.card.products = appState.products;
             appState.card.products[0].quantity = appState.products[0].quantity = 10;

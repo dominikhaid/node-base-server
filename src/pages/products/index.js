@@ -6,7 +6,7 @@ export default function Products(props) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
-    //console.debug('Home CLIENT', props);
+    console.debug('PRODUCTS CLIENT', props);
   }
 
   const mainCon = {

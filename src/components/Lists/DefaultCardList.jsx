@@ -9,7 +9,11 @@ export default function DefaultCardList(props) {
   //STATE
   const [loading, setLoading] = useState(false);
 
-  console.log(props);
+  if (!process.browser) {
+    //console.debug('Home SERVER');
+  } else {
+    console.debug('PRODUCTS INNER', props);
+  }
 
   //STYLE
   const productListStyle = {
@@ -48,7 +52,13 @@ export default function DefaultCardList(props) {
         <section style={productListStyle}>
           {props.products.length > 0 &&
             props.products.map(field => {
-              return <DefaultCard {...field} card={props.card} />;
+              return (
+                <DefaultCard
+                  {...field}
+                  updateCard={props.updateCard}
+                  card={props.card}
+                />
+              );
             })}
         </section>
       </Spin>

@@ -1,5 +1,5 @@
-import {Card, Carousel, Button, InputNumber} from 'antd';
-import {ShoppingCartOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Card, Carousel, Button, Divider, Space, InputNumber} from 'antd';
+import DeafultCardActions from '@/components/Elements/Cards/DeafultCardActions';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 
@@ -7,6 +7,12 @@ const {Meta} = Card;
 
 export default function DefaultCard(props) {
   const router = useRouter();
+
+  if (!process.browser) {
+    //console.debug('Home SERVER');
+  } else {
+    console.debug('PRODUCTS CARD', props);
+  }
 
   const colorList = () => {
     let colors = ['#364D79', '#FFFFFF', '#323234'];
@@ -45,74 +51,6 @@ export default function DefaultCard(props) {
     });
   };
 
-  function addDelete(index) {
-    function changeQuantity(value) {
-      console.log('changed', value);
-    }
-
-    const inputStyle = {
-      marginLeft: '0.5rem',
-      maxWidth: '65px',
-    };
-    const deleteStyle = {
-      style: {
-        color: 'red',
-        fontSize: '1.5rem',
-        maxWidth: '1.5rem',
-        verticalAlign: 'middle',
-      },
-    };
-
-    const addStyle = {
-      style: {
-        fontSize: '1.5rem',
-        maxWidth: '1.5rem',
-        verticalAlign: 'middle',
-      },
-    };
-    if (index !== -1)
-      return (
-        <>
-          <DeleteOutlined
-            onClick={changeQuantity()}
-            key="removeCard"
-            {...deleteStyle}
-          />
-          <InputNumber
-            step={1}
-            parser={value => Math.round(value)}
-            style={inputStyle}
-            min={1}
-            max={props.card.products[index].quantity}
-            defaultValue={props.card.products[index].quantity}
-          />
-        </>
-      );
-
-    return [
-      <>
-        <ShoppingCartOutlined
-          onClick={changeQuantity()}
-          key="addCard"
-          {...addStyle}
-        />
-        <InputNumber
-          step={1}
-          parser={value => Math.round(value)}
-          style={inputStyle}
-          min={1}
-          max={props.quantityInStock}
-          defaultValue={1}
-        />
-      </>,
-    ];
-  }
-
-  function findProduct() {
-    return props.card.products.findIndex(e => {
-      return e.productCode === props.productCode;
-    });
-  }
   //STYLE
   const cardStyle = {
     style: {
@@ -125,20 +63,6 @@ export default function DefaultCard(props) {
     },
   };
 
-  const actions = [
-    <Button
-      onClick={e => {
-        e.preventDefault();
-        router.push(`/products/${props.productCode}`);
-      }}
-      type="primary"
-      htmlType="submit"
-    >
-      Details
-    </Button>,
-    addDelete(findProduct()),
-  ];
-
   let link = `/products/${props.productCode}`;
 
   return (
@@ -146,7 +70,6 @@ export default function DefaultCard(props) {
       hoverable={true}
       id={props.productCode}
       key={props.productCode}
-      actions={actions}
       {...cardStyle}
     >
       <Carousel autoplay>{sliderImages()}</Carousel>
@@ -160,6 +83,26 @@ export default function DefaultCard(props) {
       <Meta title={props.productName} description={props.productDescription} />
       {colorList()}
       <p>{props.MSRP} $</p>
+      <div style={{marginTop: '1rem'}}>
+        <Divider />
+        <Space size={'middle'} align="center">
+          <Button
+            onClick={e => {
+              e.preventDefault();
+              router.push(`/products/${props.productCode}`);
+            }}
+            type="primary"
+            htmlType="submit"
+          >
+            Details
+          </Button>
+          <DeafultCardActions
+            card={props.card}
+            updateCard={props.updateCard}
+            item={props}
+          />
+        </Space>
+      </div>
     </Card>
   );
 }

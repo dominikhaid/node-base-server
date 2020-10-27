@@ -21,6 +21,10 @@ class AppProvider extends Component {
      * @param {array} arr Product Array
      */
     updateCard: arr => {
+      if (!Array.isArray(this.state.card.products) && Array.isArray(arr)) {
+        this.setState({card: {products: arr}});
+        return;
+      }
       let uptItems = this.state.card.products.map(e => {
         let ind = arr.findIndex(p => {
           return p.productCode === e.productCode;
@@ -33,6 +37,10 @@ class AppProvider extends Component {
         return e.quantity !== 0;
       });
 
+      if (uptItems.length < 1) {
+        this.setState({card: {products: false}});
+        return false;
+      }
       if (uptItems) this.setState({card: {products: uptItems}});
       return this.state.card.products;
     },

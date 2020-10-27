@@ -7,6 +7,7 @@ const {Meta} = Card;
 
 export default function DefaultCard(props) {
   const router = useRouter();
+
   const colorList = () => {
     let colors = ['#364D79', '#FFFFFF', '#323234'];
     let listStyle = {

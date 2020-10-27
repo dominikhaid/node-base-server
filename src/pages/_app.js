@@ -1,4 +1,5 @@
 import React from 'react';
+import {Layout} from 'antd';
 
 import '../antd/antd.less';
 
@@ -22,6 +23,17 @@ export default function MyApp({Component, pageProps}) {
   if (!process.browser) {
     serverFun();
   }
+
+  const {Header, Content, Footer} = Layout;
+
+  const contentStyle = {
+    width: '100%',
+    maxWidth: '900px',
+    margin: 'auto',
+    marginTop: '3rem',
+    marginBottom: '3rem',
+    padding: '2rem',
+  };
 
   // async function getUser(email) {
   //   let url = `http://localhost/api/customers/search/${email}`;
@@ -51,15 +63,28 @@ export default function MyApp({Component, pageProps}) {
           if (pageProps.products) appState.products = pageProps.products;
           if (pageProps.user) appState.user = pageProps.user;
           if (pageProps.card) appState.card = pageProps.card;
+
+          //TESTING
+          if (
+            appState.products.length > 0 &&
+            !appState.card.products.length > 0
+          ) {
+            appState.card.products = appState.products;
+            appState.card.products[0].quantity = appState.products[0].quantity = 10;
+          }
           return (
             <>
-              <DefaultHeader {...appState} />
-
-              <main>
-                <Component {...appState} />
-              </main>
-
-              <DefaultFooter style={{textAlign: 'center'}} {...appState} />
+              <Layout className="layout">
+                <Header>
+                  <DefaultHeader {...appState} />
+                </Header>
+                <Content style={contentStyle}>
+                  <Component {...appState} />
+                </Content>
+                <Footer>
+                  <DefaultFooter style={{textAlign: 'center'}} {...appState} />
+                </Footer>
+              </Layout>
             </>
           );
         }}

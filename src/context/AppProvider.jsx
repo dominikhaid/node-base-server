@@ -9,8 +9,32 @@ class AppProvider extends Component {
     card: {
       products: [],
     },
-    updateState: e => {
-      this.setState(e);
+    /**
+     *
+     * @param {object} state  State Object
+     */
+    updateState: state => {
+      this.setState(state);
+    },
+    /**
+     *
+     * @param {array} arr Product Array
+     */
+    updateCard: arr => {
+      let uptItems = this.state.card.products.map(e => {
+        let ind = arr.findIndex(p => {
+          return p.productCode === e.productCode;
+        });
+
+        if (ind !== -1) return arr[ind];
+        return e;
+      });
+      uptItems = uptItems.filter(e => {
+        return e.quantity !== 0;
+      });
+
+      if (uptItems) this.setState({card: {products: uptItems}});
+      return this.state.card.products;
     },
   };
 

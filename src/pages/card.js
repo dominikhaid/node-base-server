@@ -5,7 +5,7 @@ export default function Card(props) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
-    //console.debug('Home CLIENT', props);
+    // console.debug('Card', props);
   }
 
   const mainCon = {
@@ -23,21 +23,33 @@ export default function Card(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultShoppingList {...props} />
+        <DefaultShoppingList {...props} updateCard={props.updateCard} />
       </div>
     </React.Fragment>
   );
 }
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
-// export async function getStaticProps() {
-//   // const res = await fetch('https://.../posts');
-//   // const posts = await res.json();
 
-//   return {
-//     props: {
-//       // products: products,
-//     },
-//   };
-// }
+export async function getStaticProps(context) {
+  let url = 'http://localhost/api/products';
+  const response = await fetch(url, {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  });
+
+  let data = await response.json(); // parses JSON response into native JavaScript objects
+
+  return {
+    props: {
+      products: data.success ? data.success : false,
+      // productLine: 'Bikes',
+    },
+  };
+}

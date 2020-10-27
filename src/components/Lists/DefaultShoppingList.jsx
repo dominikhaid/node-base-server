@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
-import DefaultImgList from '@/components/Elements/Lists/DefaultImgList';
+import DefaultEditList from '@/components/Elements/Lists/DefaultEditList';
 import {message, Spin} from 'antd';
 
 export default function DefaultShoppingList(props) {
@@ -47,7 +47,7 @@ export default function DefaultShoppingList(props) {
           }
         />
         <section style={productListStyle}>
-          <DefaultImgList card={props.card} />;
+          <DefaultEditList card={props.card} updateCard={props.updateCard} />
         </section>
       </Spin>
     </>

@@ -1,5 +1,11 @@
 import React from 'react';
+import DefaultTopBar from '@/components/Elements//Navbars/DefaultTopBar';
 
 export default function DefaultHeader(props) {
-  return <div>{props.children}</div>;
+  return (
+    <>
+      {props.children}
+      <DefaultTopBar />
+    </>
+  );
 }

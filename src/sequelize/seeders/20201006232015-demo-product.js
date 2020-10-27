@@ -5,6 +5,7 @@ const data = [
     productCode: 'S10_1949',
     productName: '1952 Alpine Renault 1300',
     productLine: 'Classic Cars',
+    colors: 'white,red,black',
     productPhotos:
       'https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png,https://cdn.shopify.com/s/files/1/1772/1703/t/16/assets/cowboy-3-absolute-black_w_6.png',
     productVendor: 'Classic Metal Creations',
@@ -21,7 +22,7 @@ const data = [
 module.exports = {
   up: (queryInterface, Sequelize) => {
     // data.forEach(user => {
-    //   user.customerName = user.contactFirstName + ' ' + user.contactLastName;
+    //   user.username = user.contactFirstName + ' ' + user.contactLastName;
     // });
 
     return queryInterface.bulkInsert('products', data, {});

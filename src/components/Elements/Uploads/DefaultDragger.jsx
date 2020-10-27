@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Form, Upload, message,  Spin} from 'antd';
+import {Form, Upload, message,  Spin, Input} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 
@@ -29,8 +29,23 @@ export default function DefaultDragger(props) {
 		}
 	}
 
+	const formFieldsDagger = [{
+		formItem: {
+			name: 'customerPhoto',
+		},
+		input: {
+			hidden: true,
+		},
+	},{formItem: {
+			name: 'customerPhotoData',
+		},
+		input: {
+			hidden: true,
+		},
+	}];
+
 	//STATE
-	const [stateProps, setStateProps] = useState({ loading: false, imageUrl: props.user && props.user.url ? props.user.url : false })
+	const [stateProps, setStateProps] = useState({ loading: false, name:false })
 
 	useEffect(() => {
 		return () => {
@@ -42,6 +57,8 @@ export default function DefaultDragger(props) {
 
 		//HANDLER
 		async function beforeUpload(file) {
+			console.log(file)
+
 			const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 			if (!isJpgOrPng) {
 				message.error('You can only upload JPG/PNG file!');
@@ -54,8 +71,9 @@ export default function DefaultDragger(props) {
 
 			if (isJpgOrPng && isLt2M) {
 				file.preview = await getBase(file);
-         props.user.customerPhoto = file.preview
-					setStateProps({ loading: false, imageUrl: file.preview });
+				props.form.setFieldsValue({ customerPhoto: file.name });
+				props.form.setFieldsValue({ customerPhotoData: file.preview  });
+				setStateProps({ loading: false, name:file.name })
 			}
 
 			return isJpgOrPng && isLt2M;
@@ -120,18 +138,24 @@ export default function DefaultDragger(props) {
 			<DefaultAvatar
 				style={draggerStyle}
         src={
-          props.user && props.user.customerPhoto
-            ? props.user.customerPhoto
-            : null
+      		props.form.getFieldValue('customerPhotoData')
         }
-      />
+			/>
     );
   };
 
-  return stateProps.imageUrl ? (
-    RenderAvatar()
+	return stateProps.name ? (
+		<>
+		<Form.Item className={'ant-hidden'} {...formFieldsDagger[0].formItem}>
+				<Input type={'text'} {...formFieldsDagger[0].input} />
+			</Form.Item>
+			<Form.Item className={'ant-hidden'} {...formFieldsDagger[1].formItem}>
+				<Input type={'text'} {...formFieldsDagger[1].input} />
+			</Form.Item>
+			{RenderAvatar()}
+			</>
   ) : props.formItem ? (
-    <Form.Item {...props.formItem}>{RenderDagger()}</Form.Item>
+    <Form.Item>{RenderDagger()}</Form.Item>
   ) : (
     RenderDagger()
   );

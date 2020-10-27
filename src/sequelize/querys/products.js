@@ -1,11 +1,11 @@
-const customersInit = require('../models/customer.js').customersInit;
-const Customer = customersInit(db);
+const ProductsInit = require('../models/products.js').productsInit;
+const Products = ProductsInit(db);
 
 async function findAll(req) {
-  let erg = await Customer.findAll()
-    .then(customers => {
-      if (customers) return customers;
-      return {error: 404, msg: 'No Customer found'};
+  let erg = await Products.findAll()
+    .then(products => {
+      if (products) return products;
+      return {error: 404, msg: 'No Product found'};
     })
     .catch(err => {
       return {error: 500, msg: err};
@@ -17,14 +17,16 @@ async function findAll(req) {
 module.exports.findAll = findAll;
 
 async function findOne(req) {
-  let [queryFields, bodyFields] = req.xssFilter(['id']);
+  let [queryFields, bodyFields] = req.xssFilter(['productCode']);
 
-  let erg = await Customer.findByPk(
-    Number(queryFields && queryFields.id ? queryFields.id : bodyFields.id),
+  let erg = await Products.findByPk(
+    queryFields && queryFields.productCode
+      ? queryFields.productCode
+      : bodyFields.productCode,
   )
-    .then(customer => {
-      if (customer) return customer.dataValues;
-      return {error: 404, msg: 'No Customer found'};
+    .then(product => {
+      if (product) return product.dataValues;
+      return {error: 404, msg: 'No Product found'};
     })
     .catch(err => {
       return {error: 500, msg: err};
@@ -36,17 +38,19 @@ async function findOne(req) {
 module.exports.findOne = findOne;
 
 async function searchOne(req) {
-  let [queryFields, bodyFields] = req.xssFilter(['email']);
+  let [queryFields, bodyFields] = req.xssFilter(['productCode']);
 
-  let erg = await Customer.findOne({
+  let erg = await Products.findOne({
     where: {
-      email:
-        queryFields && queryFields.email ? queryFields.email : bodyFields.email,
+      productCode:
+        queryFields && queryFields.productCode
+          ? queryFields.productCode
+          : bodyFields.productCode,
     },
   })
-    .then(customer => {
-      if (customer) return customer.dataValues;
-      return {error: 404, msg: 'No Customer found'};
+    .then(product => {
+      if (product) return product.dataValues;
+      return {error: 404, msg: 'No Product found'};
     })
     .catch(() => {
       return {error: 500, msg: err};
@@ -57,34 +61,23 @@ async function searchOne(req) {
 module.exports.searchOne = searchOne;
 
 async function createOne(req) {
-  console.log(req.body, req.query);
   let [queryFields, bodyFields] = req.xssFilter([
-    'customerNumber',
+    'name',
+    'lastname',
+    'firstname',
     'email',
-    'password',
-    'userName',
-    'customerPhoto',
-    'contactLastName',
-    'contactFirstName',
-    'phone',
-    'addressLine1',
-    'addressLine2',
-    'city',
-    'state',
-    'postalCode',
-    'country',
   ]);
-  console.log(queryFields, bodyFields);
-  let erg = await Customer.findOrCreate({
+
+  let erg = await Product.findOrCreate({
     where: {
       email:
         queryFields && queryFields.email ? queryFields.email : bodyFields.email,
     },
     defaults: bodyFields ? bodyFields : queryFields,
   })
-    .then(([customer, created]) => {
-      if (created) return customer;
-      return {error: 5, msg: 'E-Mail already taken!'};
+    .then(([product, created]) => {
+      if (created) return {msg: 'Product created', Product: product};
+      return {error: 5, msg: 'Product already exists'};
     })
     .catch(err => {
       return {error: 500, msg: err};
@@ -97,16 +90,15 @@ module.exports.createOne = createOne;
 async function deleteOne(req) {
   let [queryFields, bodyFields] = req.xssFilter(['email']);
 
-  let erg = await Customer.destroy({
+  let erg = await Products.destroy({
     where: {
       email:
         queryFields && queryFields.email ? queryFields.email : bodyFields.email,
     },
   })
-    .then(customer => {
-      if (customer)
-        return {msg: 'Customer deleted', Customer: req.params.email};
-      return {error: 404, msg: `Customer not found ${req.params.email}`};
+    .then(product => {
+      if (product) return {msg: 'Product deleted', Product: req.params.email};
+      return {error: 404, msg: `Product not found ${req.params.email}`};
     })
     .catch(err => {
       return {error: 500, msg: err};
@@ -132,16 +124,15 @@ async function updateOne(req) {
   update.email = update.new_email;
   delete update.new_email;
 
-  let erg = await Customer.update(update, {
+  let erg = await Products.update(update, {
     where: {
       email:
         queryFields && queryFields.email ? queryFields.email : bodyFields.email,
     },
   })
-    .then(customer => {
-      if (customer[0] === 1)
-        return {msg: 'Customer updated', Customer: req.body};
-      return {error: 404, msg: 'Customer not found'};
+    .then(product => {
+      if (product[0] === 1) return {msg: 'Product updated', product: req.body};
+      return {error: 404, msg: 'Product not found'};
     })
     .catch(err => {
       return {error: 500, msg: err};

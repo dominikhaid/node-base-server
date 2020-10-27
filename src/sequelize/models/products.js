@@ -33,6 +33,14 @@ const Fields = {
       notEmpty: {msg: 'no valid product name'},
     },
   },
+  colors: {
+    type: DataTypes.STRING(32),
+    comment: 'Product colors',
+    allowNull: true,
+    validate: {
+      notEmpty: {msg: 'no valid color value'},
+    },
+  },
   productPhotos: {
     type: DataTypes.STRING(255),
     allowNull: true,

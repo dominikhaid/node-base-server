@@ -32,8 +32,8 @@ export default function ProfilForm(props) {
   const formFieldsUser = [
     {
       formItem: {
-        name: 'username',
-        rules: [{required: true, message: 'Please input your username!'}],
+        name: 'userName',
+        rules: [{required: true, message: 'Please input your userName!'}],
       },
       input: {
         prefix: <UserOutlined />,
@@ -191,7 +191,7 @@ export default function ProfilForm(props) {
   ];
 
   const initialValues = {
-    username: props.user && props.user.userName ? props.user.userName : '',
+    userName: props.user && props.user.userName ? props.user.userName : '',
     password: props.user && props.user.password ? props.user.password : '',
     firstname:
       props.user && props.user.contactFirstName
@@ -241,7 +241,15 @@ export default function ProfilForm(props) {
   return (
     <>
       <Spin tip="Saving..." spinning={loading} delay={500}>
-        <BorderedH3 title={'Profil'} />
+        <BorderedH3
+          title={
+            props.user &&
+            props.user.contactFirstName &&
+            props.user.contactLastName
+              ? `Profil of ${props.user.contactFirstName} ${props.user.contactLastName}`
+              : 'Profil'
+          }
+        />
         <Form
           user={
             props.user && props.user.customerNumber

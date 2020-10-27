@@ -1,6 +1,6 @@
 passport.use(
-  new BasicStrategy(function (username, password, done) {
-    User.findOne({username: username}, function (err, user) {
+  new BasicStrategy(function (userName, password, done) {
+    User.findOne({userName: userName}, function (err, user) {
       if (err) {
         return done(err);
       }

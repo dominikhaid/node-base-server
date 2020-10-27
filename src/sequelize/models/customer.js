@@ -43,14 +43,13 @@ const Fields = {
     validate: {
       is: {
         args: [
-          '^(?=.*d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^wds:])([^s]){8,16}$',
-          'gm',
+          /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
         ],
-        msg: 'no valid phone number',
+        msg: 'The password you entered is not valid',
       },
     },
   },
-  customerName: {
+  userName: {
     type: DataTypes.STRING(64),
     allowNull: true,
   },
@@ -82,10 +81,7 @@ const Fields = {
     allowNull: true,
     validate: {
       is: {
-        args: [
-          '^(?(?P<prefix>(?=1)|+|(?:0(?:0(?:0|1|9)?|1(?:0|1))?|119))[-. ]?(?(?P<CC>1([-. ]?)[0-9]{3}|2(?:0|[0-9]{2})|3(?:[0-469]|[0-9]{2})|4(?:[013-9]|[0-9]{2})|5(?:[1-8]|[0-9]{2})|6(?:[0-6]|[0-9]{2})|7(?:[-. ]?[67]|[0-9]{3})|8(?:[1246]|[0-9]{2})|9(?:[0-58]|[0-9]{2}))(?:)?[-. ])?(?P<number>(?:[0-9]+[-. ]?)+)$',
-          'gm',
-        ],
+        args: [/(\+\d{1})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s-.]?\d{4}/gm],
         msg: 'no valid phone number',
       },
     },

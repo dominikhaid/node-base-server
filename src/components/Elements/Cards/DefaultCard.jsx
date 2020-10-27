@@ -44,11 +44,11 @@ export default function DefaultCard(props) {
     });
   };
 
-  function changeQuantity(value) {
-    console.log('changed', value);
-  }
-
   function addDelete(index) {
+    function changeQuantity(value) {
+      console.log('changed', value);
+    }
+
     const inputStyle = {
       marginLeft: '0.5rem',
       maxWidth: '65px',
@@ -72,7 +72,11 @@ export default function DefaultCard(props) {
     if (index !== -1)
       return (
         <>
-          <DeleteOutlined key="removeCard" {...deleteStyle} />
+          <DeleteOutlined
+            onClick={changeQuantity()}
+            key="removeCard"
+            {...deleteStyle}
+          />
           <InputNumber
             step={1}
             parser={value => Math.round(value)}
@@ -80,14 +84,17 @@ export default function DefaultCard(props) {
             min={1}
             max={props.card.products[index].quantity}
             defaultValue={props.card.products[index].quantity}
-            onChange={changeQuantity()}
           />
         </>
       );
 
     return [
       <>
-        <ShoppingCartOutlined key="addCard" {...addStyle} />
+        <ShoppingCartOutlined
+          onClick={changeQuantity()}
+          key="addCard"
+          {...addStyle}
+        />
         <InputNumber
           step={1}
           parser={value => Math.round(value)}
@@ -95,7 +102,6 @@ export default function DefaultCard(props) {
           min={1}
           max={props.quantityInStock}
           defaultValue={1}
-          onChange={changeQuantity()}
         />
       </>,
     ];

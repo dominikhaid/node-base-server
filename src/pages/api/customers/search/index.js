@@ -1,6 +1,6 @@
-const db = require('../../../../sequelize/db/db');
+const db = require('@/src/sequelize/db/db');
 const checkReqErrors = require('@/includes/status').checkReqErrors;
-const customers = require('../../../../sequelize/querys/customers');
+const customers = require('@/src/sequelize/querys/customers');
 
 async function auth(db) {
   return db
@@ -10,7 +10,7 @@ async function auth(db) {
     })
     .catch(err => {
       console.log(err);
-      checkReqErrors({msg: 'Server down', err: err}, res);
+      checkReqErrors(err, res);
     });
 }
 
@@ -19,7 +19,7 @@ export default (req, res) => {
     auth(db)
       .then(() => {
         customers.searchOne(req).then(erg => {
-          checkReqErrors({msg: 'Found Users', user: erg}, res);
+          checkReqErrors(erg, res);
         });
       })
       .catch(err => {

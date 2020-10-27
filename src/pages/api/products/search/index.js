@@ -1,6 +1,6 @@
 const db = require('@/src/sequelize/db/db');
 const checkReqErrors = require('@/includes/status').checkReqErrors;
-const customers = require('@/src/sequelize/querys/customers');
+const products = require('@/src/sequelize/querys/products');
 
 async function auth(db) {
   return db
@@ -9,7 +9,6 @@ async function auth(db) {
       return {msg: 'Server alive'};
     })
     .catch(err => {
-      console.log(err);
       checkReqErrors({msg: 'Server down', err: err}, res);
     });
 }
@@ -18,7 +17,7 @@ export default (req, res) => {
   if (req.method === 'GET') {
     auth(db)
       .then(() => {
-        customers.searchOne(req).then(erg => {
+        products.searchOne(req).then(erg => {
           checkReqErrors(erg, res);
         });
       })

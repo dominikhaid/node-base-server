@@ -1,4 +1,4 @@
-import {List} from 'antd';
+import {List, Avatar} from 'antd';
 
 export default function DefaultImgItem(props) {
   if (!process.browser) {

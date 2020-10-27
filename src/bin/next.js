@@ -1,7 +1,7 @@
 const next = require('next');
 const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({ dev });
-const { parse } = require('url');
+const nextApp = next({dev});
+const {parse} = require('url');
 const handle = nextApp.getRequestHandler();
 const multer = require('multer');
 var upload = multer();
@@ -11,23 +11,28 @@ function startServer(server, serverOptions, protocol) {
     .prepare()
     .then(() => {
       server.get('*', upload.none(), (req, res) => {
-        return handle(req, res);
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
       });
 
       server.post('*', upload.none(), (req, res) => {
-        return handle(req, res);
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
       });
 
       server.delete('*', upload.none(), (req, res) => {
-        return handle(req, res);
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
       });
 
       server.patch('*', upload.none(), (req, res) => {
-        return handle(req, res);
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
       });
 
       server.put('*', upload.none(), (req, res) => {
-        return handle(req, res);
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
       });
 
       server.get('/', (req, res) => {
@@ -42,7 +47,7 @@ function startServer(server, serverOptions, protocol) {
 
       console.debug('\nNext.js start at: ' + port);
     })
-    .catch((ex) => {
+    .catch(ex => {
       console.error(ex.stack);
       process.exit(1);
     });

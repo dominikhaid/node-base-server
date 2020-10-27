@@ -8,7 +8,7 @@
 
 ### SQL
 
-- add coloprs to product
+- add colors to product
 - username
 
 ### APP

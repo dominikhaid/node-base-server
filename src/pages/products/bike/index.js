@@ -2,7 +2,7 @@ import React from 'react';
 // import Link from 'next/link';
 import DefaultCardList from '@/components/Lists/DefaultCardList';
 
-export default function Products(props) {
+export default function Bike(props) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
@@ -32,6 +32,7 @@ export default function Products(props) {
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
+// export async function getStaticProps(context) {
 export async function getStaticProps(context) {
   let url = 'http://localhost/api/products';
   const response = await fetch(url, {

@@ -1,13 +1,12 @@
 import React from 'react';
-// import Link from 'next/link';
+import {useRouter} from 'next/router';
 import ProfilForm from '../components/Forms/DefaultProfilForm';
 
 export default function Profil(props) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    //console.debug('Home CLIENT', props);
-  }
+  if (!process.browser) return <></>;
+
+  const router = useRouter();
+  if (process.browser && !props.user) router.push('/login');
 
   const userFromStyle = {
     maxWidth: '400px',
@@ -26,36 +25,31 @@ export default function Profil(props) {
     </React.Fragment>
   );
 }
+
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
-export async function getStaticProps() {
-  // const res = await fetch('https://.../posts');
-  // const posts = await res.json();
+// export async function getStaticProps(context) {
+//   let url = 'http://localhost/api/customers/search/example@exaple.de';
+//   const response = await fetch(url, {
+//     method: 'GET', // *GET, POST, PUT, DELETE, etc.
+//     mode: 'no-cors', // no-cors, *cors, same-origin
+//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+//     credentials: 'same-origin', // include, *same-origin, omit
+//     headers: {
+//       'Content-Type': 'application/json',
+//       // 'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//     redirect: 'follow',
+//     referrerPolicy: 'no-referrer',
+//   });
 
-  return {
-    props: {
-      user: {
-        customerNumber: 103,
-        email: 'example@exaple.de',
-        password: 'dom53361.',
-        userName: 'Carine  Schmitt',
-        customerPhoto:
-          'https://www.dominikhaid.de/wordpress/wp-content/uploads/2020/04/dom-1zu1-sw-mid-768x785.jpg',
-        contactLastName: 'Schmitt',
-        contactFirstName: 'Carine ',
-        phone: '40.32.2555',
-        addressLine1: '54, rue Royale',
-        addressLine2: '',
-        city: 'Nantes',
-        state: '',
-        postalCode: 44000,
-        country: 'France',
-        salesRepEmployeeNumber: 1370,
-        creditLimit: 21000,
-        createdAt: '2020-10-06 23:51:01.216 +00:00',
-        updatedAt: '2020-10-06 23:51:01.216 +00:00',
-      },
-    },
-  };
-}
+//   let data = await response.json(); // parses JSON response into native JavaScript objects
+
+//   return {
+//     props: {
+//       user: data.success ? data.success : false,
+//       // productLine: 'Bikes',
+//     },
+//   };
+// }

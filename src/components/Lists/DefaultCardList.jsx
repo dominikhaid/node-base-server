@@ -9,6 +9,8 @@ export default function DefaultCardList(props) {
   //STATE
   const [loading, setLoading] = useState(false);
 
+  console.log(props);
+
   //STYLE
   const productListStyle = {
     maxWidth: '900px',
@@ -42,11 +44,12 @@ export default function DefaultCardList(props) {
   return (
     <>
       <Spin tip="Login..." spinning={loading} delay={500}>
-        <BorderedH3 title={props.category} />
+        <BorderedH3 title={props.products[0].productLine} />
         <section style={productListStyle}>
-          {props.products.map(field => {
-            return <DefaultCard {...field} card={props.card} />;
-          })}
+          {props.products.length > 0 &&
+            props.products.map(field => {
+              return <DefaultCard {...field} card={props.card} />;
+            })}
         </section>
       </Spin>
     </>

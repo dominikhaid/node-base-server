@@ -6,8 +6,9 @@
       "@/context/*": ["/src/context/*"],
       "@/hooks/*": ["/src/hooks/*"],
       "@/routers/*": ["/src/routers/*"],
-      "@/reducers/*": ["/src/reducers/*"],
-      "@/includes/*": ["/src/includes/*"]
+			"@/reducers/*": ["/src/reducers/*"],
+			"@/includes/*": ["/src/includes/*"],
+			"@/src/*": ["/src/*"]
     },
     "module": "commonjs",
     "target": "es6"

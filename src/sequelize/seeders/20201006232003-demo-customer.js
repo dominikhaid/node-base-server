@@ -7,7 +7,7 @@ const data = [
     customerNumber: '103',
     customerPhoto:
       'https://www.dominikhaid.de/wordpress/wp-content/uploads/2020/04/dom-1zu1-sw-mid-768x785.jpg',
-    customerName: 'Atelier graphique',
+    userName: 'AtelierGraphique',
     contactLastName: 'Schmitt',
     contactFirstName: 'Carine ',
     phone: '40.32.2555',
@@ -26,9 +26,9 @@ const data = [
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    data.forEach(user => {
-      user.customerName = user.contactFirstName + ' ' + user.contactLastName;
-    });
+    // data.forEach(user => {
+    //   user.userName = user.contactFirstName + ' ' + user.contactLastName;
+    // });
 
     return queryInterface.bulkInsert('customers', data, {});
   },

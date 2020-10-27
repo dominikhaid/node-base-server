@@ -25,15 +25,38 @@ import {
   HomeOutlined,
   FlagOutlined,
 } from '@ant-design/icons';
+import error from 'next/error';
 
 export default function ProfilForm(props) {
   //STATE
   const [loading, setLoading] = useState(false);
+  const [tmpUser, setTmpUser] = useState(
+    props.user
+      ? props.user
+      : {
+          customerNumber: false,
+          email: false,
+          password: false,
+          userName: false,
+          customerPhoto: false,
+          contactLastName: false,
+          contactFirstName: false,
+          phone: false,
+          addressLine1: false,
+          addressLine2: false,
+          city: false,
+          state: false,
+          postalCode: false,
+          country: false,
+        },
+  );
+  const [form] = Form.useForm();
+
   const formFieldsUser = [
     {
       formItem: {
-        name: 'username',
-        rules: [{required: true, message: 'Please input your username!'}],
+        name: 'userName',
+        rules: [{required: true, message: 'Please input your userName!'}],
       },
       input: {
         prefix: <UserOutlined />,
@@ -43,7 +66,14 @@ export default function ProfilForm(props) {
     {
       formItem: {
         name: 'password',
-        rules: [{required: true, message: 'Please input your password!'}],
+        rules: [
+          {required: true, message: 'Please input your password!'},
+          {
+            pattern: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
+            message:
+              'Password must contain 1 uppercase 1 lowercase and 1 number and the length must be between 8-16 characters',
+          },
+        ],
       },
       input: {
         type: 'password',
@@ -80,10 +110,11 @@ export default function ProfilForm(props) {
     },
   ];
   //DATA
+
   const formFieldsContact = [
     {
       formItem: {
-        name: 'firstname',
+        name: 'contactFirstName',
         rules: [{required: true, message: 'Please input your first name!'}],
       },
       input: {
@@ -93,7 +124,7 @@ export default function ProfilForm(props) {
     },
     {
       formItem: {
-        name: 'lastname',
+        name: 'contactLastName',
         rules: [{required: true, message: 'Please input your family name!'}],
       },
       input: {
@@ -124,15 +155,30 @@ export default function ProfilForm(props) {
       formItem: {
         name: 'phone',
         label: 'Phone Number',
-        rules: [{required: true, message: 'Please input your phone number!'}],
+        dependencies: ['prefix_phone'],
+        rules: [
+          {
+            required: true,
+            message: 'Please input your phone number!',
+          },
+          ({getFieldValue}) => ({
+            validator(rule, value) {
+              return /(\+\d{1})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s-.]?\d{4}/gm.test(
+                getFieldValue('prefix_phone') + value,
+              )
+                ? Promise.resolve()
+                : Promise.reject('The phone number is not valid!');
+            },
+          }),
+        ],
       },
       input: {
         addonBefore: (
-          <Form.Item name="prefix" noStyle>
-            <Select defaultValue="49" style={{width: 70}}>
-              <Option value="43">+43</Option>
-              <Option value="41">+41</Option>
-              <Option value="49">+49</Option>
+          <Form.Item name="prefix_phone" noStyle>
+            <Select style={{width: 70}}>
+              <Option value="+43">+43</Option>
+              <Option value="+41">+41</Option>
+              <Option value="+49">+49</Option>
             </Select>
           </Form.Item>
         ),
@@ -145,7 +191,7 @@ export default function ProfilForm(props) {
   const formFieldsAddress = [
     {
       formItem: {
-        name: 'adress1',
+        name: 'addressLine1',
         rules: [{required: true, message: 'Please input your adress!'}],
       },
       input: {
@@ -154,7 +200,7 @@ export default function ProfilForm(props) {
       },
     },
     {
-      formItem: {name: 'adress2'},
+      formItem: {name: 'addressLine2'},
       input: {
         prefix: <PushpinOutlined />,
         placeholder: 'Address',
@@ -192,12 +238,12 @@ export default function ProfilForm(props) {
     },
     {
       formItem: {
-        name: 'postalcode',
+        name: 'postalCode',
         rules: [{required: true, message: 'Please input your zip code!'}],
       },
       input: {
         prefix: <HomeOutlined />,
-        placeholder: 'Postalcode',
+        placeholder: 'postalCode',
       },
     },
     {
@@ -218,31 +264,32 @@ export default function ProfilForm(props) {
   ];
 
   const initialValues = {
-    username: props.user && props.user.userName ? props.user.userName : '',
+    userName: props.user && props.user.userName ? props.user.userName : '',
     password: props.user && props.user.password ? props.user.password : '',
     password_repeat:
       props.user && props.user.password_repeat
         ? props.user.password_repeat
         : '',
-    firstname:
+    contactFirstName:
       props.user && props.user.contactFirstName
         ? props.user.contactFirstName
         : '',
-    lastname:
+    contactLastName:
       props.user && props.user.contactLastName
         ? props.user.contactLastName
         : '',
     email: props.user && props.user.email ? props.user.email : '',
     phone: props.user && props.user.phone ? props.user.phone : '',
-    adress1:
+    addressLine1:
       props.user && props.user.addressLine1 ? props.user.addressLine1 : '',
-    adress2:
+    addressLine2:
       props.user && props.user.addressLine2 ? props.user.addressLine2 : '',
     city: props.user && props.user.city ? props.user.city : '',
     state: props.user && props.user.state ? props.user.state : '',
-    postalcode:
+    postalCode:
       props.user && props.user.postalCode ? props.user.postalCode : '',
     country: props.user && props.user.country ? props.user.country : '',
+    prefix_phone: '+49',
   };
   //STYLES
   const layout = {
@@ -250,18 +297,65 @@ export default function ProfilForm(props) {
     wrapperCol: {span: 24},
   };
 
+  async function registerUser(newUser, path) {
+    async function createUser(newUser) {
+      let url = `http://localhost/api/customers/${newUser.email}`;
+      const data = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'no-cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: new URLSearchParams(newUser),
+      })
+        .then(data => {
+          return data.json();
+        })
+        .catch(error => {
+          console.log(error);
+          return error;
+        });
+      return data;
+    }
+
+    let data = await createUser(newUser, path);
+
+    const updateContext = user => {
+      props.updateState({user: user});
+      if (path) router.push(path);
+      return false;
+    };
+
+    if (data.success) updateContext(data.success);
+    errorMsg(data.error.msg);
+    return false;
+  }
+
   //HANDLER
-  const errorMsg = () => {
+  const errorMsg = msg => {
     message.error({
-      content: 'from could not be validated.',
+      content: msg ? msg : 'from could not be validated.',
       className: 'ant-messages',
       style: {
         marginTop: '20vh',
       },
     });
   };
+
   const onFinish = values => {
     console.log('Success:', values);
+    delete values.password_repeat;
+    values.phone = values.prefix_phone + values.phone;
+    delete values.prefix_phone;
+    let dataImg = values.customerPhotoData;
+    delete values.customerPhotoData;
+
+    registerUser(values);
   };
 
   const onFinishFailed = errorInfo => {
@@ -274,10 +368,9 @@ export default function ProfilForm(props) {
       <Spin tip="Saving..." spinning={loading} delay={500}>
         <BorderedH3 title={'Register'} />
         <Form
+          form={form}
           user={
-            props.user && props.user.customerNumber
-              ? props.user.customerNumber
-              : null
+            tmpUser && tmpUser.customerNumber ? tmpUser.customerNumber : null
           }
           {...layout}
           scrollToFirstError={true}
@@ -287,7 +380,8 @@ export default function ProfilForm(props) {
           onFinishFailed={onFinishFailed}
         >
           <DefaultDragger
-            user={props.user}
+            user={tmpUser}
+            form={form}
             style={{size: '250px'}}
             upload={{
               action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',

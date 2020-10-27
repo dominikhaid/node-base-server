@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultImgList from '@/components/Elements/Lists/DefaultImgList';
-
 import {message, Spin} from 'antd';
-// import {LockOutlined, UserOutlined} from '@ant-design/icons';
 
 export default function DefaultShoppingList(props) {
-  //STATE
   const [loading, setLoading] = useState(false);
 
-  //STYLE
   const productListStyle = {
     maxWidth: '900px',
     display: 'flex',
@@ -18,7 +14,6 @@ export default function DefaultShoppingList(props) {
     margin: 'auto',
     marginTop: '3rem',
   };
-  //HANLDER
 
   const errorMsg = () => {
     message.error({

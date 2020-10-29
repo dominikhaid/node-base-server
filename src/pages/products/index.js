@@ -1,14 +1,14 @@
 import React from 'react';
 // import Link from 'next/link';
 import DefaultCardList from '@/components/Lists/DefaultCardList';
-
-export default function Products(props) {
+import {useRouter} from 'next/router';
+export default function Products({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
-    console.debug('PRODUCTS CLIENT', props);
+    // console.debug('PRODUCTS CLIENT', props);
   }
-
+  const router = useRouter();
   const mainCon = {
     maxWidth: '900px',
     display: 'flex',
@@ -21,10 +21,16 @@ export default function Products(props) {
     padding: '2rem',
   };
 
+  if (
+    (process.browser && !appState.products) ||
+    (process.browser && appState.products.length < 1)
+  )
+    router.push('/505');
+
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultCardList {...props} />
+        <DefaultCardList {...appState} />
       </div>
     </React.Fragment>
   );

@@ -56,8 +56,35 @@ async function searchOne(req) {
 
 module.exports.searchOne = searchOne;
 
+async function emailLogin(req) {
+  let [queryFields, bodyFields] = req.xssFilter(['email', 'password']);
+
+  let erg = await Customer.findOne({
+    where: {
+      email:
+        queryFields && queryFields.email ? queryFields.email : bodyFields.email,
+      password:
+        queryFields && queryFields.password
+          ? queryFields.password
+          : bodyFields.password,
+    },
+  })
+    .then(customer => {
+      if (customer) return customer.dataValues;
+      return {
+        error: 404,
+        msg: 'No matching user found, please check your inputs!',
+      };
+    })
+    .catch(() => {
+      return {error: 500, msg: err};
+    });
+  return erg;
+}
+
+module.exports.emailLogin = emailLogin;
+
 async function createOne(req) {
-  console.log(req.body, req.query);
   let [queryFields, bodyFields] = req.xssFilter([
     'customerNumber',
     'email',
@@ -74,7 +101,7 @@ async function createOne(req) {
     'postalCode',
     'country',
   ]);
-  console.log(queryFields, bodyFields);
+
   let erg = await Customer.findOrCreate({
     where: {
       email:
@@ -118,10 +145,20 @@ module.exports.deleteOne = deleteOne;
 
 async function updateOne(req) {
   let [queryFields, bodyFields] = req.xssFilter([
-    'name',
-    'lastname',
-    'firstname',
+    'customerNumber',
     'email',
+    'password',
+    'userName',
+    'customerPhoto',
+    'contactLastName',
+    'contactFirstName',
+    'phone',
+    'addressLine1',
+    'addressLine2',
+    'city',
+    'state',
+    'postalCode',
+    'country',
     'new_email',
   ]);
 
@@ -129,7 +166,7 @@ async function updateOne(req) {
     ? JSON.parse(JSON.stringify(bodyFields))
     : JSON.parse(JSON.stringify(queryFields));
 
-  update.email = update.new_email;
+  if (update.new_email) update.email = update.new_email;
   delete update.new_email;
 
   let erg = await Customer.update(update, {
@@ -139,8 +176,7 @@ async function updateOne(req) {
     },
   })
     .then(customer => {
-      if (customer[0] === 1)
-        return {msg: 'Customer updated', Customer: req.body};
+      if (customer[0] === 1) return {msg: 'Customer updated', result: update};
       return {error: 404, msg: 'Customer not found'};
     })
     .catch(err => {

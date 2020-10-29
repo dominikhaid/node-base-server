@@ -2,7 +2,7 @@ import React from 'react';
 // import Link from 'next/link';
 import RegisterForm from '../components/Forms/DefaultRegisterForm';
 
-export default function Register(props) {
+export default function Register({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
@@ -21,7 +21,7 @@ export default function Register(props) {
   return (
     <React.Fragment>
       <div style={userFromStyle}>
-        <RegisterForm user={props.user} updateState={props.updateState} />
+        <RegisterForm user={appState.user} updateState={appState.updateState} />
       </div>
     </React.Fragment>
   );

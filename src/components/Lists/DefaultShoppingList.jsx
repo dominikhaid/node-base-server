@@ -17,11 +17,7 @@ export default function DefaultShoppingList(props) {
 
   const errorMsg = () => {
     message.error({
-      content: 'from could not be validated.',
-      className: 'ant-messages',
-      style: {
-        marginTop: '20vh',
-      },
+      content: 'From could not be validated!',
     });
   };
 

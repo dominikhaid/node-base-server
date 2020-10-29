@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultShoppingList from '@/components/Lists/DefaultShoppingList';
 
-export default function Card(props) {
+export default function Card({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
@@ -23,7 +23,7 @@ export default function Card(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultShoppingList {...props} updateCard={props.updateCard} />
+        <DefaultShoppingList {...appState} updateCard={appState.updateCard} />
       </div>
     </React.Fragment>
   );

@@ -2,11 +2,11 @@ import React from 'react';
 import {useRouter} from 'next/router';
 import ProfilForm from '../components/Forms/DefaultProfilForm';
 
-export default function Profil(props) {
+export default function Profil({appState}) {
   if (!process.browser) return <></>;
 
   const router = useRouter();
-  if (process.browser && !props.user) router.push('/login');
+  if (process.browser && !appState.user) router.push('/login');
 
   const userFromStyle = {
     maxWidth: '400px',
@@ -20,7 +20,7 @@ export default function Profil(props) {
   return (
     <React.Fragment>
       <div style={userFromStyle}>
-        <ProfilForm user={props.user} />
+        <ProfilForm user={appState.user} updateState={appState.updateState} />
       </div>
     </React.Fragment>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import LoginForm from '@/components/Forms/DefaultLoginFrom';
 
-export default function Login(props) {
+export default function Login({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
@@ -24,7 +24,7 @@ export default function Login(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <LoginForm user={props.user} updateState={props.updateState} />
+        <LoginForm user={appState.user} updateState={appState.updateState} />
       </div>
     </React.Fragment>
   );

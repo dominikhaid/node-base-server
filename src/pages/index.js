@@ -1,11 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import {Button} from 'antd';
 
-export default function Index(props) {
+export default function Index({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
-    console.debug('Home CLIENT', props);
+    console.debug('Home CLIENT', appState);
   }
 
   return (

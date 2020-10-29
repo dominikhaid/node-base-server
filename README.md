@@ -9,7 +9,7 @@
 ### SQL
 
 - add colors to product
-- username
+
 
 ### APP
 
@@ -38,17 +38,13 @@
 
 ## Register
 
-- Save
 - Cancel
 - Upload Endpoint
 
 ### List
 
-- Trash function
-- Add Function
-- Messages
 - Select Color
-- Add Count
+
 
 ### Product
 
@@ -59,7 +55,4 @@
 
 ### Card
 
-- show card
-- add and remove
 - buy
-- redirect

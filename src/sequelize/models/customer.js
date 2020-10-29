@@ -38,7 +38,7 @@ const Fields = {
   password: {
     type: DataTypes.STRING(16),
     allowNull: false,
-    unique: true,
+    unique: false,
     comment: 'User Password',
     validate: {
       is: {

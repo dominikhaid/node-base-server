@@ -1,5 +1,6 @@
 import React from 'react';
 import {Layout} from 'antd';
+import {message} from 'antd';
 
 import '../antd/antd.less';
 
@@ -25,6 +26,14 @@ export default function MyApp({Component, pageProps}) {
   }
 
   const {Header, Content, Footer} = Layout;
+
+  message.config({
+    top: '20vh',
+    duration: 2,
+    maxCount: 3,
+    rtl: false,
+    prefixCls: 'ant-message',
+  });
 
   const contentStyle = {
     width: '100%',
@@ -80,7 +89,7 @@ export default function MyApp({Component, pageProps}) {
                   <DefaultHeader {...appState} />
                 </Header>
                 <Content style={contentStyle}>
-                  <Component {...appState} />
+                  <Component appState={appState} />
                 </Content>
                 <Footer>
                   <DefaultFooter style={{textAlign: 'center'}} {...appState} />

@@ -28,11 +28,7 @@ export default function DefaultCardList(props) {
 
   const errorMsg = () => {
     message.error({
-      content: 'from could not be validated.',
-      className: 'ant-messages',
-      style: {
-        marginTop: '20vh',
-      },
+      content: 'fFrom could not be validated!',
     });
   };
 
@@ -48,7 +44,9 @@ export default function DefaultCardList(props) {
   return (
     <>
       <Spin tip="Login..." spinning={loading} delay={500}>
-        <BorderedH3 title={props.products[0].productLine} />
+        <BorderedH3
+          title={props.products.length > 0 ? props.products[0].productLine : ''}
+        />
         <section style={productListStyle}>
           {props.products.length > 0 &&
             props.products.map(field => {

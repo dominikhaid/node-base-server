@@ -5,7 +5,7 @@ import AuthProvider from '@/components/Auth/AuthListSmall';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import {useRouter} from 'next/router';
 
-import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import {LockOutlined, MailOutlined} from '@ant-design/icons';
 
 export default function LoginForm(props) {
   if (!process.browser) return <></>;
@@ -15,12 +15,21 @@ export default function LoginForm(props) {
   const formFields = [
     {
       formItem: {
-        name: 'userName',
-        rules: [{required: true, message: 'Please input your username!'}],
+        name: 'email',
+        rules: [
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail!',
+          },
+        ],
       },
       input: {
-        prefix: <UserOutlined />,
-        placeholder: 'User Name',
+        prefix: <MailOutlined />,
+        placeholder: 'E-Mail',
       },
     },
     {
@@ -47,7 +56,7 @@ export default function LoginForm(props) {
   ];
 
   const initialValues = {
-    userName: props.user && props.user.userName ? props.user.userName : '',
+    userName: props.user && props.user.email ? props.user.email : '',
     login: false,
     password: props.user && props.user.password ? props.user.password : '',
   };
@@ -58,30 +67,39 @@ export default function LoginForm(props) {
 
   const router = useRouter();
 
-  const errorMsg = () => {
+  const errorMsg = msg => {
     message.error({
-      content: 'from could not be validated.',
-      className: 'ant-messages',
-      style: {
-        marginTop: '20vh',
-      },
+      content: msg ? msg : 'From could not be validated!',
     });
   };
 
-  async function loginAndValidate(email, path) {
-    async function getUser(email) {
-      let url = `http://localhost/api/customers/search/${email}`;
+  const loadingMsg = msg => {
+    message.loading({
+      content: msg ? msg : 'Sending Data!',
+    });
+  };
+
+  const succesMsg = msg => {
+    message.success({
+      content: msg ? msg : 'Sending Data!',
+    });
+  };
+
+  async function loginAndValidate(values, path) {
+    async function getUser(values) {
+      let url = `http://localhost/api/customers/login/plain`;
       const data = await fetch(url, {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'no-cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
+        body: new URLSearchParams(values),
       })
         .then(data => {
           return data.json();
@@ -92,27 +110,26 @@ export default function LoginForm(props) {
       return data;
     }
 
-    let data = await getUser(email, path);
+    let data = await getUser(values, path);
 
     const updateContext = user => {
+      succesMsg('Successfully logged in!');
       props.updateState({user: user});
       if (path) router.push(path);
-      return false;
     };
-
+    message.destroy();
     if (data.success) updateContext(data.success);
+    if (data.error) errorMsg(data.error.msg);
     return false;
   }
 
   async function onFinish(values) {
-    console.log('Success:', values);
-    //login with username and password return tokken
-    loginAndValidate('example@exaple.de', '/profil');
+    loadingMsg('Verifying login!');
+    loginAndValidate(values, '/profil');
   }
 
   const onFinishFailed = errorInfo => {
-    errorMsg();
-    // console.log('Failed:', errorInfo);
+    errorMsg('Form could not be submitted');
   };
 
   if (process.browser && loading)

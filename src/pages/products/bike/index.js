@@ -2,7 +2,7 @@ import React from 'react';
 // import Link from 'next/link';
 import DefaultCardList from '@/components/Lists/DefaultCardList';
 
-export default function Bike(props) {
+export default function Bike({appState}) {
   if (!process.browser) {
     //console.debug('Home SERVER');
   } else {
@@ -24,7 +24,7 @@ export default function Bike(props) {
   return (
     <React.Fragment>
       <div style={mainCon}>
-        <DefaultCardList {...props} />
+        <DefaultCardList {...appState} />
       </div>
     </React.Fragment>
   );

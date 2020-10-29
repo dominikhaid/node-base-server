@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultDragger from '@/components/Elements/Uploads/DefaultDragger';
+import {useRouter} from 'next/router';
 
 import {
   Space,
@@ -14,6 +15,7 @@ import {
   Select,
   Button,
 } from 'antd';
+
 const {Panel} = Collapse;
 const {Option} = Select;
 
@@ -25,7 +27,6 @@ import {
   HomeOutlined,
   FlagOutlined,
 } from '@ant-design/icons';
-import error from 'next/error';
 
 export default function ProfilForm(props) {
   //STATE
@@ -51,7 +52,7 @@ export default function ProfilForm(props) {
         },
   );
   const [form] = Form.useForm();
-
+  const router = useRouter();
   const formFieldsUser = [
     {
       formItem: {
@@ -263,33 +264,35 @@ export default function ProfilForm(props) {
     },
   ];
 
-  const initialValues = {
-    userName: props.user && props.user.userName ? props.user.userName : '',
-    password: props.user && props.user.password ? props.user.password : '',
-    password_repeat:
-      props.user && props.user.password_repeat
-        ? props.user.password_repeat
-        : '',
-    contactFirstName:
-      props.user && props.user.contactFirstName
-        ? props.user.contactFirstName
-        : '',
-    contactLastName:
-      props.user && props.user.contactLastName
-        ? props.user.contactLastName
-        : '',
-    email: props.user && props.user.email ? props.user.email : '',
-    phone: props.user && props.user.phone ? props.user.phone : '',
-    addressLine1:
-      props.user && props.user.addressLine1 ? props.user.addressLine1 : '',
-    addressLine2:
-      props.user && props.user.addressLine2 ? props.user.addressLine2 : '',
-    city: props.user && props.user.city ? props.user.city : '',
-    state: props.user && props.user.state ? props.user.state : '',
-    postalCode:
-      props.user && props.user.postalCode ? props.user.postalCode : '',
-    country: props.user && props.user.country ? props.user.country : '',
-    prefix_phone: '+49',
+  const initialValues = () => {
+    return {
+      userName: props.user && props.user.userName ? props.user.userName : '',
+      password: props.user && props.user.password ? props.user.password : '',
+      password_repeat:
+        props.user && props.user.password_repeat
+          ? props.user.password_repeat
+          : '',
+      contactFirstName:
+        props.user && props.user.contactFirstName
+          ? props.user.contactFirstName
+          : '',
+      contactLastName:
+        props.user && props.user.contactLastName
+          ? props.user.contactLastName
+          : '',
+      email: props.user && props.user.email ? props.user.email : '',
+      phone: props.user && props.user.phone ? props.user.phone : '',
+      addressLine1:
+        props.user && props.user.addressLine1 ? props.user.addressLine1 : '',
+      addressLine2:
+        props.user && props.user.addressLine2 ? props.user.addressLine2 : '',
+      city: props.user && props.user.city ? props.user.city : '',
+      state: props.user && props.user.state ? props.user.state : '',
+      postalCode:
+        props.user && props.user.postalCode ? props.user.postalCode : '',
+      country: props.user && props.user.country ? props.user.country : '',
+      prefix_phone: '+49',
+    };
   };
   //STYLES
   const layout = {
@@ -317,50 +320,60 @@ export default function ProfilForm(props) {
           return data.json();
         })
         .catch(error => {
-          console.log(error);
           return error;
         });
       return data;
     }
 
     let data = await createUser(newUser, path);
-
+    message.destroy();
     const updateContext = user => {
+      succesMsg('Registration successfull!');
       props.updateState({user: user});
       if (path) router.push(path);
-      return false;
     };
 
     if (data.success) updateContext(data.success);
-    errorMsg(data.error.msg);
+    if (data.error)
+      errorMsg(
+        data.error.msg.errors
+          ? data.error.msg.errors[0].message
+          : data.error.msg,
+      );
     return false;
   }
 
   //HANDLER
   const errorMsg = msg => {
     message.error({
-      content: msg ? msg : 'from could not be validated.',
-      className: 'ant-messages',
-      style: {
-        marginTop: '20vh',
-      },
+      content: msg ? msg : 'From could not be validated!',
     });
   };
 
+  const loadingMsg = msg => {
+    message.loading({
+      content: msg ? msg : 'Sending Data!',
+    });
+  };
+
+  const succesMsg = msg => {
+    message.success({
+      content: msg ? msg : 'Sending Data!',
+    });
+  };
   const onFinish = values => {
-    console.log('Success:', values);
     delete values.password_repeat;
-    values.phone = values.prefix_phone + values.phone;
+    if (!values.phone.test(/^\+\d\d/))
+      values.phone = values.prefix_phone + values.phone;
     delete values.prefix_phone;
     let dataImg = values.customerPhotoData;
     delete values.customerPhotoData;
-
-    registerUser(values);
+    loadingMsg('Sending Data!');
+    registerUser(values, '/');
   };
 
   const onFinishFailed = errorInfo => {
-    // console.log('Failed:', errorInfo);
-    errorMsg();
+    errorMsg('From could not be validated!');
   };
 
   return (
@@ -375,7 +388,7 @@ export default function ProfilForm(props) {
           {...layout}
           scrollToFirstError={true}
           name="register"
-          initialValues={initialValues}
+          initialValues={initialValues()}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
@@ -413,8 +426,14 @@ export default function ProfilForm(props) {
             <Button type="primary" htmlType="submit">
               Save
             </Button>
-            <Button type="secondary" htmlType="submit">
-              Cancel
+            <Button
+              type="secondary"
+              onClick={() => {
+                console.log(props.user);
+                form.setFieldsValue(initialValues());
+              }}
+            >
+              Reset
             </Button>
           </Space>
         </Form>

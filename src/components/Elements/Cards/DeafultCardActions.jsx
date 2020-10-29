@@ -60,7 +60,7 @@ export default function CardActions(props) {
               visible: false,
               locked: false,
             });
-            message.success('Product added to card');
+            message.success({content: 'Product added to card'});
           }}
           onCancel={() => {
             setPopup({
@@ -115,7 +115,7 @@ export default function CardActions(props) {
           setPopup({
             visible: false,
           });
-          message.success('Product removed');
+          message.success({content: 'Product removed'});
         }}
         onCancel={() => {
           let uptProducts = JSON.parse(JSON.stringify(cardItem));

@@ -10,10 +10,16 @@
 	color: @primary-color;
 }
 
-.ant-messages>div {
-	background: rgba(225, 225, 230, 0.6);
-	padding: 2rem;
 
+.ant-message .ant-message-notice-content {
+	padding: 3rem;
+	border-radius: 6px;
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.ant-message .anticon {
+font-size: 1.2rem;
 }
 
 .ant-hidden {
@@ -39,4 +45,12 @@ border: 1px solid rgba(120, 120, 120, 0.2);
 
 .ant-layout-content > div {
 		background: #ffffff;
+}
+
+.ant-layout.layout {
+	grid-template-rows: auto minmax(200px, 1fr) auto;
+	min-height: 100vh;
+	max-height: 100vh;
+	position: relative;
+	overflow: hidden;
 }

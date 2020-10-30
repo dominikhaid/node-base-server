@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultEditList from '@/components/Elements/Lists/DefaultEditList';
-import {message, Spin} from 'antd';
+import {message} from 'antd';
+import styled from 'styled-components';
 
 export default function DefaultShoppingList(props) {
-  const [loading, setLoading] = useState(false);
-
-  const productListStyle = {
-    maxWidth: '900px',
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    margin: 'auto',
-    marginTop: '3rem',
-  };
+  const StyledCardList = styled.section`
+    display: flex;
+    max-width: 900px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 3rem;
+  `;
 
   const errorMsg = () => {
     message.error({
@@ -32,20 +31,19 @@ export default function DefaultShoppingList(props) {
 
   return (
     <>
-      <Spin tip="Login..." spinning={loading} delay={500}>
-        <BorderedH3
-          title={
-            props.user &&
-            props.user.contactFirstName &&
-            props.user.contactLastName
-              ? `Shopping Card of ${props.user.contactFirstName} ${props.user.contactLastName}`
-              : 'Shopping Card'
-          }
-        />
-        <section style={productListStyle}>
-          <DefaultEditList card={props.card} updateCard={props.updateCard} />
-        </section>
-      </Spin>
+      <BorderedH3
+        title={
+          props.user &&
+          props.user.contactFirstName &&
+          props.user.contactLastName
+            ? `Shopping Card of ${props.user.contactFirstName} ${props.user.contactLastName}`
+            : 'Shopping Card'
+        }
+        style={{minWidth: '100%'}}
+      />
+      <StyledCardList>
+        <DefaultEditList card={props.card} updateCard={props.updateCard} />
+      </StyledCardList>
     </>
   );
 }

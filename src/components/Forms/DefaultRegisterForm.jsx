@@ -4,17 +4,8 @@ import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultDragger from '@/components/Elements/Uploads/DefaultDragger';
 import {useRouter} from 'next/router';
-
-import {
-  Space,
-  message,
-  Spin,
-  Form,
-  Divider,
-  Collapse,
-  Select,
-  Button,
-} from 'antd';
+import styled from 'styled-components';
+import {Space, message, Form, Divider, Collapse, Select, Button} from 'antd';
 
 const {Panel} = Collapse;
 const {Option} = Select;
@@ -299,6 +290,14 @@ export default function ProfilForm(props) {
     labelCol: {span: 0},
     wrapperCol: {span: 24},
   };
+  const StyledRegisterForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
 
   async function registerUser(newUser, path) {
     async function createUser(newUser) {
@@ -332,6 +331,7 @@ export default function ProfilForm(props) {
       props.updateState({user: user});
       if (path) router.push(path);
     };
+    console.log(data);
 
     if (data.success) updateContext(data.success);
     if (data.error)
@@ -343,7 +343,6 @@ export default function ProfilForm(props) {
     return false;
   }
 
-  //HANDLER
   const errorMsg = msg => {
     message.error({
       content: msg ? msg : 'From could not be validated!',
@@ -361,10 +360,11 @@ export default function ProfilForm(props) {
       content: msg ? msg : 'Sending Data!',
     });
   };
+
   const onFinish = values => {
-    delete values.password_repeat;
-    if (!values.phone.test(/^\+\d\d/))
+    if (values.phone && !new RegExp(/^\+\d\d/).test(values.phone))
       values.phone = values.prefix_phone + values.phone;
+
     delete values.prefix_phone;
     let dataImg = values.customerPhotoData;
     delete values.customerPhotoData;
@@ -378,66 +378,61 @@ export default function ProfilForm(props) {
 
   return (
     <>
-      <Spin tip="Saving..." spinning={loading} delay={500}>
+      <StyledRegisterForm
+        form={form}
+        user={tmpUser && tmpUser.customerNumber ? tmpUser.customerNumber : null}
+        {...layout}
+        scrollToFirstError={true}
+        name="register"
+        initialValues={initialValues()}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <BorderedH3 title={'Register'} />
-        <Form
+        <DefaultDragger
+          user={tmpUser}
           form={form}
-          user={
-            tmpUser && tmpUser.customerNumber ? tmpUser.customerNumber : null
-          }
-          {...layout}
-          scrollToFirstError={true}
-          name="register"
-          initialValues={initialValues()}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          <DefaultDragger
-            user={tmpUser}
-            form={form}
-            style={{size: '250px'}}
-            upload={{
-              action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-              multiple: false,
-              showUploadList: true,
-              name: 'files',
-              accept: '.jpg,.png',
+          style={{size: '250px'}}
+          upload={{
+            action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+            multiple: false,
+            showUploadList: true,
+            name: 'files',
+            accept: '.jpg,.png',
+          }}
+        />
+        <Divider className={'ant-primary'} plain></Divider>
+        {formFieldsUser.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain>
+          Contact Info
+        </Divider>
+        {formFieldsContact.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain>
+          Address Info
+        </Divider>
+        {formFieldsAddress.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain></Divider>
+        <Space size={'large'}>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+          <Button
+            type="secondary"
+            onClick={() => {
+              console.log(props.user);
+              form.setFieldsValue(initialValues());
             }}
-          />
-
-          <Divider className={'ant-primary'} plain></Divider>
-          {formFieldsUser.map(field => {
-            return <DefaultInput {...field} />;
-          })}
-          <Divider className={'ant-primary'} plain>
-            Contact Info
-          </Divider>
-          {formFieldsContact.map(field => {
-            return <DefaultInput {...field} />;
-          })}
-          <Divider className={'ant-primary'} plain>
-            Address Info
-          </Divider>
-          {formFieldsAddress.map(field => {
-            return <DefaultInput {...field} />;
-          })}
-          <Divider className={'ant-primary'} plain></Divider>
-          <Space size={'large'}>
-            <Button type="primary" htmlType="submit">
-              Save
-            </Button>
-            <Button
-              type="secondary"
-              onClick={() => {
-                console.log(props.user);
-                form.setFieldsValue(initialValues());
-              }}
-            >
-              Reset
-            </Button>
-          </Space>
-        </Form>
-      </Spin>
+          >
+            Reset
+          </Button>
+        </Space>
+      </StyledRegisterForm>
     </>
   );
 }

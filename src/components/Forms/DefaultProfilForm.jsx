@@ -4,16 +4,9 @@ import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 import {useRouter} from 'next/router';
-import {
-  Space,
-  message,
-  Spin,
-  Form,
-  Divider,
-  Collapse,
-  Select,
-  Button,
-} from 'antd';
+import {Space, message, Form, Divider, Collapse, Select, Button} from 'antd';
+import styled from 'styled-components';
+
 const {Panel} = Collapse;
 const {Option} = Select;
 
@@ -86,6 +79,16 @@ export default function ProfilForm(props) {
       },
     },
   ];
+
+  const StyledProfilForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
+
   const router = useRouter();
   const [form] = Form.useForm();
   //DATA
@@ -358,7 +361,7 @@ export default function ProfilForm(props) {
 
   const onFinish = values => {
     delete values.password_repeat;
-    if (!values.phone.test(/^\+\d\d/))
+    if (values.phone && !new RegExp(/^\+\d\d/).test(values.phone))
       values.phone = values.prefix_phone + values.phone;
     delete values.prefix_phone;
     let dataImg = values.customerPhotoData;
@@ -374,7 +377,20 @@ export default function ProfilForm(props) {
 
   return (
     <>
-      <Spin tip="Saving..." spinning={loading} delay={500}>
+      <StyledProfilForm
+        user={
+          props.user && props.user.customerNumber
+            ? props.user.customerNumber
+            : null
+        }
+        form={form}
+        {...layout}
+        scrollToFirstError={true}
+        name="profil"
+        initialValues={initialValues()}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <BorderedH3
           title={
             props.user &&
@@ -384,63 +400,48 @@ export default function ProfilForm(props) {
               : 'Profil'
           }
         />
-        <Form
-          user={
-            props.user && props.user.customerNumber
-              ? props.user.customerNumber
+        <DefaultAvatar
+          src={
+            props.user && props.user.customerPhoto
+              ? props.user.customerPhoto
               : null
           }
-          form={form}
-          {...layout}
-          scrollToFirstError={true}
-          name="profil"
-          initialValues={initialValues()}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          <DefaultAvatar
-            src={
-              props.user && props.user.customerPhoto
-                ? props.user.customerPhoto
-                : null
-            }
-          />
-          <Divider className={'ant-primary'} plain></Divider>
-          {formFieldsUser.map(field => {
-            return <DefaultInput {...field} />;
-          })}
-          <Divider className={'ant-primary'} plain>
-            Contact Info
-          </Divider>
+        />
+        <Divider className={'ant-primary'} plain></Divider>
+        {formFieldsUser.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain>
+          Contact Info
+        </Divider>
 
-          {formFieldsContact.map(field => {
-            return <DefaultInput {...field} />;
-          })}
-          <Divider className={'ant-primary'} plain>
-            Address Info
-          </Divider>
-          {formFieldsAddress.map(field => {
-            return <DefaultInput {...field} />;
-          })}
+        {formFieldsContact.map(field => {
+          return <DefaultInput {...field} />;
+        })}
+        <Divider className={'ant-primary'} plain>
+          Address Info
+        </Divider>
+        {formFieldsAddress.map(field => {
+          return <DefaultInput {...field} />;
+        })}
 
-          <Divider className={'ant-primary'} plain></Divider>
+        <Divider className={'ant-primary'} plain></Divider>
 
-          <Space size={'large'}>
-            <Button type="primary" htmlType="submit">
-              Save
-            </Button>
-            <Button
-              type="secondary"
-              onClick={() => {
-                console.log(props.user);
-                form.setFieldsValue(initialValues());
-              }}
-            >
-              Reset
-            </Button>
-          </Space>
-        </Form>
-      </Spin>
+        <Space size={'large'}>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+          <Button
+            type="secondary"
+            onClick={() => {
+              console.log(props.user);
+              form.setFieldsValue(initialValues());
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </StyledProfilForm>
     </>
   );
 }

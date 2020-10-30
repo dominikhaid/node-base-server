@@ -3,12 +3,6 @@ import Link from 'next/link';
 import {Menu} from 'antd';
 
 export default function DefaultTopBar(props) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    console.debug('Home CLIENT', props);
-  }
-
   return (
     <React.Fragment>
       <nav id="topNav">

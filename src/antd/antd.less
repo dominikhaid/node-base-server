@@ -1,7 +1,8 @@
 @import '~antd/lib/style/index.less';
 // @import "../lib/style/dark.less";
+@import 'component.less';
+@import 'default.less';
 
-@import './component.less';
 @font-family: -apple-system, BlinkMacSystemFont, 'Maven Pro', 'Segoe UI', Roboto,
 	'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
 	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -34,23 +35,7 @@ display: none !important;
 	background: #f9f9f9;
 }
 
-.ant-layout-content {
-background: rgba(255, 255, 255, 0.4);
-border: 1px solid rgba(120, 120, 120, 0.2);
-}
 
-.ant-layout-footer {
-	background: #001529;
-}
 
-.ant-layout-content > div {
-		background: #ffffff;
-}
 
-.ant-layout.layout {
-	grid-template-rows: auto minmax(200px, 1fr) auto;
-	min-height: 100vh;
-	max-height: 100vh;
-	position: relative;
-	overflow: hidden;
-}
+

@@ -1,33 +1,28 @@
 import React, {useState,useEffect} from 'react';
-import {Form, Upload, message,  Spin, Input} from 'antd';
+import {Form, Upload, message, Input} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
-
+import styled from 'styled-components';
 
 export default function DefaultDragger(props) {
-	if (!process.browser) {
-		//console.debug('Home SERVER');
-	} else {
-		// console.debug('Home CLIENT', props);
-	}
 
 	if (!props) return <></>;
 
-	//STYLE
-	const draggerStyle = {
-		style: {
-			maxWidth: props.style && props.style.size ? props.style.size : '300px',
-			maxHeight: props.style && props.style.size ? props.style.size : '300px',
-			minWidth: props.style && props.style.size ? props.style.size : '300px',
-			minHeight: props.style && props.style.size ? props.style.size : '300px',
-			margin: 'auto',
-			display: 'flex',
-			justifyContent: 'center',
-			alignContent: 'center',
-			alignItems: 'center',
-			borderRadius: '50%'
-		}
-	}
+	  const StyledDragger = styled.section`
+		.ant-upload.ant-upload-drag {
+			max-width:300px;
+			max-height: 300px;
+			min-width: 300px;
+			min-height: 300px;
+			margin: auto;
+			display: flex;
+			justify-content: center;
+			align-content: center;
+			align-items: center;
+			border-radius: 50%;
+			background-color:white}
+  `;
+
 
 	const formFieldsDagger = [{
 		formItem: {
@@ -44,7 +39,7 @@ export default function DefaultDragger(props) {
 		},
 	}];
 
-	//STATE
+
 	const [stateProps, setStateProps] = useState({ loading: false, name:false })
 
 	useEffect(() => {
@@ -54,11 +49,7 @@ export default function DefaultDragger(props) {
 
 	const RenderDagger = () => {
 
-
-		//HANDLER
 		async function beforeUpload(file) {
-			console.log(file)
-
 			const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 			if (!isJpgOrPng) {
 				message.error({ content: 'You can only upload JPG/PNG file!' });
@@ -119,8 +110,8 @@ export default function DefaultDragger(props) {
 		if (props.upload) uploadProps = { ...uploadProps, ...props.upload }
 
 		return (
-		       <Spin tip="Saving..." spinning={stateProps.loading} delay={500}>
-			<Upload.Dragger  {...uploadProps} {...draggerStyle} name="files" >
+			<StyledDragger>
+			<Upload.Dragger  {...uploadProps} name="files" >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
@@ -128,19 +119,20 @@ export default function DefaultDragger(props) {
           Click or drag a file
         </p>
         <p className="ant-upload-hint">Support for .jpg or .png files.</p>
-      </Upload.Dragger>
-   </Spin>
+				</Upload.Dragger>
+				</StyledDragger>
 	  );
   };
 
   const RenderAvatar = () => {
-    return (
+		return (
+		<StyledDragger>
 			<DefaultAvatar
-				style={draggerStyle}
         src={
       		props.form.getFieldValue('customerPhotoData')
         }
-			/>
+				/>
+		</StyledDragger>
     );
   };
 

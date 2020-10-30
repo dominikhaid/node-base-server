@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout} from 'antd';
 import {message} from 'antd';
-
+import styled from 'styled-components';
 import '../antd/antd.less';
 
 import {AppProvider, AppContext} from '@/context/AppProvider';
@@ -35,14 +35,23 @@ export default function MyApp({Component, pageProps}) {
     prefixCls: 'ant-message',
   });
 
-  const contentStyle = {
-    width: '100%',
-    maxWidth: '900px',
-    margin: 'auto',
-    marginTop: '3rem',
-    marginBottom: '3rem',
-    padding: '2rem',
-  };
+  const StyledContent = styled(Content)`
+    width: calc(100% - 6rem);
+    margin: 3rem 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(120, 120, 120, 0.2);
+  `;
+
+  const StyledLayout = styled(Layout)`
+    grid-template-rows: auto minmax(200px, 1fr) auto;
+    position: relative;
+    min-height: 100vh;
+  `;
+
+  const StyledFooter = styled(Footer)`
+    background: inherit;
+  `;
 
   // async function getUser(email) {
   //   let url = `http://localhost/api/customers/search/${email}`;
@@ -84,17 +93,17 @@ export default function MyApp({Component, pageProps}) {
           }
           return (
             <>
-              <Layout className="layout">
+              <StyledLayout className="layout">
                 <Header>
                   <DefaultHeader {...appState} />
                 </Header>
-                <Content style={contentStyle}>
+                <StyledContent>
                   <Component appState={appState} />
-                </Content>
-                <Footer>
-                  <DefaultFooter style={{textAlign: 'center'}} {...appState} />
-                </Footer>
-              </Layout>
+                </StyledContent>
+                <StyledFooter>
+                  <DefaultFooter {...appState} />
+                </StyledFooter>
+              </StyledLayout>
             </>
           );
         }}

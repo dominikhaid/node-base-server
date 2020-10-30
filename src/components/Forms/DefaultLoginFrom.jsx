@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
-import {Space, message, Spin, Form, Row, Col, Button, Checkbox} from 'antd';
+import {Space, message, Form, Row, Col, Button, Checkbox} from 'antd';
 import AuthProvider from '@/components/Auth/AuthListSmall';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import {useRouter} from 'next/router';
+import styled from 'styled-components';
 
 import {LockOutlined, MailOutlined} from '@ant-design/icons';
 
@@ -61,9 +62,14 @@ export default function LoginForm(props) {
     password: props.user && props.user.password ? props.user.password : '',
   };
 
-  const layout = {
-    wrapperCol: {span: 24, offset: 5},
-  };
+  const StyledLoginForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
 
   const router = useRouter();
 
@@ -133,43 +139,41 @@ export default function LoginForm(props) {
   };
 
   if (process.browser && loading)
-    setLoading(!loginAndValidate('example@exapl.de', '/profil'));
+    setLoading(!loginAndValidate(props.user ? props.user : false, '/profil'));
 
   if (loading) return <p>Loading</p>;
   return (
     <>
-      <Spin tip="Login..." spinning={loading} delay={500}>
+      <StyledLoginForm
+        scrollToFirstError={true}
+        wrapperCol={{span: 24, offset: 5}}
+        name="login"
+        initialValues={initialValues}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <BorderedH3 title={'Login'} />
-        <Form
-          scrollToFirstError={true}
-          {...layout}
-          name="login"
-          initialValues={initialValues}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          <DefaultInput {...formFields[0]} />
-          <DefaultInput {...formFields[1]} />
-          <Row>
-            <Col span={24} offset={0}>
-              <Form.Item name="login" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-            </Col>
-            <Col span={24} offset={5}>
-              <Space size={'large'}>
-                <Button type="primary" htmlType="submit">
-                  Login
-                </Button>
-                <Button type="secondary" htmlType="submit">
-                  Register
-                </Button>
-              </Space>
-            </Col>
-          </Row>
-        </Form>
+        <DefaultInput {...formFields[0]} />
+        <DefaultInput {...formFields[1]} />
+        <Row>
+          <Col span={24} offset={0}>
+            <Form.Item name="login" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+          </Col>
+          <Col span={24} offset={5}>
+            <Space size={'large'}>
+              <Button type="primary" htmlType="submit">
+                Login
+              </Button>
+              <Button type="secondary" htmlType="submit">
+                Register
+              </Button>
+            </Space>
+          </Col>
+        </Row>
         <AuthProvider />
-      </Spin>
+      </StyledLoginForm>
     </>
   );
 }

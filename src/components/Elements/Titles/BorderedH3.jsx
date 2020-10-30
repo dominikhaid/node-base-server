@@ -1,20 +1,23 @@
-// import React from 'react';
 import {Typography} from 'antd';
 const {Title} = Typography;
 import {grey} from '@ant-design/colors';
+import styled from 'styled-components';
 
 export default function BorderedH3(props) {
-  const titleStyle = {
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    marginBottom: '3rem',
-    color: grey[1],
-    borderBottom: `1px solid ${grey[1]}`,
-  };
+  const StyledH3 = styled(Title)`
+    &.ant-typography,
+    &h3 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 3rem;
+      color: ${grey[1]};
+      border-bottom: 1px solid ${grey[1]};
+    }
+  `;
 
   return (
-    <Title level={3} style={titleStyle}>
+    <StyledH3 style={props.style} level={3}>
       {props.title}
-    </Title>
+    </StyledH3>
   );
 }

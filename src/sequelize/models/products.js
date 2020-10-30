@@ -75,6 +75,11 @@ const Fields = {
     comment: 'Product description',
     allowNull: true,
   },
+  productContent: {
+    type: DataTypes.STRING(640),
+    comment: 'Product description',
+    allowNull: true,
+  },
   quantityInStock: {
     type: DataTypes.INTEGER,
     allowNull: true,

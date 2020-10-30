@@ -15,12 +15,14 @@ const TableOptions = {
 
 const Fields = {
   customerNumber: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(32),
     unique: true,
     primaryKey: true,
-    autoIncrement: true,
+    allowNull: false,
+    // autoIncrement: true,
     validate: {
-      isNull: {msg: 'Must be Empty or null Autoinc'},
+      // isNull: {msg: 'Must be Empty or null Autoinc'},
+      notNull: {msg: 'User Id is missing'},
     },
   },
   email: {

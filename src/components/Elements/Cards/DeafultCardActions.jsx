@@ -1,12 +1,8 @@
 import {Popconfirm, message, InputNumber} from 'antd';
 import {ShoppingCartOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, {useState} from 'react';
-
+import styled from 'styled-components';
 export default function CardActions(props) {
-  if (process.browser) {
-    console.log('Card ACTIONS', props);
-  }
-
   const [popup, setPopup] = useState({
     visible: false,
   });
@@ -15,26 +11,23 @@ export default function CardActions(props) {
     props.card.products[findProduct(props.item.productCode)],
   );
 
-  const inputStyle = {
-    marginLeft: '0.5rem',
-    maxWidth: '65px',
-  };
-  const deleteStyle = {
-    style: {
-      color: 'red',
-      fontSize: '1.5rem',
-      maxWidth: '1.5rem',
-      verticalAlign: 'middle',
-    },
-  };
+  const StyledDeleteItemButton = styled(DeleteOutlined)`
+    color: red;
+    fontsize: 1.5rem;
+    maxwidth: 1.5rem;
+    verticalalign: middle;
+  `;
 
-  const addStyle = {
-    style: {
-      fontSize: '1.5rem',
-      maxWidth: '1.5rem',
-      verticalAlign: 'middle',
-    },
-  };
+  const StyledAddItemButton = styled(ShoppingCartOutlined)`
+    fontsize: 1.5rem;
+    maxwidth: 1.5rem;
+    verticalalign: middle;
+  `;
+
+  const StyledInputNumber = styled(InputNumber)`
+    margin-left: 0.5rem;
+    max-width: 65px;
+  `;
 
   function findProduct(item) {
     if (!props.card.products || props.card.products.length < 1) return false;
@@ -46,7 +39,7 @@ export default function CardActions(props) {
   if (!cardItem)
     return [
       <>
-        <ShoppingCartOutlined key="addCard" {...addStyle} />
+        <StyledAddItemButton key="addCard" />
         <Popconfirm
           {...popup}
           onConfirm={() => {
@@ -71,7 +64,7 @@ export default function CardActions(props) {
           okText="Yes"
           cancelText="No"
         >
-          <InputNumber
+          <StyledInputNumber
             id={props.item.productCode + '-qaunt'}
             step={1}
             onChange={e => {
@@ -93,7 +86,6 @@ export default function CardActions(props) {
               }, 400);
             }}
             parser={value => Math.round(value)}
-            style={inputStyle}
             min={1}
             max={props.quantityInStock}
             defaultValue={1}
@@ -104,7 +96,7 @@ export default function CardActions(props) {
 
   return (
     <>
-      <DeleteOutlined key="removeCard" {...deleteStyle} />
+      <StyledDeleteItemButton key="removeCard" />
       <Popconfirm
         {...popup}
         onConfirm={() => {
@@ -129,7 +121,7 @@ export default function CardActions(props) {
         okText="Yes"
         cancelText="No"
       >
-        <InputNumber
+        <StyledInputNumber
           step={1}
           id={cardItem.productCode + '-qaunt'}
           onChange={e => {
@@ -147,7 +139,6 @@ export default function CardActions(props) {
           }}
           value={cardItem.quantity}
           parser={value => Math.round(value)}
-          style={inputStyle}
           min={0}
           max={cardItem.quantityInStock}
           defaultValue={cardItem.quantity}

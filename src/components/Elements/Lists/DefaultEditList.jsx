@@ -1,7 +1,7 @@
 import {List} from 'antd';
 import React from 'react';
 import DeafultCardActions from '@/components/Elements/Cards/DeafultCardActions';
-
+import styled from 'styled-components';
 export default function DefaultImgItem(props) {
   if (process.browser) {
     console.log('Card INNER', props);
@@ -9,26 +9,20 @@ export default function DefaultImgItem(props) {
 
   const listData = [];
 
-  const shoppingCardItem = {
-    style: {
-      width: '100%',
-    },
-  };
+  const StyledCardItem = styled(List.Item)`
+    width: 100%;
+  `;
 
-  const listTitle = {
-    style: {
-      width: '100%',
-      color: '#1890ff',
-      fontWeight: 'bold',
-    },
-  };
+  const StyledCardItemTitle = styled.a`
+    width: 100%;
+    color: #1890ff;
+    fontweight: bold;
+  `;
 
-  const shoppingCardItemImg = {
-    style: {
-      width: '100%',
-      maxWidth: '250px',
-    },
-  };
+  const StyledCardItemImg = styled.img`
+    width: 100%;
+    maxwidth: 250px;
+  `;
 
   if (props.card.products && props.card.products.length !== 0)
     props.card.products.forEach(e => {
@@ -39,7 +33,9 @@ export default function DefaultImgItem(props) {
         quantityInStock: e.quantityInStock,
         quantity: e.quantity,
         productCode: e.productCode,
-        img: e.productPhotos.split(',')[0],
+        img: `http://localhost/images/bikes/${e.productCode}/${
+          e.colors.split(',')[0]
+        }/${e.productPhotos.split(',')[0]}`,
       });
     });
 
@@ -72,25 +68,18 @@ export default function DefaultImgItem(props) {
       dataSource={listData}
       footer={DefaultItemFooter()}
       renderItem={item => (
-        <List.Item
-          {...shoppingCardItem}
+        <StyledCardItem
           key={item.productCode}
           id={item.productCode}
-          // actions={CardActions(item)}
           extra={
-            <img
-              width="100%"
-              {...shoppingCardItemImg}
-              alt={item.title}
-              src={item.img}
-            />
+            <StyledCardItemImg width="100%" alt={item.title} src={item.img} />
           }
         >
           <List.Item.Meta
             title={
-              <a {...listTitle} href={item.href}>
+              <StyledCardItemTitle href={item.href}>
                 {item.title}
-              </a>
+              </StyledCardItemTitle>
             }
             description={item.description}
           />
@@ -102,7 +91,7 @@ export default function DefaultImgItem(props) {
               item={item}
             />
           </div>
-        </List.Item>
+        </StyledCardItem>
       )}
     />
   );

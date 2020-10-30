@@ -1,5 +1,6 @@
 const customersInit = require('../models/customer.js').customersInit;
 const Customer = customersInit(db);
+import {v4 as uuidv4} from 'uuid';
 
 async function findAll(req) {
   let erg = await Customer.findAll()
@@ -86,7 +87,6 @@ module.exports.emailLogin = emailLogin;
 
 async function createOne(req) {
   let [queryFields, bodyFields] = req.xssFilter([
-    'customerNumber',
     'email',
     'password',
     'userName',
@@ -102,12 +102,14 @@ async function createOne(req) {
     'country',
   ]);
 
+  let queryParams = bodyFields ? bodyFields : queryFields;
+  queryParams.customerNumber = uuidv4();
+
   let erg = await Customer.findOrCreate({
     where: {
-      email:
-        queryFields && queryFields.email ? queryFields.email : bodyFields.email,
+      email: queryParams.email,
     },
-    defaults: bodyFields ? bodyFields : queryFields,
+    defaults: queryParams,
   })
     .then(([customer, created]) => {
       if (created) return customer;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {blue, red, grey} from '@ant-design/colors';
-
 import {List, Divider} from 'antd';
+import styled from 'styled-components';
 
 import {
   GoogleSquareFilled,
@@ -10,29 +10,39 @@ import {
 } from '@ant-design/icons';
 
 export default function AuthProvider() {
-  const itemStyle = {
-    fontSize: '4rem',
-    textAlign: 'center',
-    borderRadius: '999px',
-    marginBottom: '0.2rem',
-    marginTop: '0.2rem',
-    width: '3rem',
-    height: '3rem',
-    boxShadow:
-      '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
-    padding: '0.2rem 0.5rem 0.5rem 0.5rem',
-    overflow: 'hidden',
-  };
+  const StyledAuthItem = styled(List.Item)`
+    font-size: 4rem;
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
+    width: 3rem;
+    height: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 0.2rem 0.5rem 0.5rem 0.5rem;
+    overflow: hidden;
+    transition-property: width, height, font-size, box-shadow;
+    transition-duration: 0.2s;
+    &:hover {
+      font-size: 4.1rem;
+      width: 3.1rem;
+      height: 3.1rem;
+      box-shadow: rgba(40, 40, 40, 1) 2px 2px 5px,
+        rgba(220, 220, 220, 0.2) -2px -2px 5px;
+      padding: 0.3rem 0.5rem 0.5rem;
+    }
+  `;
 
-  const listStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-  };
+  const StyledList = styled(List)`
+    display: flex;
+    justify-content: center;
+  `;
 
-  const dividerStyle = {
-    maxWidth: '350px',
-    margin: 'auto',
-  };
+  const StyledDivider = styled.div`
+    max-width: 350px;
+    margin: auto;
+  `;
 
   const items = [
     {
@@ -44,7 +54,7 @@ export default function AuthProvider() {
       style: {
         color: red[6],
         position: 'relative',
-        top: '-1.85rem',
+        top: '-1.65rem',
         left: '-1rem',
       },
       onClick: e => {
@@ -90,17 +100,17 @@ export default function AuthProvider() {
 
   return (
     <>
-      <div style={dividerStyle}>
+      <StyledDivider>
         <Divider className={'ant-primary'} plain>
           Sign in with
         </Divider>
-      </div>
-      <List
-        style={listStyle}
+      </StyledDivider>
+      <StyledList
+        id="authButtons"
         grid={{gutter: 25, column: 3}}
         dataSource={items}
         renderItem={item => (
-          <List.Item style={itemStyle}>
+          <StyledAuthItem>
             <a
               onClick={e => {
                 item.onClick(e);
@@ -109,7 +119,7 @@ export default function AuthProvider() {
             >
               {item.icon()}
             </a>
-          </List.Item>
+          </StyledAuthItem>
         )}
       />
     </>

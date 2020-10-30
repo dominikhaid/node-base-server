@@ -3,26 +3,9 @@ import React from 'react';
 import RegisterForm from '../components/Forms/DefaultRegisterForm';
 
 export default function Register({appState}) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    //console.debug('Home CLIENT', props);
-  }
-
-  const userFromStyle = {
-    maxWidth: '400px',
-    margin: 'auto',
-    marginTop: '3rem',
-    boxShadow:
-      '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
-    padding: '0.2rem 0.5rem 0.5rem 0.5rem',
-  };
-
   return (
     <React.Fragment>
-      <div style={userFromStyle}>
-        <RegisterForm user={appState.user} updateState={appState.updateState} />
-      </div>
+      <RegisterForm user={appState.user} updateState={appState.updateState} />
     </React.Fragment>
   );
 }

@@ -8,20 +8,9 @@ export default function Profil({appState}) {
   const router = useRouter();
   if (process.browser && !appState.user) router.push('/login');
 
-  const userFromStyle = {
-    maxWidth: '400px',
-    margin: 'auto',
-    marginTop: '3rem',
-    boxShadow:
-      '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
-    padding: '0.2rem 0.5rem 0.5rem 0.5rem',
-  };
-
   return (
     <React.Fragment>
-      <div style={userFromStyle}>
-        <ProfilForm user={appState.user} updateState={appState.updateState} />
-      </div>
+      <ProfilForm user={appState.user} updateState={appState.updateState} />
     </React.Fragment>
   );
 }

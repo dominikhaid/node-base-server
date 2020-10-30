@@ -1,26 +1,24 @@
-// import React from 'react';
+import styled from 'styled-components';
 import {Form, Input} from 'antd';
 
 export default function DefaultInput(props) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    // console.debug('Home CLIENT', props);
-  }
-
   if (!props) return <></>;
 
-  const inputStyle = {
-    style: {
-      width: '100%',
-      maxWidth: '350px',
-    },
-  };
+  const StyledInput = styled(Input)`
+    width: 100%;
+    max-width: 350px;
+  `;
+
+  const StyledInputPassword = styled(Input)`
+    width: 100%;
+    max-width: 350px;
+  `;
+
   const InputType = () => {
     return props.input.type === 'password' ? (
-      <Input.Password {...inputStyle} {...props.input} />
+      <StyledInputPassword {...props.input} />
     ) : (
-      <Input {...props.input} {...inputStyle} />
+      <StyledInput {...props.input} />
     );
   };
 

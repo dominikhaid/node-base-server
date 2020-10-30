@@ -3,23 +3,7 @@ import React from 'react';
 import DefaultCardList from '@/components/Lists/DefaultCardList';
 import {useRouter} from 'next/router';
 export default function Products({appState}) {
-  if (!process.browser) {
-    //console.debug('Home SERVER');
-  } else {
-    // console.debug('PRODUCTS CLIENT', props);
-  }
   const router = useRouter();
-  const mainCon = {
-    maxWidth: '900px',
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    margin: 'auto',
-    marginTop: '3rem',
-    boxShadow:
-      '2px 2px 5px rgba(40,40,40,0.2),-2px -2px 5px rgba(220,220,220,0.2)',
-    padding: '2rem',
-  };
 
   if (
     (process.browser && !appState.products) ||
@@ -29,9 +13,7 @@ export default function Products({appState}) {
 
   return (
     <React.Fragment>
-      <div style={mainCon}>
-        <DefaultCardList {...appState} />
-      </div>
+      <DefaultCardList {...appState} />
     </React.Fragment>
   );
 }

@@ -1,28 +1,6 @@
 'use strict';
 
-const data = [
-  {
-    email: 'example@exaple.de',
-    password: 'dom53361.',
-    customerNumber: '103',
-    customerPhoto:
-      'https://www.dominikhaid.de/wordpress/wp-content/uploads/2020/04/dom-1zu1-sw-mid-768x785.jpg',
-    userName: 'AtelierGraphique',
-    contactLastName: 'Schmitt',
-    contactFirstName: 'Carine ',
-    phone: '40.32.2555',
-    addressLine1: '54, rue Royale',
-    addressLine2: '',
-    city: 'Nantes',
-    state: '',
-    postalCode: '44000',
-    country: 'France',
-    salesRepEmployeeNumber: '1370',
-    creditLimit: '21000.00',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+var data = require('../../../data/customers.json');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

@@ -5,11 +5,7 @@ import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultDragger from '@/components/Elements/Uploads/DefaultDragger';
 import {useRouter} from 'next/router';
 import styled from 'styled-components';
-import {Space, message, Form, Divider, Collapse, Select, Button} from 'antd';
-
-const {Panel} = Collapse;
-const {Option} = Select;
-
+import {Space, message, Form, Divider, Select, Button} from 'antd';
 import {
   LockOutlined,
   MailOutlined,
@@ -20,8 +16,6 @@ import {
 } from '@ant-design/icons';
 
 export default function ProfilForm(props) {
-  //STATE
-  const [loading, setLoading] = useState(false);
   const [tmpUser, setTmpUser] = useState(
     props.user
       ? props.user
@@ -44,6 +38,8 @@ export default function ProfilForm(props) {
   );
   const [form] = Form.useForm();
   const router = useRouter();
+  const {Option} = Select;
+
   const formFieldsUser = [
     {
       formItem: {
@@ -101,7 +97,6 @@ export default function ProfilForm(props) {
       },
     },
   ];
-  //DATA
 
   const formFieldsContact = [
     {
@@ -285,19 +280,6 @@ export default function ProfilForm(props) {
       prefix_phone: '+49',
     };
   };
-  //STYLES
-  const layout = {
-    labelCol: {span: 0},
-    wrapperCol: {span: 24},
-  };
-  const StyledRegisterForm = styled(Form)`
-    max-width: 500px;
-    margin: auto;
-    margin-top: 3rem;
-    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
-      -2px -2px 5px rgba(220, 220, 220, 0.2);
-    padding: 2rem;
-  `;
 
   async function registerUser(newUser, path) {
     async function createUser(newUser) {
@@ -376,12 +358,22 @@ export default function ProfilForm(props) {
     errorMsg('From could not be validated!');
   };
 
+  const StyledRegisterForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
+
   return (
     <>
       <StyledRegisterForm
         form={form}
         user={tmpUser && tmpUser.customerNumber ? tmpUser.customerNumber : null}
-        {...layout}
+        labelCol={{span: 0}}
+        wrapperCol={{span: 24}}
         scrollToFirstError={true}
         name="register"
         initialValues={initialValues()}

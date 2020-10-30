@@ -5,12 +5,12 @@ import AuthProvider from '@/components/Auth/AuthListSmall';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import {useRouter} from 'next/router';
 import styled from 'styled-components';
-
 import {LockOutlined, MailOutlined} from '@ant-design/icons';
 
 export default function LoginForm(props) {
   if (!process.browser) return <></>;
 
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   const formFields = [
@@ -62,16 +62,6 @@ export default function LoginForm(props) {
     password: props.user && props.user.password ? props.user.password : '',
   };
 
-  const StyledLoginForm = styled(Form)`
-    max-width: 500px;
-    margin: auto;
-    margin-top: 3rem;
-    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
-      -2px -2px 5px rgba(220, 220, 220, 0.2);
-    padding: 2rem;
-  `;
-
-  const router = useRouter();
 
   const errorMsg = msg => {
     message.error({
@@ -137,6 +127,15 @@ export default function LoginForm(props) {
   const onFinishFailed = errorInfo => {
     errorMsg('Form could not be submitted');
   };
+
+  const StyledLoginForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
 
   if (process.browser && loading)
     setLoading(!loginAndValidate(props.user ? props.user : false, '/profil'));

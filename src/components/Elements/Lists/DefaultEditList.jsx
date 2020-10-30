@@ -1,6 +1,7 @@
 import {List} from 'antd';
 import React from 'react';
 import DeafultCardActions from '@/components/Elements/Cards/DeafultCardActions';
+import DefaultFooterCopyright from '@/components/Elements/Text/DefaultFooterCopyright';
 import styled from 'styled-components';
 export default function DefaultImgItem(props) {
   if (process.browser) {
@@ -8,21 +9,6 @@ export default function DefaultImgItem(props) {
   }
 
   const listData = [];
-
-  const StyledCardItem = styled(List.Item)`
-    width: 100%;
-  `;
-
-  const StyledCardItemTitle = styled.a`
-    width: 100%;
-    color: #1890ff;
-    fontweight: bold;
-  `;
-
-  const StyledCardItemImg = styled.img`
-    width: 100%;
-    maxwidth: 250px;
-  `;
 
   if (props.card.products && props.card.products.length !== 0)
     props.card.products.forEach(e => {
@@ -39,17 +25,20 @@ export default function DefaultImgItem(props) {
       });
     });
 
-  const DefaultItemFooter = props => {
-    return (
-      <div>
-        <b>E-Commerce Demo</b>{' '}
-        <a taget="_blank" href="https://www.dominikhaid.de">
-          www.dominikhaid.de
-        </a>
-        &nbsp;&copy; Dominik Haid
-      </div>
-    );
-  };
+  const StyledCardItem = styled(List.Item)`
+    width: 100%;
+  `;
+
+  const StyledCardItemTitle = styled.a`
+    width: 100%;
+    color: #1890ff;
+    font-weight: bold;
+  `;
+
+  const StyledCardItemImg = styled.img`
+    width: 100%;
+    max-width: 250px;
+  `;
 
   return (
     <List
@@ -66,7 +55,7 @@ export default function DefaultImgItem(props) {
           : false
       }
       dataSource={listData}
-      footer={DefaultItemFooter()}
+      footer={<DefaultFooterCopyright />}
       renderItem={item => (
         <StyledCardItem
           key={item.productCode}

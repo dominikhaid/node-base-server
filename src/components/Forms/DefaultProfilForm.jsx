@@ -1,14 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 import {useRouter} from 'next/router';
-import {Space, message, Form, Divider, Collapse, Select, Button} from 'antd';
+import {Space, message, Form, Divider, Select, Button} from 'antd';
 import styled from 'styled-components';
-
-const {Panel} = Collapse;
-const {Option} = Select;
 
 import {
   LockOutlined,
@@ -20,8 +17,10 @@ import {
 } from '@ant-design/icons';
 
 export default function ProfilForm(props) {
-  //STATE
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const {Option} = Select;
+
   const formFieldsUser = [
     {
       formItem: {
@@ -80,18 +79,6 @@ export default function ProfilForm(props) {
     },
   ];
 
-  const StyledProfilForm = styled(Form)`
-    max-width: 500px;
-    margin: auto;
-    margin-top: 3rem;
-    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
-      -2px -2px 5px rgba(220, 220, 220, 0.2);
-    padding: 2rem;
-  `;
-
-  const router = useRouter();
-  const [form] = Form.useForm();
-  //DATA
   const formFieldsContact = [
     {
       formItem: {
@@ -291,11 +278,6 @@ export default function ProfilForm(props) {
     };
   };
 
-  const layout = {
-    labelCol: {span: 0},
-    wrapperCol: {span: 24},
-  };
-
   const errorMsg = msg => {
     message.error({
       content: msg ? msg : 'From could not be validated!',
@@ -371,9 +353,17 @@ export default function ProfilForm(props) {
   };
 
   const onFinishFailed = errorInfo => {
-    // console.log('Failed:', errorInfo);
     errorMsg();
   };
+
+  const StyledProfilForm = styled(Form)`
+    max-width: 500px;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
+      -2px -2px 5px rgba(220, 220, 220, 0.2);
+    padding: 2rem;
+  `;
 
   return (
     <>
@@ -384,7 +374,8 @@ export default function ProfilForm(props) {
             : null
         }
         form={form}
-        {...layout}
+        labelCol={{span: 0}}
+        wrapperCol={{span: 24}}
         scrollToFirstError={true}
         name="profil"
         initialValues={initialValues()}

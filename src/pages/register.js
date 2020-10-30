@@ -1,5 +1,4 @@
 import React from 'react';
-// import Link from 'next/link';
 import RegisterForm from '../components/Forms/DefaultRegisterForm';
 
 export default function Register({appState}) {

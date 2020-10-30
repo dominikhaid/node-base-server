@@ -1,5 +1,6 @@
 import React from 'react';
 import DefaultVerticalLinkList from '@/components/Elements/Lists/DefaultVerticalLinkList';
+import DefaultFooterCopyright from '@/components/Elements/Text/DefaultFooterCopyright';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -14,14 +15,7 @@ export default function DefaultFooter(props) {
       {props.children}
       <StyledFooterSection>
         <DefaultVerticalLinkList />
-        <p style={{textAlign: 'center'}}>
-          &copy;&nbsp;E-Commerce Demo&nbsp;DominikHaid
-        </p>
-        <p style={{textAlign: 'center', width: '100%'}}>
-          <Link target="_blank" href="https://www.dominikhaid.de">
-            www.dominikhaid.de
-          </Link>
-        </p>
+        <DefaultFooterCopyright />
       </StyledFooterSection>
     </>
   );

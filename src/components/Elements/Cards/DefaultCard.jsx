@@ -1,4 +1,4 @@
-import {Card, Carousel, Button, Divider, Space, InputNumber} from 'antd';
+import {Card, Carousel, Button, Divider, Space} from 'antd';
 import DeafultCardActions from '@/components/Elements/Cards/DeafultCardActions';
 import Link from 'next/link';
 import {useRouter} from 'next/router';

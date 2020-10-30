@@ -2,6 +2,7 @@ import {Popconfirm, message, InputNumber} from 'antd';
 import {ShoppingCartOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, {useState} from 'react';
 import styled from 'styled-components';
+
 export default function CardActions(props) {
   const [popup, setPopup] = useState({
     visible: false,

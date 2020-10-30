@@ -1,5 +1,4 @@
 import React from 'react';
-// import Link from 'next/link';
 import DefaultCardList from '@/components/Lists/DefaultCardList';
 import {useRouter} from 'next/router';
 export default function Products({appState}) {

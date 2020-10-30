@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import {Form, Upload, message, Input} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
@@ -7,22 +7,6 @@ import styled from 'styled-components';
 export default function DefaultDragger(props) {
 
 	if (!props) return <></>;
-
-	  const StyledDragger = styled.section`
-		.ant-upload.ant-upload-drag {
-			max-width:300px;
-			max-height: 300px;
-			min-width: 300px;
-			min-height: 300px;
-			margin: auto;
-			display: flex;
-			justify-content: center;
-			align-content: center;
-			align-items: center;
-			border-radius: 50%;
-			background-color:white}
-  `;
-
 
 	const formFieldsDagger = [{
 		formItem: {
@@ -39,13 +23,24 @@ export default function DefaultDragger(props) {
 		},
 	}];
 
-
 	const [stateProps, setStateProps] = useState({ loading: false, name:false })
 
-	useEffect(() => {
-		return () => {
-		}
-	}, [stateProps])
+
+	  const StyledDragger = styled.section`
+		.ant-upload.ant-upload-drag {
+			max-width:300px;
+			max-height: 300px;
+			min-width: 300px;
+			min-height: 300px;
+			margin: auto;
+			display: flex;
+			justify-content: center;
+			align-content: center;
+			align-items: center;
+			border-radius: 50%;
+			background-color:white}
+  `;
+
 
 	const RenderDagger = () => {
 
@@ -108,6 +103,7 @@ export default function DefaultDragger(props) {
 		}
 
 		if (props.upload) uploadProps = { ...uploadProps, ...props.upload }
+
 
 		return (
 			<StyledDragger>

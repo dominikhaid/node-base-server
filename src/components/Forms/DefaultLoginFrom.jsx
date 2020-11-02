@@ -7,10 +7,13 @@ import {
   succesMsg,
   message,
 } from '@/components/Elements/Messages/DefaultMessages';
+import {
+  FormFields,
+  InitialValues,
+} from '@/components/Elements/FormFields/DefaultLoginFields';
 import AuthProvider from '@/components/Auth/AuthListSmall';
-import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
+
 import {useRouter} from 'next/router';
-import {LockOutlined, MailOutlined} from '@ant-design/icons';
 import RegisterForm from '@/components/Forms/DefaultRegisterForm';
 
 export default function LoginForm(props) {
@@ -18,55 +21,6 @@ export default function LoginForm(props) {
 
   const RenderLogin = props => {
     const router = useRouter();
-
-    const formFields = [
-      {
-        formItem: {
-          name: 'email',
-          rules: [
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ],
-        },
-        input: {
-          prefix: <MailOutlined />,
-          placeholder: 'E-Mail',
-        },
-      },
-      {
-        formItem: {
-          name: 'password',
-          rules: [
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-            {
-              pattern: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
-              message:
-                'Password must contain 1 uppercase 1 lowercase and 1 number and the length must be between 8-16 characters',
-            },
-          ],
-        },
-        input: {
-          type: 'password',
-          prefix: <LockOutlined />,
-          placeholder: 'Password',
-        },
-      },
-    ];
-
-    const initialValues = {
-      userName: props.user && props.user.email ? props.user.email : '',
-      login: false,
-      password: props.user && props.user.password ? props.user.password : '',
-    };
 
     async function loginAndValidate(values, path) {
       async function getUser(values) {
@@ -121,13 +75,12 @@ export default function LoginForm(props) {
           scrollToFirstError={true}
           wrapperCol={{span: 24, offset: 5}}
           name="login"
-          initialValues={initialValues}
+          initialValues={InitialValues(props)}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
           <BorderedH3 title={'Login'} />
-          <DefaultInput {...formFields[0]} />
-          <DefaultInput {...formFields[1]} />
+          <FormFields />
           <Row>
             <Col span={24} offset={0}>
               <Form.Item name="login" valuePropName="checked">

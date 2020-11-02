@@ -1,7 +1,6 @@
 import React from 'react';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultEditList from '@/components/Elements/Lists/DefaultEditList';
-import {message} from 'antd';
 import styled from 'styled-components';
 
 export default function DefaultShoppingList(props) {
@@ -13,21 +12,6 @@ export default function DefaultShoppingList(props) {
     margin: auto;
     margin-top: 3rem;
   `;
-
-  const errorMsg = () => {
-    message.error({
-      content: 'From could not be validated!',
-    });
-  };
-
-  const onFinish = values => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = errorInfo => {
-    errorMsg();
-    // console.log('Failed:', errorInfo);
-  };
 
   return (
     <>

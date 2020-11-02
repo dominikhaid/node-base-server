@@ -3,9 +3,14 @@ import React from 'react';
 import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
+import {
+  errorMsg,
+  loadingMsg,
+  succesMsg,
+  message,
+} from '@/components/Elements/Messages/DefaultMessages';
 import {useRouter} from 'next/router';
-import {Space, message, Form, Divider, Select, Button} from 'antd';
-import styled from 'styled-components';
+import {Space, Form, Divider, Select, Button} from 'antd';
 
 import {
   LockOutlined,
@@ -278,24 +283,6 @@ export default function ProfilForm(props) {
     };
   };
 
-  const errorMsg = msg => {
-    message.error({
-      content: msg ? msg : 'From could not be validated!',
-    });
-  };
-
-  const loadingMsg = msg => {
-    message.loading({
-      content: msg ? msg : 'Sending Data!',
-    });
-  };
-
-  const succesMsg = msg => {
-    message.success({
-      content: msg ? msg : 'Sending Data!',
-    });
-  };
-
   async function updateUser(values, path) {
     async function callDb(values) {
       let url = `http://localhost/api/customers/${values.email}`;
@@ -356,18 +343,9 @@ export default function ProfilForm(props) {
     errorMsg();
   };
 
-  const StyledProfilForm = styled(Form)`
-    max-width: 500px;
-    margin: auto;
-    margin-top: 3rem;
-    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
-      -2px -2px 5px rgba(220, 220, 220, 0.2);
-    padding: 2rem;
-  `;
-
   return (
     <>
-      <StyledProfilForm
+      <Form
         user={
           props.user && props.user.customerNumber
             ? props.user.customerNumber
@@ -398,6 +376,27 @@ export default function ProfilForm(props) {
               : null
           }
         />
+        <Space style={{marginTop: '1rem'}} size={'large'}>
+          <Button
+            type="primary"
+            onClick={() => props.updateState({user: false})}
+          >
+            Logout
+          </Button>
+          <Button type="secondary" htmlType="submit">
+            Save
+          </Button>
+          <Button
+            type="secondary"
+            onClick={() => {
+              console.log(props.user);
+              form.setFieldsValue(initialValues());
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+
         <Divider className={'ant-primary'} plain></Divider>
         {formFieldsUser.map(field => {
           return <DefaultInput {...field} />;
@@ -417,22 +416,7 @@ export default function ProfilForm(props) {
         })}
 
         <Divider className={'ant-primary'} plain></Divider>
-
-        <Space size={'large'}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
-          <Button
-            type="secondary"
-            onClick={() => {
-              console.log(props.user);
-              form.setFieldsValue(initialValues());
-            }}
-          >
-            Reset
-          </Button>
-        </Space>
-      </StyledProfilForm>
+      </Form>
     </>
   );
 }

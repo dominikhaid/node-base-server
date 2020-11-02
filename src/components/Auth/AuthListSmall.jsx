@@ -114,7 +114,7 @@ export default function AuthProvider() {
               onClick={e => {
                 data.onClick(e);
               }}
-              style={datastyle}
+              style={data.style}
             >
               {data.icon()}
             </a>

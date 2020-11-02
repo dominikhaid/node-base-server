@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
-import {Form, Upload, message, Input} from 'antd';
+import React, { useState } from 'react';
+import {
+  errorMsg
+} from '@/components/Elements/Messages/DefaultMessages';
+import {Form, Upload,  Input} from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import DefaultAvatar from '@/components/Elements/Avatars/DefaultAvatar';
 import styled from 'styled-components';
@@ -47,12 +50,12 @@ export default function DefaultDragger(props) {
 		async function beforeUpload(file) {
 			const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 			if (!isJpgOrPng) {
-				message.error({ content: 'You can only upload JPG/PNG file!' });
+				errorMsg({ content: 'You can only upload JPG/PNG file!' });
 			}
 
 			const isLt2M = file.size / 1024 / 1024 < 2;
 			if (!isLt2M) {
-				message.error({ content: 'Image must smaller than 2MB!' });
+				errorMsg({ content: 'Image must smaller than 2MB!' });
 			}
 
 			if (isJpgOrPng && isLt2M) {

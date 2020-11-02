@@ -1,4 +1,5 @@
-import {Popconfirm, message, InputNumber} from 'antd';
+import {Popconfirm, InputNumber} from 'antd';
+import {succesMsg} from '@/components/Elements/Messages/DefaultMessages';
 import {ShoppingCartOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, {useState} from 'react';
 import styled from 'styled-components';
@@ -54,7 +55,7 @@ export default function CardActions(props) {
               visible: false,
               locked: false,
             });
-            message.success({content: 'Product added to card'});
+            succesMsg({content: 'Product added to card'});
           }}
           onCancel={() => {
             setPopup({
@@ -108,7 +109,7 @@ export default function CardActions(props) {
           setPopup({
             visible: false,
           });
-          message.success({content: 'Product removed'});
+          succesMsg({content: 'Product removed'});
         }}
         onCancel={() => {
           let uptProducts = JSON.parse(JSON.stringify(cardItem));

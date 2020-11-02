@@ -4,8 +4,13 @@ import DefaultInput from '@/components/Elements/Inputs/DefaultInput';
 import BorderedH3 from '@/components/Elements/Titles/BorderedH3';
 import DefaultDragger from '@/components/Elements/Uploads/DefaultDragger';
 import {useRouter} from 'next/router';
-import styled from 'styled-components';
-import {Space, message, Form, Divider, Select, Button} from 'antd';
+import {
+  errorMsg,
+  loadingMsg,
+  succesMsg,
+  message,
+} from '@/components/Elements/Messages/DefaultMessages';
+import {Space, Form, Divider, Select, Button} from 'antd';
 import {
   LockOutlined,
   MailOutlined,
@@ -325,24 +330,6 @@ export default function ProfilForm(props) {
     return false;
   }
 
-  const errorMsg = msg => {
-    message.error({
-      content: msg ? msg : 'From could not be validated!',
-    });
-  };
-
-  const loadingMsg = msg => {
-    message.loading({
-      content: msg ? msg : 'Sending Data!',
-    });
-  };
-
-  const succesMsg = msg => {
-    message.success({
-      content: msg ? msg : 'Sending Data!',
-    });
-  };
-
   const onFinish = values => {
     if (values.phone && !new RegExp(/^\+\d\d/).test(values.phone))
       values.phone = values.prefix_phone + values.phone;
@@ -358,18 +345,9 @@ export default function ProfilForm(props) {
     errorMsg('From could not be validated!');
   };
 
-  const StyledRegisterForm = styled(Form)`
-    max-width: 500px;
-    margin: auto;
-    margin-top: 3rem;
-    box-shadow: 2px 2px 5px rgba(40, 40, 40, 0.2),
-      -2px -2px 5px rgba(220, 220, 220, 0.2);
-    padding: 2rem;
-  `;
-
   return (
     <>
-      <StyledRegisterForm
+      <Form
         form={form}
         user={tmpUser && tmpUser.customerNumber ? tmpUser.customerNumber : null}
         labelCol={{span: 0}}
@@ -417,14 +395,25 @@ export default function ProfilForm(props) {
           <Button
             type="secondary"
             onClick={() => {
-              console.log(props.user);
               form.setFieldsValue(initialValues());
             }}
           >
             Reset
           </Button>
+          {props.cancel ? (
+            <Button
+              type="secondary"
+              onClick={() => {
+                props.cancel();
+              }}
+            >
+              Cancel
+            </Button>
+          ) : (
+            ''
+          )}
         </Space>
-      </StyledRegisterForm>
+      </Form>
     </>
   );
 }

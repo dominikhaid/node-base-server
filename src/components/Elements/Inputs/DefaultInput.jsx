@@ -1,29 +1,23 @@
-import styled from 'styled-components';
 import {Form, Input} from 'antd';
+import styled from 'styled-components';
 
 export default function DefaultInput(props) {
   if (!props) return <></>;
 
-  const StyledInput = styled(Input)`
+  const StyledFormItem = styled(Form.Item)`
     width: 100%;
-    max-width: 350px;
-  `;
-
-  const StyledInputPassword = styled(Input)`
-    width: 100%;
-    max-width: 350px;
   `;
 
   const InputType = () => {
     return props.input.type === 'password' ? (
-      <StyledInputPassword {...props.input} />
+      <Input.Password {...props.input} />
     ) : (
-      <StyledInput {...props.input} />
+      <Input {...props.input} />
     );
   };
 
   return props.formItem ? (
-    <Form.Item {...props.formItem}>{InputType()}</Form.Item>
+    <StyledFormItem {...props.formItem}>{InputType()}</StyledFormItem>
   ) : (
     InputType()
   );

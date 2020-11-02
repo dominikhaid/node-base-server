@@ -3,6 +3,7 @@ import React from 'react';
 import DeafultCardActions from '@/components/Elements/Cards/DeafultCardActions';
 import DefaultFooterCopyright from '@/components/Elements/Text/DefaultFooterCopyright';
 import styled from 'styled-components';
+
 export default function DefaultImgItem(props) {
   if (process.browser) {
     console.log('Card INNER', props);
@@ -10,7 +11,7 @@ export default function DefaultImgItem(props) {
 
   const listData = [];
 
-  if (props.card.products && props.card.products.length !== 0)
+  if (props.card && props.card.products && props.card.products.length !== 0)
     props.card.products.forEach(e => {
       listData.push({
         title: e.productName,

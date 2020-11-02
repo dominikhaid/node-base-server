@@ -1,6 +1,5 @@
 import React from 'react';
 import {Layout} from 'antd';
-import {message} from 'antd';
 import styled from 'styled-components';
 import '../antd/antd.less';
 
@@ -26,14 +25,6 @@ export default function MyApp({Component, pageProps}) {
   }
 
   const {Header, Content, Footer} = Layout;
-
-  message.config({
-    top: '20vh',
-    duration: 2,
-    maxCount: 3,
-    rtl: false,
-    prefixCls: 'ant-message',
-  });
 
   const StyledContent = styled(Content)`
     width: calc(100% - 6rem);
@@ -95,7 +86,7 @@ export default function MyApp({Component, pageProps}) {
             <>
               <StyledLayout className="layout">
                 <Header>
-                  <DefaultHeader {...appState} />
+                  <DefaultHeader appState={appState} />
                 </Header>
                 <StyledContent>
                   <Component appState={appState} />

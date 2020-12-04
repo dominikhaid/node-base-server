@@ -42,7 +42,6 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
     "prettier-eslint-cli": "^5.0.0"
-
   },
   "scripts": {
     "start": "NODE_ENV=production node ./server.js",

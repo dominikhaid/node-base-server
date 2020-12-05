@@ -8,5 +8,7 @@
   "bracketSpacing": false,
   "jsxBracketSameLine": false,
   "arrowParens": "avoid",
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "endOfLine":"lf",
+  "embeddedLanguageFormatting":"auto"
 }

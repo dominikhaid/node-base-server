@@ -1,11 +1,7 @@
-// Install packages
-// npm install --save-dev prettier eslint-config-airbnb eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-import eslint-plugin-jsx-a11y husky lint-staged
-
 {
   "extends": [
     "eslint:recommended",
     "react-app",
-    "airbnb",
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",

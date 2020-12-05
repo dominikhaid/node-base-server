@@ -141,6 +141,7 @@ async function upgradeFiles() {
     let replace;
     let newReg;
     for (const file of addIns) {
+      console.info(file);
       file.selector
         ? (replace = `(func.*${file.selector}.*{)`): 
       file.selector ?
@@ -151,6 +152,7 @@ async function upgradeFiles() {
         : (newReg = new RegExp(replace, 'u'));
       let tmpFile = await readFile(`./${file.file}`, 'utf8');
       tmpFile = tmpFile.replace(newReg, `$1\n${file.replacemant}`);
+      console.info(tmpFile);
       oldFiles.push({file: file.file, content: tmpFile});
     }
 

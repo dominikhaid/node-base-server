@@ -142,7 +142,8 @@ async function upgradeFiles() {
     let newReg;
     for (const file of addIns) {
   
-      file.selector.test(/plugins:/) ?
+
+      /plugins:/.test(file.selector) ?
       (replace =  `(.*${file.selector})`) :
       file.selector
         ? (replace = `(func.*${file.selector}.*{)`): 

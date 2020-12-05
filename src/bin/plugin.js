@@ -42,15 +42,15 @@ async function instDep() {
     let depInst = Object.keys(plugInf.dependencies);
     console.info(`\nInstall Dependencies %O\n`, depInst);
     await exec(`npm remove ${depInst.join(' ')}`);
-    await exec(`npm audit fix`);
     await exec(`npm i ${depInst.join(' ')} -P`);
+    await exec(`npm audit fix`);
   }
   if (plugInf.devDependencies) {
     let depDev = Object.keys(plugInf.devDependencies);
     console.info(`\nInstall Dependencies %O\n`, depDev);
     await exec(`npm remove ${depDev.join(' ')}`);
-    await exec(`npm audit fix`);
     await exec(`npm i ${depDev.join(' ')} -D`);
+    await exec(`npm audit fix`);
   }
 
   return true;

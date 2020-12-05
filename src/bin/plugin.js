@@ -142,8 +142,10 @@ async function upgradeFiles() {
     let newReg;
     for (const file of addIns) {
       file.selector
-        ? (replace = `(func.*${file.selector}.*{)`)
-        : (replace = `(^.*|^\n)`);
+        ? (replace = `(func.*${file.selector}.*{)`): 
+      file.selector ?
+        (replace =  `(.*${file.selector})`) :
+        (replace = `(^.*|^\n)`);
       file.selector
         ? (newReg = new RegExp(replace, 'gm'))
         : (newReg = new RegExp(replace, 'u'));

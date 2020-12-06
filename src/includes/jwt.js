@@ -10,7 +10,7 @@ const myJWTSecretKey = () => {
 
 module.exports.myJWTSecretKey = myJWTSecretKey;
 
-const signInJWT = e => {
+const swignInJWT = e => {
   const userJWT = {
     email: e.email,
     id: e.uid,

@@ -1,5 +1,3 @@
-// npm run plg p=https://github.com/dominikhaid/list-ui-kits.git
-
 const util = require('util');
 const fs = require('fs');
 const exec = util.promisify(require('child_process').exec);
@@ -16,12 +14,6 @@ plugNm = plugNm[0].replace('p=', '');
 
 let plugInf,
   plugFiles = [];
-
-// function handelErr(out, err) {
-//   if (out) console.log('stdout:', out);
-//   // if (err) throw err;
-//   // console.log(err);
-// }
 
 async function gitClone() {
   console.info(`\nClone %s from GitHub\n`, plugNm);

@@ -37,7 +37,7 @@
     "dev": "NODE_ENV=development node ./server.js",
     "plugin": "NODE_ENV=production node ./src/bin/plugin.js",
     "build": "NODE_ENV=production webpack  --env.NODE_DEBUG=false --config ./src/webpack/config/webpack.production.js",
-    "format": "prettier --config .prettierrc \"{,!(node_modules)/**/}src/**/*.{js,jsx}\" --write"
+    "format": "prettier --config .prettierrc.json \"{,!(node_modules)/**/}src/**/*.{js,jsx}\" --write"
   },
   "browserslist": {
     "production": [

@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const checkReqErrors = require("../includes/status").checkReqErrors;
+const checkReqErrors = require('../includes/status').checkReqErrors;
 
-router.get("/", (req, res) => {
-	checkReqErrors({ msg: "Server alive" }, res);
+router.get('/', (req, res) => {
+  checkReqErrors({msg: 'Server alive'}, res);
 });
 
 module.exports = router;

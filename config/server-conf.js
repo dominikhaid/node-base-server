@@ -1,8 +1,1 @@
-module.exports = {
-  server: 'express',
-  cors: false,
-  helment: false,
-  jwt: false,
-  http: true,
-  https: false,
-};
+module.exports = {"server":"express","cors":false,"helment":false,"jwt":false,"http":true,"https":false,"webpack":false}

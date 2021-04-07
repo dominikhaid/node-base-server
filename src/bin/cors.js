@@ -1,5 +1,10 @@
 const cors = require('cors');
-module.exports.startCors = function (app) {
+
+/**
+ * @desc define cors setup
+ * @param {Object} server express instance
+ */
+module.exports.startCors = function (server) {
   var whitelist = process.env.ORIGINS.split(',');
   var corsOptions = {
     origin: function (origin, callback) {
@@ -9,12 +14,11 @@ module.exports.startCors = function (app) {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     optionsSuccessStatus: 200,
   };
 
-  app.use(cors(corsOptions), (req, res, next) => {
+  server.use(cors(corsOptions), (req, res, next) => {
     next();
   });
 };

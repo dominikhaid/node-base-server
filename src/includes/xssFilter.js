@@ -6,12 +6,16 @@ const xssOptions = {
   // to filter out its content
 };
 
-//FILTER AND SANITIZE QUERY AND BODY FIELDS
-module.exports = function (a) {
+/**
+ * @desc xss sanitize request and body fields
+ * @param {Array} fields
+ * @returns array
+ */
+module.exports = function (fields) {
   let queryFields = new Object();
   let bodyFields = new Object();
 
-  a.forEach((element, index) => {
+  fields.forEach((element, index) => {
     if (
       Object.keys(this.body).length === 0 &&
       Object.keys(this.query).length === 0 &&

@@ -1,29 +1,10 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const multer = require('multer');
 var upload = multer({dest: './uploads/'});
 const server = express();
 
-let serverOptions;
-try {
-  serverOptions = require('../../config/server-conf.js');
-} catch (error) {
-  throw 'Server config not found in ./config';
-}
-
-/**
- * LOAD ENV VARS
- */
-const startDotenv = require('./env').startDotenv;
-startDotenv();
-
-/**
- * MIDDELWARE HTTP REQUESTS
- */
-const bodyParser = require('body-parser');
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({extended: true}));
+server.use(express.json());
+server.use(express.urlencoded({extended: true}));
 
 server.get('*', upload.single('file'), function (req, res, next) {
   req.xssFilter = require('../includes/xssFilter');
@@ -55,22 +36,18 @@ server.put('*', upload.single('file'), function (req, res, next) {
 
 server.use(express.static(`../${process.env.PUBLIC_FOLDER}`));
 
-/**
- *  SERVER LOGS
- */
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, '../../log/access.log'),
-  {
-    flags: 'a',
-  },
-);
+let serverOptions;
+try {
+  serverOptions = require('../../config/server-conf.js');
+} catch (error) {
+  throw new Error('Server config not found in ./config');
+}
+
+const startDotenv = require('./env').startDotenv;
+startDotenv();
 
 const startMorgan = require('./morgan').startMorgan;
-startMorgan(server, accessLogStream);
-
-/**
- *  SERVER OPTIONS
- */
+startMorgan(server);
 
 if (serverOptions.webpack) {
   const webpack = require('webpack'),

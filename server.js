@@ -1,32 +1,26 @@
 const server = require('./src/bin/main').server;
 const serverOptions = require('./src/bin/main').serverOptions;
+const fs = require('fs');
 
-/**
- *  STARTUP SERVER
- */
-let http, https, httpServer, httpsServer;
+let port = process.env.PORT || 5000;
+let protocol = serverOptions.https ? require('http') : require('http');
+let httpServer = serverOptions.https
+  ? protocol.createServer(
+      {
+        key: fs.readFileSync('certificates/key.pem', 'utf8'),
+        cert: fs.readFileSync('certificates/cert.pem', 'utf8'),
+      },
+      server,
+    )
+  : protocol.createServer(server);
 
-if (serverOptions.http) {
-  http = require('http');
-  httpServer = http.createServer(server);
-}
-
-if (serverOptions.https) {
-  https = require('https');
-  privateKey = fs.readFileSync('certificates/key.pem', 'utf8');
-  certificate = fs.readFileSync('certificates/cert.pem', 'utf8');
-  credentials = {key: privateKey, cert: certificate};
-  httpsServer = https.createServer(credentials, server);
-}
-
-//./bin/express.js
 if (serverOptions.server === 'express') {
-  const startExpress = require('./src/bin/express').startServer;
-  startExpress(server, serverOptions, {
-    http: http,
-    httpServer: httpServer,
-    https: https,
-    httpsServer: httpsServer,
-  });
+  const routes = require('./src/routers/routes');
+  routes && server.use('/api', routes);
+
+  httpServer ? httpServer.listen(port) : server.listen(port);
+
+  console.debug(`Express server at: ${process.env.HOST}:${port}`);
+
   return;
 }

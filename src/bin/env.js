@@ -1,4 +1,7 @@
-module.exports.startDotenv = function (app) {
+/**
+ * @desc load .env files
+ */
+module.exports.startDotenv = function () {
   var dotenv;
 
   if (!process.env.NODE_ENV) {

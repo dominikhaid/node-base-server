@@ -1,8 +1,13 @@
 const helmet = require('helmet');
-module.exports.startHelmet = function (app) {
+
+/**
+ * @desc http header securety
+ * @param {Function} server express instance
+ */
+module.exports.startHelmet = function (server) {
   if (process.env.NODE_ENV !== 'development') {
-    app.use(helmet());
-    app.use(
+    server.use(helmet());
+    server.use(
       helmet.contentSecurityPolicy({
         directives: {
           defaultSrc: ["'self'", process.env.HELMET_DEFAULT],
@@ -12,22 +17,24 @@ module.exports.startHelmet = function (app) {
         },
       }),
     );
-    app.use(helmet.dnsPrefetchControl());
-    app.use(helmet.frameguard({action: 'deny'}));
-    app.use(helmet.hidePoweredBy());
-    app.use(helmet.ieNoOpen());
-    app.use(helmet.noSniff());
-    app.use(helmet.permittedCrossDomainPolicies({permittedPolicies: 'none'}));
-    app.use(helmet.referrerPolicy({policy: 'same-origin'}));
-    app.use(helmet.xssFilter());
-    app.use(
+    server.use(helmet.dnsPrefetchControl());
+    server.use(helmet.frameguard({action: 'deny'}));
+    server.use(helmet.hidePoweredBy());
+    server.use(helmet.ieNoOpen());
+    server.use(helmet.noSniff());
+    server.use(
+      helmet.permittedCrossDomainPolicies({permittedPolicies: 'none'}),
+    );
+    server.use(helmet.referrerPolicy({policy: 'same-origin'}));
+    server.use(helmet.xssFilter());
+    server.use(
       helmet.hsts({
         maxAge: 5184000,
       }),
     );
   } else {
-    app.use(helmet());
-    app.use(
+    server.use(helmet());
+    server.use(
       helmet.contentSecurityPolicy({
         directives: {
           defaultSrc: ["'self'", process.env.HELMET_DEFAULT],
@@ -37,15 +44,17 @@ module.exports.startHelmet = function (app) {
         },
       }),
     );
-    app.use(helmet.dnsPrefetchControl());
-    app.use(helmet.frameguard({action: 'deny'}));
-    app.use(helmet.hidePoweredBy());
-    app.use(helmet.ieNoOpen());
-    app.use(helmet.noSniff());
-    app.use(helmet.permittedCrossDomainPolicies({permittedPolicies: 'none'}));
-    app.use(helmet.referrerPolicy({policy: 'same-origin'}));
-    app.use(helmet.xssFilter());
-    app.use(
+    server.use(helmet.dnsPrefetchControl());
+    server.use(helmet.frameguard({action: 'deny'}));
+    server.use(helmet.hidePoweredBy());
+    server.use(helmet.ieNoOpen());
+    server.use(helmet.noSniff());
+    server.use(
+      helmet.permittedCrossDomainPolicies({permittedPolicies: 'none'}),
+    );
+    server.use(helmet.referrerPolicy({policy: 'same-origin'}));
+    server.use(helmet.xssFilter());
+    server.use(
       helmet.hsts({
         maxAge: 5184000,
       }),

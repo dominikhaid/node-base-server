@@ -3,3 +3,5 @@ node_modules
 gitignore
 log
 uploads
+public/images
+public/icons

@@ -1,8 +1,10 @@
-const moment = require('moment');
 const jsonWebToken = require('jsonwebtoken');
 const checkReqErrors = require('./status').checkReqErrors;
-const fireBaseUtils = require('./firebase/admin');
 
+/**
+ * @desc create secrect JWT key
+ * @returns string
+ */
 const myJWTSecretKey = () => {
   const buffer = Buffer.from(process.env.JWTSecret, 'base64');
   return buffer;
@@ -10,28 +12,12 @@ const myJWTSecretKey = () => {
 
 module.exports.myJWTSecretKey = myJWTSecretKey;
 
-const swignInJWT = e => {
-  const userJWT = {
-    email: e.email,
-    id: e.uid,
-    name: e.displayName,
-    role: e.customClaims && e.customClaims.admin ? 'admin' : 'user',
-    issuer: 'https://dev.dominikhaid.de',
-    exp: moment().add(1, 'hours').unix(),
-  };
-  // sign with default (HMAC SHA256)
-  const token = jsonWebToken.sign(userJWT, myJWTSecretKey());
-  return {token: token};
-};
-
-async function geToken(req, res) {
-  return fireBaseUtils.fireAdminUser(req).then(e => {
-    checkReqErrors(e, res, signInJWT);
-  });
-}
-
-module.exports.geToken = geToken;
-
+/**
+ * @desc verify jwt token
+ * @param {*} req
+ * @param {*} res
+ * @returns response
+ */
 async function verfiyToken(req, res) {
   let token = req.headers.authorization
     ? req.headers.authorization.replace(/^Bearer\s/, '')

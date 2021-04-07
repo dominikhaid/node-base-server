@@ -9,6 +9,25 @@
     "plugin:prettier/recommended",
     "prettier/react"
   ],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["components", "./src/components"],
+          ["lib", "./src/lib"],
+          ["src", "./src/"],
+          ["public", "./public"],
+          ["data", "./src/data"],
+          ["context", "./src/context"],
+          ["hooks", "./src/hooks"],
+          ["routers", "./src/routers"],
+          ["reducers", "./src/reducers"],
+          ["includes", "./src/includes"]
+        ],
+        "extensions": [".ts", ".js", ".jsx", ".json", ".css", ".less", ".scss"]
+      }
+    }
+  },
   "plugins": ["react", "import", "prettier", "jsx-a11y"],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -27,13 +46,13 @@
   "rules": {
     "no-console": 1,
     "linebreak-style": ["error", "unix"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}],
     "jsx-a11y/no-onchange": 0,
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "react/destructuring-assignment": [
       2,
       "always",
-      { "ignoreClassFields": true }
+      {"ignoreClassFields": true}
     ],
     "react/static-property-placement": [1, "static public field"],
     "react/state-in-constructor": [1, "never"],

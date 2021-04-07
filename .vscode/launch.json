@@ -10,7 +10,7 @@
       "request": "launch",
       "keepProfileChanges": true,
       "profile": "default",
-      "url": "http://localhost:3000/app/weather-app/",
+      "url": "http://localhost:3000/app/",
       "webRoot": "${workspaceFolder}",
       "pathMappings": [
         {
@@ -18,7 +18,7 @@
           "path": "${workspaceFolder}/src"
         },
         {
-          "url": "http://localhost:3000/app/weather-app/",
+          "url": "http://localhost:3000/app",
           "path": "${workspaceFolder}"
         }
       ]
@@ -27,7 +27,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Next: Chrome",
-      "url": "http://localhost:3000/app/weather-app/",
+      "url": "http://localhost:3000/app",
       "webRoot": "${workspaceFolder}"
     },
     {

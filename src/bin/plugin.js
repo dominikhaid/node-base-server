@@ -130,9 +130,14 @@ async function upgradeConf() {
       return e.name === 'server.js';
     }) !== -1
   ) {
-    let addSrvOut = await readFile(`./${plugFld}/server.js`, 'utf8');
+
+ let addSrvOut = await readFile(`./${plugFld}/server.js`, 'utf8');
     console.info('\nUpgrade server.js\n');
-    await appendFile(`./server.js`, addSrvOut);
+    await writeFile('./server.js',addSrvOut)
+    let addBabel = await readFile(`./${plugFld}/babel.config.json`, 'utf8');
+    await writeFile('./babel.config.json',addBabel)
+    //await appendFile(`./server.js`, addSrvOut);
+
   }
 }
 

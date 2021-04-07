@@ -31,13 +31,13 @@ async function instDep() {
   )
     plugInf = require(`../../${plugFld}/package.json`);
 
-  if (plugInf.dependencies) {
+  if (plugInf.dependencies && typeof Object.keys(plugInf.dependencies) === 'object') {
     let depInst = Object.keys(plugInf.dependencies).map(e => e + '@'+plugInf.dependencies[e]);
     console.info(`\nInstall Dependencies %O\n`, depInst);
     //await exec(`npm remove ${depInst.join(' ')}`);
     await exec(`npm i ${depInst.join(' ')} --save`);
   }
-  if (plugInf.devDependencies) {
+  if (plugInf.devDependencies && typeof Object.keys(plugInf.devDependencies) === 'object') {
     let depDev = Object.keys(plugInf.devDependencies).map(e => e + '@'+plugInf.devDependencies[e]);
     console.info(`\nInstall Dependencies %O\n`, depDev);
     //await exec(`npm remove ${depDev.join(' ')}`);

@@ -38,8 +38,8 @@ async function instDep() {
     await exec(`npm i ${depInst.join(' ')} --save`);
   }
   if (plugInf.devDependencies) {
-    let depDev = Object.keys(plugInf.devDependencies);
-    console.info(`\nInstall Dependencies %O\n`, depDev).map(e => e + '@'+plugInf.devDependencies[e]);
+    let depDev = Object.keys(plugInf.devDependencies.map(e => e + '@'+plugInf.devDependencies[e]));
+    console.info(`\nInstall Dependencies %O\n`, depDev);
     //await exec(`npm remove ${depDev.join(' ')}`);
     await exec(`npm i ${depDev.join(' ')} --save-dev`);
   }
